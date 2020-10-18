@@ -23,19 +23,24 @@ write_csv(x = df, path = "data/tissue_gene_expression.csv")
 
 # Importing data and getting a summary 
 
-## `tidyverse`
+<div class="left">
+
+## `R`: `tidyverse`
 
 It is hard for me to remember how to use `R` without `tidyverse`. And by `tidyverse`, I am referring to both the package and the whole framework that it has established and keeps proliferating through many community-built `R` packages. 
 
 Here, we will use the `readr` and `dplyr` packages to import the data and quickly get a summary of the data. 
 
-```{r}
+```{r, message = FALSE}
 library(tidyverse)
 tissue = readr::read_csv(file = "data/tissue_gene_expression.csv")
 ```
 
+</div>
 
-## `pandas`
+<div class="right">
+
+## `Python`: `pandas`
 
 ```{python}
 import pandas as pd
@@ -44,25 +49,69 @@ tissue.info()
 tissue.describe()
 ```
 
+</div>
+
+<div style="margin-bottom:1000px;">
+</div>
 
 # Splitting data into train-test set
 
+<div class="left">
 
-## rsample
-```{r}
+## `R`: `rsample`
+
+```{r, message = FALSE}
 library(tidymodels)
 set.seed(123)
-tissue_split = rsample::initial_split(data = tissue, prop = 0.75)
+tissue_split = rsample::initial_split(data = tissue, prop = 0.5)
 tissue_split
 ```
 
-# Setting up a recipes 
+</div>
+
+<div class="right">
+## `Python`: `train_test_split` from `sklearn.model_selection`
+
+```{python}
+from sklearn.model_selection import train_test_split
+
+y = tissue["y"].values
+x = tissue.drop("y", axis = 1).values
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.5, random_state = 123)
+```
+
+</div>
+
+<div style="margin-bottom:800px;">
+</div>
+
+# Setting up a recipe
+
+<div class="left">
+## `R`: `recipes`
 ```{r}
 tissue_recipe = recipes::recipe(y ~ ., data = tissue_split)
 tissue_prep = tissue_recipe %>% prep()
+
+tissue_prep
 ```
 
-# Defining a random forest model
+</div>
+
+<div class="right">
+## `Python`: None
+</div>
+
+<div style="margin-bottom:800px;">
+</div>
+
+# Defining a (random forest) model
+
+<div class="left">
+
+## `R`: `parsnip`
+
 ```{r}
 rf_model = rand_forest() %>%
   set_args(trees = 100) %>% 
@@ -70,13 +119,68 @@ rf_model = rand_forest() %>%
   set_mode("classification")
 ```
 
-# Defining a workflow with recipe and model
+</div>
+
+<div class="right">
+
+## `Python`: `sklearn.ensemble`
+
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+steps = [('rf', RandomForestClassifier())]
+```
+
+</div>
+
+<div style="margin-bottom:800px;">
+</div>
+
+# Setting up a workflow/pipeline
+
+<div class="left">
+## `R`: `workflowr`
+
 ```{r}
 rf_workflow = workflow() %>% 
   add_recipe(tissue_recipe) %>% 
   add_model(rf_model)
 
-predict(rf_workflow %>% fit(data = training(tissue_split)), 
-        new_data = testing(tissue_split))
+rf_pred_tbl = predict(rf_workflow %>% fit(data = training(tissue_split)), 
+                      new_data = testing(tissue_split))
+
+rf_pred_tbl = rf_pred_tbl %>% 
+  dplyr::mutate(true = testing(tissue_split)$y)
+
+rf_pred_tbl
 ```
 
+</div>
+
+<div class="right">
+
+## `Python`: `Pipeline` from `sklearn.pipeline`
+
+```{python}
+from sklearn.pipeline import Pipeline
+pipeline = Pipeline(steps = steps)
+
+rf_pipeline_model = pipeline.fit(x_train, y_train)
+
+rf_pred_tbl = pd.DataFrame(
+{"true": y_test,
+"pred": rf_pipeline_model.predict(x_test)})
+
+rf_pred_tbl
+```
+
+</div>
+
+
+<div style="margin-bottom:800px;">
+</div>
+
+# Session info
+
+```{r}
+sessioninfo::session_info()
+```
