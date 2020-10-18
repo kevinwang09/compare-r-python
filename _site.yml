@@ -4,7 +4,7 @@ navbar:
   title: "Kevin Wang"
   left:
     - text: "Main directory"
-      href: https://kevinwang09.github.io/compare-r-python/index.html
+      href: https://kevinwang09.github.io/compare-r-python/
     - text: "Basic objects"
       href: https://kevinwang09.github.io/compare-r-python/base.html
     - text: "Data frame manipulations"

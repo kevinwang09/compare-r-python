@@ -1,5 +1,5 @@
 ---
 title: "Compare R and Python"
-author: "Kevin Wang"
+author: "Kevin Y.X. Wang"
 output: html_document
 ---

@@ -9,7 +9,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Kevin Wang" />
 
 
 <title>Compare R and Python: supervised learning</title>
@@ -275,7 +274,7 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="https://kevinwang09.github.io/compare-r-python/index.html">Main directory</a>
+  <a href="https://kevinwang09.github.io/compare-r-python/">Main directory</a>
 </li>
 <li>
   <a href="https://kevinwang09.github.io/compare-r-python/base.html">Basic objects</a>
@@ -299,12 +298,143 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Compare R and Python: supervised learning</h1>
-<h4 class="author">Kevin Wang</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#importing-data-and-getting-a-summary">Importing data and getting a summary</a></li>
+<li><a href="#splitting-data-into-train-test-set">Splitting data into train-test set</a></li>
+<li><a href="#setting-up-a-recipes">Setting up a recipes</a></li>
+<li><a href="#defining-a-random-forest-model">Defining a random forest model</a></li>
+<li><a href="#defining-a-workflow-with-recipe-and-model">Defining a workflow with recipe and model</a></li>
+</ul>
+</div>
 
+<p>For this comparison, I will compare the <code>scikit-learn</code> library in <code>Python</code> and the newly developed <code>tidymodels</code> meta-package in <code>R</code>. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.</p>
+<p>The data that I will use is a tissue gene expression (<code>tissue_gene_expression</code>) data from the <code>R</code> package <code>dslabs</code>.</p>
+<pre class="r"><code>library(dslabs)
+library(readr)
+data(tissue_gene_expression)
+df = data.frame(y = tissue_gene_expression$y,
+                tissue_gene_expression$x)
+write_csv(x = df, path = &quot;data/tissue_gene_expression.csv&quot;)</code></pre>
+<div id="importing-data-and-getting-a-summary" class="section level1">
+<h1>Importing data and getting a summary</h1>
+<div id="tidyverse" class="section level2">
+<h2><code>tidyverse</code></h2>
+<p>It is hard for me to remember how to use <code>R</code> without <code>tidyverse</code>. And by <code>tidyverse</code>, I am referring to both the package and the whole framework that it has established and keeps proliferating through many community-built <code>R</code> packages.</p>
+<p>Here, we will use the <code>readr</code> and <code>dplyr</code> packages to import the data and quickly get a summary of the data.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>tissue = readr::read_csv(file = &quot;data/tissue_gene_expression.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   y = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+</div>
+<div id="pandas" class="section level2">
+<h2><code>pandas</code></h2>
+<pre class="python"><code>import pandas as pd
+tissue = pd.read_csv(&quot;data/tissue_gene_expression.csv&quot;)
+tissue.info()</code></pre>
+<pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+## RangeIndex: 189 entries, 0 to 188
+## Columns: 501 entries, y to GSAP
+## dtypes: float64(500), object(1)
+## memory usage: 739.9+ KB</code></pre>
+<pre class="python"><code>tissue.describe()</code></pre>
+<pre><code>##             MAML1        LHPP      SEPT10  ...      CYP7B1      LILRB3        GSAP
+## count  189.000000  189.000000  189.000000  ...  189.000000  189.000000  189.000000
+## mean     9.298618    8.665982    8.162424  ...    5.039623    8.470340    7.499505
+## std      0.445171    0.831716    1.316419  ...    0.178114    0.373450    0.798654
+## min      8.206692    7.245482    5.466858  ...    4.738711    7.487003    5.177474
+## 25%      8.989622    7.978690    7.536551  ...    4.909151    8.229212    6.899614
+## 50%      9.336428    8.476486    8.465809  ...    5.012331    8.387481    7.514454
+## 75%      9.606405    9.240772    8.999927  ...    5.140613    8.664848    8.011997
+## max     10.375016   11.221036   10.950046  ...    5.595221    9.596500    9.697356
+## 
+## [8 rows x 500 columns]</code></pre>
+</div>
+</div>
+<div id="splitting-data-into-train-test-set" class="section level1">
+<h1>Splitting data into train-test set</h1>
+<div id="rsample" class="section level2">
+<h2>rsample</h2>
+<pre class="r"><code>library(tidymodels)</code></pre>
+<pre><code>## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
+## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
+## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
+## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
+## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
+## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
+## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
+## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
+## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────── tidymodels 0.1.1 ──</code></pre>
+<pre><code>## ✓ broom     0.7.0           ✓ recipes   0.1.13.9001
+## ✓ dials     0.0.9           ✓ rsample   0.0.7      
+## ✓ infer     0.5.3           ✓ tune      0.1.1      
+## ✓ modeldata 0.0.2           ✓ workflows 0.2.0      
+## ✓ parsnip   0.1.3           ✓ yardstick 0.0.7</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────────────────────── tidymodels_conflicts() ──
+## x scales::discard() masks purrr::discard()
+## x dplyr::filter()   masks stats::filter()
+## x recipes::fixed()  masks stringr::fixed()
+## x dplyr::lag()      masks stats::lag()
+## x yardstick::spec() masks readr::spec()
+## x recipes::step()   masks stats::step()</code></pre>
+<pre class="r"><code>set.seed(123)
+tissue_split = rsample::initial_split(data = tissue, prop = 0.75)
+tissue_split</code></pre>
+<pre><code>## &lt;Analysis/Assess/Total&gt;
+## &lt;142/47/189&gt;</code></pre>
+</div>
+</div>
+<div id="setting-up-a-recipes" class="section level1">
+<h1>Setting up a recipes</h1>
+<pre class="r"><code>tissue_recipe = recipes::recipe(y ~ ., data = tissue_split)
+tissue_prep = tissue_recipe %&gt;% prep()</code></pre>
+</div>
+<div id="defining-a-random-forest-model" class="section level1">
+<h1>Defining a random forest model</h1>
+<pre class="r"><code>rf_model = rand_forest() %&gt;%
+  set_args(trees = 100) %&gt;% 
+  set_engine(&quot;randomForest&quot;) %&gt;% 
+  set_mode(&quot;classification&quot;)</code></pre>
+</div>
+<div id="defining-a-workflow-with-recipe-and-model" class="section level1">
+<h1>Defining a workflow with recipe and model</h1>
+<pre class="r"><code>rf_workflow = workflow() %&gt;% 
+  add_recipe(tissue_recipe) %&gt;% 
+  add_model(rf_model)
 
+predict(rf_workflow %&gt;% fit(data = training(tissue_split)), 
+        new_data = testing(tissue_split))</code></pre>
+<pre><code>## # A tibble: 47 x 1
+##    .pred_class
+##    &lt;fct&gt;      
+##  1 cerebellum 
+##  2 cerebellum 
+##  3 cerebellum 
+##  4 cerebellum 
+##  5 cerebellum 
+##  6 cerebellum 
+##  7 cerebellum 
+##  8 colon      
+##  9 colon      
+## 10 colon      
+## # … with 37 more rows</code></pre>
+</div>
 
 
 

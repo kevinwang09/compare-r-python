@@ -10,3 +10,19 @@ body, td {
    margin: 0px;
    paddin: 0px
 }
+
+.left{
+  float: left;
+  width: 45%;
+  text-align: left;
+}
+.center{
+  display: inline-block;
+  width: 10%;
+  text-align: center;
+}
+.right{
+  float: right;
+  width: 45%;
+  text-align: left;
+}

@@ -1,5 +1,82 @@
 ---
 title: "Compare R and Python: supervised learning"
-author: "Kevin Wang"
-output: html_document
+output: 
+  html_document:
+    css: style.css
+    toc: true
+    toc_depth: 1
 ---
+
+For this comparison, I will compare the `scikit-learn` library in `Python` and the newly developed `tidymodels` meta-package in `R`. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations. 
+
+The data that I will use is a tissue gene expression (`tissue_gene_expression`) data from the `R` package `dslabs`.
+
+```{r, eval = FALSE}
+library(dslabs)
+library(readr)
+data(tissue_gene_expression)
+df = data.frame(y = tissue_gene_expression$y,
+                tissue_gene_expression$x)
+write_csv(x = df, path = "data/tissue_gene_expression.csv")
+```
+
+
+# Importing data and getting a summary 
+
+## `tidyverse`
+
+It is hard for me to remember how to use `R` without `tidyverse`. And by `tidyverse`, I am referring to both the package and the whole framework that it has established and keeps proliferating through many community-built `R` packages. 
+
+Here, we will use the `readr` and `dplyr` packages to import the data and quickly get a summary of the data. 
+
+```{r}
+library(tidyverse)
+tissue = readr::read_csv(file = "data/tissue_gene_expression.csv")
+```
+
+
+## `pandas`
+
+```{python}
+import pandas as pd
+tissue = pd.read_csv("data/tissue_gene_expression.csv")
+tissue.info()
+tissue.describe()
+```
+
+
+# Splitting data into train-test set
+
+
+## rsample
+```{r}
+library(tidymodels)
+set.seed(123)
+tissue_split = rsample::initial_split(data = tissue, prop = 0.75)
+tissue_split
+```
+
+# Setting up a recipes 
+```{r}
+tissue_recipe = recipes::recipe(y ~ ., data = tissue_split)
+tissue_prep = tissue_recipe %>% prep()
+```
+
+# Defining a random forest model
+```{r}
+rf_model = rand_forest() %>%
+  set_args(trees = 100) %>% 
+  set_engine("randomForest") %>% 
+  set_mode("classification")
+```
+
+# Defining a workflow with recipe and model
+```{r}
+rf_workflow = workflow() %>% 
+  add_recipe(tissue_recipe) %>% 
+  add_model(rf_model)
+
+predict(rf_workflow %>% fit(data = training(tissue_split)), 
+        new_data = testing(tissue_split))
+```
+

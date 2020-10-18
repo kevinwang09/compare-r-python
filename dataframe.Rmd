@@ -1,5 +1,8 @@
 ---
 title: "Compare R and Python: data frame manipulations"
-author: "Kevin Wang"
-output: html_document
+output: 
+  html_document:
+    css: style.css
+    toc: true
+    toc_depth: 1
 ---
