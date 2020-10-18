@@ -1,0 +1,20 @@
+# This file controls the layout of the website. 
+name: "Kevin Wang"
+navbar:
+  title: "Kevin Wang"
+  left:
+    - text: "Main directory"
+      href: https://kevinwang09.github.io/compare-r-python/index.html
+    - text: "Basic objects"
+      href: https://kevinwang09.github.io/compare-r-python/base.html
+    - text: "Data frame manipulations"
+      href: https://kevinwang09.github.io/compare-r-python/dataframe.html
+    - text: "Supervised learning"
+      href: https://kevinwang09.github.io/compare-r-python/supervised_learning.html
+output_dir: "."
+exclude: ["README*"]
+output:
+  html_document:
+    theme: paper
+    highlight: textmate
+    css: style.css
