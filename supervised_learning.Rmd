@@ -9,15 +9,11 @@ output:
 
 For this comparison, I will compare the `scikit-learn` library in `Python` and the newly developed `tidymodels` meta-package in `R`. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations. 
 
-The data that I will use is a tissue gene expression (`tissue_gene_expression`) data from the `R` package `dslabs`.
+The data that I will use is the `penguins` data from the `R` package `palmerpenguins`, which you can learn more about [here](https://allisonhorst.github.io/palmerpenguins/articles/intro.html). The response variable is a factor variable, `species`, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have extracted the data below in a CSV format so that Python can also use this data through `pd.read_csv`
 
 ```{r, eval = FALSE}
-library(dslabs)
-library(readr)
-data(tissue_gene_expression)
-df = data.frame(y = tissue_gene_expression$y,
-                tissue_gene_expression$x)
-write_csv(x = df, path = "data/tissue_gene_expression.csv")
+library(palmerpenguins)
+readr::write_csv(penguins %>% na.omit, path = "data/penguins_complete.csv")
 ```
 
 
@@ -33,7 +29,8 @@ Here, we will use the `readr` and `dplyr` packages to import the data and quickl
 
 ```{r, message = FALSE}
 library(tidyverse)
-tissue = readr::read_csv(file = "data/tissue_gene_expression.csv")
+penguins = readr::read_csv(file = "data/penguins_complete.csv")
+penguins %>% glimpse()
 ```
 
 </div>
@@ -44,9 +41,9 @@ tissue = readr::read_csv(file = "data/tissue_gene_expression.csv")
 
 ```{python}
 import pandas as pd
-tissue = pd.read_csv("data/tissue_gene_expression.csv")
-tissue.info()
-tissue.describe()
+penguins = pd.read_csv("data/penguins_complete.csv")
+penguins.info()
+penguins.describe()
 ```
 
 </div>
@@ -62,9 +59,15 @@ tissue.describe()
 
 ```{r, message = FALSE}
 library(tidymodels)
-set.seed(123)
-tissue_split = rsample::initial_split(data = tissue, prop = 0.5)
-tissue_split
+set.seed(2020)
+penguins = penguins %>% 
+  dplyr::mutate(across(.cols = is.character, .fns = as.factor))
+
+penguins_split = rsample::initial_split(data = penguins, prop = 0.1)
+penguins_split
+
+penguins_train = penguins_split %>% training()
+penguins_test = penguins_split %>% testing()
 ```
 
 </div>
@@ -74,11 +77,13 @@ tissue_split
 
 ```{python}
 from sklearn.model_selection import train_test_split
+from pandas import get_dummies
 
-y = tissue["y"].values
-x = tissue.drop("y", axis = 1).values
+y = penguins["species"].values
+penguins_x = pd.get_dummies(penguins.drop("species", axis = 1))
+x = penguins_x.values
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.5, random_state = 123)
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = 0.1, random_state = 123)
 ```
 
 </div>
@@ -91,10 +96,11 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.5, rando
 <div class="left">
 ## `R`: `recipes`
 ```{r}
-tissue_recipe = recipes::recipe(y ~ ., data = tissue_split)
-tissue_prep = tissue_recipe %>% prep()
+penguins_recipe = recipes::recipe(species ~ ., data = penguins_train) %>% 
+  step_knnimpute(all_predictors()) %>% 
+  prep()
 
-tissue_prep
+penguins_recipe
 ```
 
 </div>
@@ -127,7 +133,8 @@ rf_model = rand_forest() %>%
 
 ```{python}
 from sklearn.ensemble import RandomForestClassifier
-steps = [('rf', RandomForestClassifier())]
+
+steps = [('rf', RandomForestClassifier(n_estimators = 100))]
 ```
 
 </div>
@@ -142,14 +149,14 @@ steps = [('rf', RandomForestClassifier())]
 
 ```{r}
 rf_workflow = workflow() %>% 
-  add_recipe(tissue_recipe) %>% 
+  add_recipe(penguins_recipe) %>% 
   add_model(rf_model)
 
-rf_pred_tbl = predict(rf_workflow %>% fit(data = training(tissue_split)), 
-                      new_data = testing(tissue_split))
+rf_pred_tbl = predict(rf_workflow %>% fit(data = penguins_train), 
+                      new_data = penguins_test)
 
 rf_pred_tbl = rf_pred_tbl %>% 
-  dplyr::mutate(true = testing(tissue_split)$y)
+  dplyr::mutate(true = penguins_test$species %>% factor)
 
 rf_pred_tbl
 ```
@@ -175,12 +182,29 @@ rf_pred_tbl
 
 </div>
 
-
 <div style="margin-bottom:800px;">
 </div>
 
-# Session info
+# Evaluation
 
+<div class="left">
+## `R`: `yardstick`
 ```{r}
-sessioninfo::session_info()
+multi_metric = metric_set(accuracy, precision, recall, f_meas)
+multi_metric(data = rf_pred_tbl, truth = true, estimate = ".pred_class")
 ```
+</div>
+
+<div class="right">
+## `Python`: `sklearn.metrics`
+
+```{python}
+from sklearn.metrics import classification_report
+
+cr = classification_report(
+y_true = rf_pred_tbl.true, 
+y_pred = rf_pred_tbl.pred)
+
+print(cr)
+```
+</div>

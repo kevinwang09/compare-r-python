@@ -13,16 +13,17 @@ body, td {
 
 .left{
   float: left;
-  width: 45%;
+  width: 48%;
   text-align: left;
 }
 .center{
   display: inline-block;
-  width: 10%;
+  width: 4%;
   text-align: center;
 }
 .right{
   float: right;
-  width: 45%;
+  width: 48%;
   text-align: left;
 }
+

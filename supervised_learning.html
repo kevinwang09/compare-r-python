@@ -308,18 +308,14 @@ $(document).ready(function () {
 <li><a href="#setting-up-a-recipe">Setting up a recipe</a></li>
 <li><a href="#defining-a-random-forest-model">Defining a (random forest) model</a></li>
 <li><a href="#setting-up-a-workflowpipeline">Setting up a workflow/pipeline</a></li>
-<li><a href="#session-info">Session info</a></li>
+<li><a href="#evaluation">Evaluation</a></li>
 </ul>
 </div>
 
 <p>For this comparison, I will compare the <code>scikit-learn</code> library in <code>Python</code> and the newly developed <code>tidymodels</code> meta-package in <code>R</code>. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.</p>
-<p>The data that I will use is a tissue gene expression (<code>tissue_gene_expression</code>) data from the <code>R</code> package <code>dslabs</code>.</p>
-<pre class="r"><code>library(dslabs)
-library(readr)
-data(tissue_gene_expression)
-df = data.frame(y = tissue_gene_expression$y,
-                tissue_gene_expression$x)
-write_csv(x = df, path = &quot;data/tissue_gene_expression.csv&quot;)</code></pre>
+<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a factor variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code></p>
+<pre class="r"><code>library(palmerpenguins)
+readr::write_csv(penguins %&gt;% na.omit, path = &quot;data/penguins_complete.csv&quot;)</code></pre>
 <div id="importing-data-and-getting-a-summary" class="section level1">
 <h1>Importing data and getting a summary</h1>
 <div id="r-tidyverse" class="section level2 left">
@@ -327,30 +323,49 @@ write_csv(x = df, path = &quot;data/tissue_gene_expression.csv&quot;)</code></pr
 <p>It is hard for me to remember how to use <code>R</code> without <code>tidyverse</code>. And by <code>tidyverse</code>, I am referring to both the package and the whole framework that it has established and keeps proliferating through many community-built <code>R</code> packages.</p>
 <p>Here, we will use the <code>readr</code> and <code>dplyr</code> packages to import the data and quickly get a summary of the data.</p>
 <pre class="r"><code>library(tidyverse)
-tissue = readr::read_csv(file = &quot;data/tissue_gene_expression.csv&quot;)</code></pre>
+penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
+penguins %&gt;% glimpse()</code></pre>
+<pre><code>## Rows: 333
+## Columns: 8
+## $ species           [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adeli…
+## $ island            [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;…
+## $ bill_length_mm    [3m[38;5;246m&lt;dbl&gt;[39m[23m 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6, 34.6, 36.6, …
+## $ bill_depth_mm     [3m[38;5;246m&lt;dbl&gt;[39m[23m 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2, 21.1, 17.8, …
+## $ flipper_length_mm [3m[38;5;246m&lt;dbl&gt;[39m[23m 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 185, 195, 197, 1…
+## $ body_mass_g       [3m[38;5;246m&lt;dbl&gt;[39m[23m 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800, 4400, 3700, …
+## $ sex               [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;, &quot;f…
+## $ year              [3m[38;5;246m&lt;dbl&gt;[39m[23m 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, …</code></pre>
 </div>
 <div id="python-pandas" class="section level2 right">
 <h2><code>Python</code>: <code>pandas</code></h2>
 <pre class="python"><code>import pandas as pd
-tissue = pd.read_csv(&quot;data/tissue_gene_expression.csv&quot;)
-tissue.info()</code></pre>
+penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
+penguins.info()</code></pre>
 <pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-## RangeIndex: 189 entries, 0 to 188
-## Columns: 501 entries, y to GSAP
-## dtypes: float64(500), object(1)
-## memory usage: 739.9+ KB</code></pre>
-<pre class="python"><code>tissue.describe()</code></pre>
-<pre><code>##             MAML1        LHPP      SEPT10  ...      CYP7B1      LILRB3        GSAP
-## count  189.000000  189.000000  189.000000  ...  189.000000  189.000000  189.000000
-## mean     9.298618    8.665982    8.162424  ...    5.039623    8.470340    7.499505
-## std      0.445171    0.831716    1.316419  ...    0.178114    0.373450    0.798654
-## min      8.206692    7.245482    5.466858  ...    4.738711    7.487003    5.177474
-## 25%      8.989622    7.978690    7.536551  ...    4.909151    8.229212    6.899614
-## 50%      9.336428    8.476486    8.465809  ...    5.012331    8.387481    7.514454
-## 75%      9.606405    9.240772    8.999927  ...    5.140613    8.664848    8.011997
-## max     10.375016   11.221036   10.950046  ...    5.595221    9.596500    9.697356
+## RangeIndex: 333 entries, 0 to 332
+## Data columns (total 8 columns):
+## species              333 non-null object
+## island               333 non-null object
+## bill_length_mm       333 non-null float64
+## bill_depth_mm        333 non-null float64
+## flipper_length_mm    333 non-null int64
+## body_mass_g          333 non-null int64
+## sex                  333 non-null object
+## year                 333 non-null int64
+## dtypes: float64(2), int64(3), object(3)
+## memory usage: 20.9+ KB</code></pre>
+<pre class="python"><code>penguins.describe()</code></pre>
+<pre><code>##        bill_length_mm  bill_depth_mm  ...  body_mass_g         year
+## count      333.000000     333.000000  ...   333.000000   333.000000
+## mean        43.992793      17.164865  ...  4207.057057  2008.042042
+## std          5.468668       1.969235  ...   805.215802     0.812944
+## min         32.100000      13.100000  ...  2700.000000  2007.000000
+## 25%         39.500000      15.600000  ...  3550.000000  2007.000000
+## 50%         44.500000      17.300000  ...  4050.000000  2008.000000
+## 75%         48.600000      18.700000  ...  4775.000000  2009.000000
+## max         59.600000      21.500000  ...  6300.000000  2009.000000
 ## 
-## [8 rows x 500 columns]</code></pre>
+## [8 rows x 5 columns]</code></pre>
 </div>
 <div style="margin-bottom:1000px;">
 
@@ -360,30 +375,49 @@ tissue.info()</code></pre>
 <h1>Splitting data into train-test set</h1>
 <div id="r-rsample" class="section level2 left">
 <h2><code>R</code>: <code>rsample</code></h2>
-<pre class="r"><code>library(tidymodels)</code></pre>
-<pre><code>## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
-## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
-## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
-## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
-## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
-## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
-## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
-## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found
-## Error in get(genname, envir = envir) : object &#39;required_pkgs&#39; not found</code></pre>
-<pre class="r"><code>set.seed(123)
-tissue_split = rsample::initial_split(data = tissue, prop = 0.5)
-tissue_split</code></pre>
+<pre class="r"><code>library(tidymodels)
+set.seed(2020)
+penguins = penguins %&gt;% 
+  dplyr::mutate(across(.cols = is.character, .fns = as.factor))</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `..1`.
+## ℹ Predicate functions must be wrapped in `where()`.
+## 
+##   # Bad
+##   data %&gt;% select(is.character)
+## 
+##   # Good
+##   data %&gt;% select(where(is.character))
+## 
+## ℹ Please update your code.
+## This message is displayed once per session.
+## ℹ Input `..1` is `across(.cols = is.character, .fns = as.factor)`.</code></pre>
+<pre><code>## Warning: Predicate functions must be wrapped in `where()`.
+## 
+##   # Bad
+##   data %&gt;% select(is.character)
+## 
+##   # Good
+##   data %&gt;% select(where(is.character))
+## 
+## ℹ Please update your code.
+## This message is displayed once per session.</code></pre>
+<pre class="r"><code>penguins_split = rsample::initial_split(data = penguins, prop = 0.1)
+penguins_split</code></pre>
 <pre><code>## &lt;Analysis/Assess/Total&gt;
-## &lt;95/94/189&gt;</code></pre>
+## &lt;34/299/333&gt;</code></pre>
+<pre class="r"><code>penguins_train = penguins_split %&gt;% training()
+penguins_test = penguins_split %&gt;% testing()</code></pre>
 </div>
 <div id="python-train_test_split-from-sklearn.model_selection" class="section level2 right">
 <h2><code>Python</code>: <code>train_test_split</code> from <code>sklearn.model_selection</code></h2>
 <pre class="python"><code>from sklearn.model_selection import train_test_split
+from pandas import get_dummies
 
-y = tissue[&quot;y&quot;].values
-x = tissue.drop(&quot;y&quot;, axis = 1).values
+y = penguins[&quot;species&quot;].values
+penguins_x = pd.get_dummies(penguins.drop(&quot;species&quot;, axis = 1))
+x = penguins_x.values
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.5, random_state = 123)</code></pre>
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = 0.1, random_state = 123)</code></pre>
 </div>
 <div style="margin-bottom:800px;">
 
@@ -393,19 +427,24 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.5, rando
 <h1>Setting up a recipe</h1>
 <div id="r-recipes" class="section level2 left">
 <h2><code>R</code>: <code>recipes</code></h2>
-<pre class="r"><code>tissue_recipe = recipes::recipe(y ~ ., data = tissue_split)
-tissue_prep = tissue_recipe %&gt;% prep()
+<pre class="r"><code>penguins_recipe = recipes::recipe(species ~ ., data = penguins_train) %&gt;% 
+  step_knnimpute(all_predictors()) %&gt;% 
+  prep()
 
-tissue_prep</code></pre>
+penguins_recipe</code></pre>
 <pre><code>## Data Recipe
 ## 
 ## Inputs:
 ## 
 ##       role #variables
 ##    outcome          1
-##  predictor        500
+##  predictor          7
 ## 
-## Training data contained 95 data points and no missing data.</code></pre>
+## Training data contained 34 data points and no missing data.
+## 
+## Operations:
+## 
+## K-nearest neighbor imputation for bill_length_mm, bill_depth_mm, flipper_length_mm, ... [trained]</code></pre>
 </div>
 <div id="python-none" class="section level2 right">
 <h2><code>Python</code>: None</h2>
@@ -426,7 +465,8 @@ tissue_prep</code></pre>
 <div id="python-sklearn.ensemble" class="section level2 right">
 <h2><code>Python</code>: <code>sklearn.ensemble</code></h2>
 <pre class="python"><code>from sklearn.ensemble import RandomForestClassifier
-steps = [(&#39;rf&#39;, RandomForestClassifier())]</code></pre>
+
+steps = [(&#39;rf&#39;, RandomForestClassifier(n_estimators = 100))]</code></pre>
 </div>
 <div style="margin-bottom:800px;">
 
@@ -437,30 +477,30 @@ steps = [(&#39;rf&#39;, RandomForestClassifier())]</code></pre>
 <div id="r-workflowr" class="section level2 left">
 <h2><code>R</code>: <code>workflowr</code></h2>
 <pre class="r"><code>rf_workflow = workflow() %&gt;% 
-  add_recipe(tissue_recipe) %&gt;% 
+  add_recipe(penguins_recipe) %&gt;% 
   add_model(rf_model)
 
-rf_pred_tbl = predict(rf_workflow %&gt;% fit(data = training(tissue_split)), 
-                      new_data = testing(tissue_split))
+rf_pred_tbl = predict(rf_workflow %&gt;% fit(data = penguins_train), 
+                      new_data = penguins_test)
 
 rf_pred_tbl = rf_pred_tbl %&gt;% 
-  dplyr::mutate(true = testing(tissue_split)$y)
+  dplyr::mutate(true = penguins_test$species %&gt;% factor)
 
 rf_pred_tbl</code></pre>
-<pre><code>## # A tibble: 94 x 2
-##    .pred_class true      
-##    &lt;fct&gt;       &lt;chr&gt;     
-##  1 cerebellum  cerebellum
-##  2 cerebellum  cerebellum
-##  3 cerebellum  cerebellum
-##  4 cerebellum  cerebellum
-##  5 cerebellum  cerebellum
-##  6 cerebellum  cerebellum
-##  7 cerebellum  cerebellum
-##  8 cerebellum  cerebellum
-##  9 cerebellum  cerebellum
-## 10 cerebellum  cerebellum
-## # … with 84 more rows</code></pre>
+<pre><code>## # A tibble: 299 x 2
+##    .pred_class true  
+##    &lt;fct&gt;       &lt;fct&gt; 
+##  1 Adelie      Adelie
+##  2 Adelie      Adelie
+##  3 Adelie      Adelie
+##  4 Adelie      Adelie
+##  5 Adelie      Adelie
+##  6 Adelie      Adelie
+##  7 Adelie      Adelie
+##  8 Adelie      Adelie
+##  9 Adelie      Adelie
+## 10 Adelie      Adelie
+## # … with 289 more rows</code></pre>
 </div>
 <div id="python-pipeline-from-sklearn.pipeline" class="section level2 right">
 <h2><code>Python</code>: <code>Pipeline</code> from <code>sklearn.pipeline</code></h2>
@@ -474,139 +514,58 @@ rf_pred_tbl = pd.DataFrame(
 &quot;pred&quot;: rf_pipeline_model.predict(x_test)})
 
 rf_pred_tbl</code></pre>
-<pre><code>##            true         pred
-## 0   endometrium  endometrium
-## 1    cerebellum   cerebellum
-## 2         colon        colon
-## 3    cerebellum   cerebellum
-## 4         liver        liver
-## ..          ...          ...
-## 90        colon        colon
-## 91     placenta     placenta
-## 92        colon        colon
-## 93   cerebellum   cerebellum
-## 94        colon        colon
+<pre><code>##           true       pred
+## 0       Adelie     Gentoo
+## 1       Gentoo     Gentoo
+## 2    Chinstrap  Chinstrap
+## 3    Chinstrap  Chinstrap
+## 4       Gentoo     Gentoo
+## ..         ...        ...
+## 295     Adelie     Adelie
+## 296  Chinstrap  Chinstrap
+## 297     Gentoo     Gentoo
+## 298     Adelie     Adelie
+## 299  Chinstrap  Chinstrap
 ## 
-## [95 rows x 2 columns]</code></pre>
+## [300 rows x 2 columns]</code></pre>
 </div>
 <div style="margin-bottom:800px;">
 
 </div>
 </div>
-<div id="session-info" class="section level1">
-<h1>Session info</h1>
-<pre class="r"><code>sessioninfo::session_info()</code></pre>
-<pre><code>## ─ Session info ───────────────────────────────────────────────────────────────
-##  setting  value                       
-##  version  R version 3.6.2 (2019-12-12)
-##  os       macOS Mojave 10.14.6        
-##  system   x86_64, darwin15.6.0        
-##  ui       X11                         
-##  language (EN)                        
-##  collate  en_AU.UTF-8                 
-##  ctype    en_AU.UTF-8                 
-##  tz       Australia/Melbourne         
-##  date     2020-10-18                  
+<div id="evaluation" class="section level1">
+<h1>Evaluation</h1>
+<div id="r-yardstick" class="section level2 left">
+<h2><code>R</code>: <code>yardstick</code></h2>
+<pre class="r"><code>multi_metric = metric_set(accuracy, precision, recall, f_meas)
+multi_metric(data = rf_pred_tbl, truth = true, estimate = &quot;.pred_class&quot;)</code></pre>
+<pre><code>## # A tibble: 4 x 3
+##   .metric   .estimator .estimate
+##   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy  multiclass     0.946
+## 2 precision macro          0.962
+## 3 recall    macro          0.914
+## 4 f_meas    macro          0.931</code></pre>
+</div>
+<div id="python-sklearn.metrics" class="section level2 right">
+<h2><code>Python</code>: <code>sklearn.metrics</code></h2>
+<pre class="python"><code>from sklearn.metrics import classification_report
+
+cr = classification_report(
+y_true = rf_pred_tbl.true, 
+y_pred = rf_pred_tbl.pred)
+
+print(cr)</code></pre>
+<pre><code>##               precision    recall  f1-score   support
 ## 
-## ─ Packages ───────────────────────────────────────────────────────────────────
-##  package      * version     date       lib source                             
-##  assertthat     0.2.1       2019-03-21 [1] CRAN (R 3.6.0)                     
-##  backports      1.1.10      2020-09-15 [1] CRAN (R 3.6.2)                     
-##  blob           1.2.1       2020-01-20 [1] CRAN (R 3.6.0)                     
-##  broom        * 0.7.0       2020-07-09 [1] CRAN (R 3.6.2)                     
-##  cellranger     1.1.0       2016-07-27 [1] CRAN (R 3.6.0)                     
-##  class          7.3-17      2020-04-26 [1] CRAN (R 3.6.2)                     
-##  cli            2.0.2       2020-02-28 [1] CRAN (R 3.6.0)                     
-##  codetools      0.2-16      2018-12-24 [1] CRAN (R 3.6.2)                     
-##  colorspace     1.4-1       2019-03-18 [1] CRAN (R 3.6.0)                     
-##  crayon         1.3.4       2017-09-16 [1] CRAN (R 3.6.0)                     
-##  DBI            1.1.0       2019-12-15 [1] CRAN (R 3.6.0)                     
-##  dbplyr         1.4.4       2020-05-27 [1] CRAN (R 3.6.2)                     
-##  dials        * 0.0.9       2020-09-16 [1] CRAN (R 3.6.2)                     
-##  DiceDesign     1.8-1       2019-07-31 [1] CRAN (R 3.6.0)                     
-##  digest         0.6.25      2020-02-23 [1] CRAN (R 3.6.0)                     
-##  dplyr        * 1.0.2       2020-08-18 [1] CRAN (R 3.6.2)                     
-##  ellipsis       0.3.1       2020-05-15 [1] CRAN (R 3.6.2)                     
-##  evaluate       0.14        2019-05-28 [1] CRAN (R 3.6.0)                     
-##  fansi          0.4.1       2020-01-08 [1] CRAN (R 3.6.0)                     
-##  forcats      * 0.5.0       2020-03-01 [1] CRAN (R 3.6.2)                     
-##  foreach        1.5.0       2020-03-30 [1] CRAN (R 3.6.2)                     
-##  fs             1.4.2       2020-06-30 [1] CRAN (R 3.6.2)                     
-##  furrr          0.1.0       2018-05-16 [1] CRAN (R 3.6.0)                     
-##  future         1.18.0      2020-07-09 [1] CRAN (R 3.6.2)                     
-##  generics       0.0.2       2018-11-29 [1] CRAN (R 3.6.0)                     
-##  ggplot2      * 3.3.2       2020-06-19 [1] CRAN (R 3.6.2)                     
-##  globals        0.12.5      2019-12-07 [1] CRAN (R 3.6.0)                     
-##  glue           1.4.2       2020-08-27 [1] CRAN (R 3.6.2)                     
-##  gower          0.2.2       2020-06-23 [1] CRAN (R 3.6.2)                     
-##  GPfit          1.0-8       2019-02-08 [1] CRAN (R 3.6.0)                     
-##  gtable         0.3.0       2019-03-25 [1] CRAN (R 3.6.0)                     
-##  hardhat        0.1.4       2020-07-02 [1] CRAN (R 3.6.2)                     
-##  haven          2.3.1       2020-06-01 [1] CRAN (R 3.6.2)                     
-##  hms            0.5.3       2020-01-08 [1] CRAN (R 3.6.0)                     
-##  htmltools      0.5.0       2020-06-16 [1] CRAN (R 3.6.2)                     
-##  httr           1.4.1       2019-08-05 [1] CRAN (R 3.6.0)                     
-##  infer        * 0.5.3       2020-07-14 [1] CRAN (R 3.6.2)                     
-##  ipred          0.9-9       2019-04-28 [1] CRAN (R 3.6.0)                     
-##  iterators      1.0.12      2019-07-26 [1] CRAN (R 3.6.0)                     
-##  jsonlite       1.7.0       2020-06-25 [1] CRAN (R 3.6.2)                     
-##  knitr          1.29        2020-06-23 [1] CRAN (R 3.6.2)                     
-##  lattice        0.20-41     2020-04-02 [1] CRAN (R 3.6.2)                     
-##  lava           1.6.8       2020-09-26 [1] CRAN (R 3.6.2)                     
-##  lhs            1.0.2       2020-04-13 [1] CRAN (R 3.6.2)                     
-##  lifecycle      0.2.0       2020-03-06 [1] CRAN (R 3.6.0)                     
-##  listenv        0.8.0       2019-12-05 [1] CRAN (R 3.6.0)                     
-##  lubridate      1.7.9       2020-06-08 [1] CRAN (R 3.6.2)                     
-##  magrittr       1.5         2014-11-22 [1] CRAN (R 3.6.0)                     
-##  MASS           7.3-51.6    2020-04-26 [1] CRAN (R 3.6.2)                     
-##  Matrix         1.2-18      2019-11-27 [1] CRAN (R 3.6.2)                     
-##  modeldata    * 0.0.2       2020-06-22 [1] CRAN (R 3.6.2)                     
-##  modelr         0.1.8       2020-05-19 [1] CRAN (R 3.6.2)                     
-##  munsell        0.5.0       2018-06-12 [1] CRAN (R 3.6.0)                     
-##  nnet           7.3-14      2020-04-26 [1] CRAN (R 3.6.2)                     
-##  parsnip      * 0.1.3       2020-08-04 [1] CRAN (R 3.6.2)                     
-##  pillar         1.4.6       2020-07-10 [1] CRAN (R 3.6.2)                     
-##  pkgconfig      2.0.3       2019-09-22 [1] CRAN (R 3.6.0)                     
-##  plyr           1.8.6       2020-03-03 [1] CRAN (R 3.6.2)                     
-##  pROC           1.16.2      2020-03-19 [1] CRAN (R 3.6.0)                     
-##  prodlim        2019.11.13  2019-11-17 [1] CRAN (R 3.6.0)                     
-##  purrr        * 0.3.4       2020-04-17 [1] CRAN (R 3.6.2)                     
-##  R6             2.4.1       2019-11-12 [1] CRAN (R 3.6.0)                     
-##  randomForest   4.6-14      2018-03-25 [1] CRAN (R 3.6.0)                     
-##  Rcpp           1.0.5       2020-07-06 [1] CRAN (R 3.6.2)                     
-##  readr        * 1.3.1       2018-12-21 [1] CRAN (R 3.6.0)                     
-##  readxl         1.3.1       2019-03-13 [1] CRAN (R 3.6.0)                     
-##  recipes      * 0.1.13.9001 2020-10-03 [1] Github (tidymodels/recipes@c9b9987)
-##  reprex         0.3.0       2019-05-16 [1] CRAN (R 3.6.0)                     
-##  reticulate     1.16        2020-05-27 [1] CRAN (R 3.6.2)                     
-##  rlang          0.4.8       2020-10-08 [1] CRAN (R 3.6.2)                     
-##  rmarkdown      2.3.1       2020-06-23 [1] Github (rstudio/rmarkdown@b53a85a) 
-##  rpart          4.1-15      2019-04-12 [1] CRAN (R 3.6.2)                     
-##  rsample      * 0.0.7       2020-06-04 [1] CRAN (R 3.6.2)                     
-##  rstudioapi     0.11        2020-02-07 [1] CRAN (R 3.6.0)                     
-##  rvest          0.3.5       2019-11-08 [1] CRAN (R 3.6.0)                     
-##  scales       * 1.1.1       2020-05-11 [1] CRAN (R 3.6.2)                     
-##  sessioninfo    1.1.1       2018-11-05 [1] CRAN (R 3.6.0)                     
-##  stringi        1.4.6       2020-02-17 [1] CRAN (R 3.6.1)                     
-##  stringr      * 1.4.0       2019-02-10 [1] CRAN (R 3.6.0)                     
-##  survival       3.2-3       2020-06-13 [1] CRAN (R 3.6.2)                     
-##  tibble       * 3.0.3       2020-07-10 [1] CRAN (R 3.6.2)                     
-##  tidymodels   * 0.1.1       2020-07-14 [1] CRAN (R 3.6.2)                     
-##  tidyr        * 1.1.2       2020-08-27 [1] CRAN (R 3.6.2)                     
-##  tidyselect     1.1.0       2020-05-11 [1] CRAN (R 3.6.2)                     
-##  tidyverse    * 1.3.0       2019-11-21 [1] CRAN (R 3.6.0)                     
-##  timeDate       3043.102    2018-02-21 [1] CRAN (R 3.6.0)                     
-##  tune         * 0.1.1       2020-07-08 [1] CRAN (R 3.6.2)                     
-##  utf8           1.1.4       2018-05-24 [1] CRAN (R 3.6.0)                     
-##  vctrs          0.3.4       2020-08-29 [1] CRAN (R 3.6.2)                     
-##  withr          2.3.0       2020-09-22 [1] CRAN (R 3.6.2)                     
-##  workflows    * 0.2.0       2020-09-15 [1] CRAN (R 3.6.2)                     
-##  xfun           0.15        2020-06-21 [1] CRAN (R 3.6.2)                     
-##  xml2           1.3.2       2020-04-23 [1] CRAN (R 3.6.2)                     
-##  yaml           2.2.1       2020-02-01 [1] CRAN (R 3.6.1)                     
-##  yardstick    * 0.0.7       2020-07-13 [1] CRAN (R 3.6.2)                     
+##       Adelie       0.91      0.98      0.94       126
+##    Chinstrap       0.98      0.83      0.90        64
+##       Gentoo       0.98      0.99      0.99       110
 ## 
-## [1] /Library/Frameworks/R.framework/Versions/3.6/Resources/library</code></pre>
+##     accuracy                           0.95       300
+##    macro avg       0.96      0.93      0.94       300
+## weighted avg       0.95      0.95      0.95       300</code></pre>
+</div>
 </div>
 
 
