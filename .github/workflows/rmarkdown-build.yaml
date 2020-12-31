@@ -7,7 +7,7 @@ on:
 name: rmarkdown-build
 
 jobs:
-  pkgdown:
+  rmarkdown-build:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("rmarkdown", "knitr", "tidyverse", "tidymodels", "randomForest", "pkgdown"))
+          install.packages(c("rmarkdown", "knitr", "tidyverse", "tidymodels", "randomForest", "pkgdown", "reticulate"))
         shell: Rscript {0}
 
       - name: Render site

@@ -1,0 +1,38 @@
+---
+title: "Compare R and Python: functions and methods"
+output: 
+  html_document:
+    css: style.css
+    toc: true
+    toc_depth: 1
+---
+
+# Self-defined Functions
+
+<div class="left">
+
+## R
+
+```{r}
+square = function(x){
+  return(x ** 2)
+}
+
+square(10)
+```
+</div>
+
+<div class="right">
+
+## Python
+
+```{python}
+def square(x):
+    new_value = x ** 2
+    return new_value
+    
+square(10)
+```
+
+</div>
+
