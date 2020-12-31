@@ -25,6 +25,11 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      
+      - name: Conda permission
+        run: |
+          echo "unset SUDO_UID SUDO_GID SUDO_USER" >> ~/.bashrc
+          source ~/.bashrc
 
       - name: Install dependencies
         run: |

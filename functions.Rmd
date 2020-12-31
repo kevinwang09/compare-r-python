@@ -13,6 +13,8 @@ output:
 
 ## R
 
+In `R`, a function can be defined using `function` and braces are necessary to enclose the function body. 
+
 ```{r}
 square = function(x){
   return(x ** 2)
@@ -25,6 +27,8 @@ square(10)
 <div class="right">
 
 ## Python
+
+In `python`, a function can be defined using `def`, and the body is recognised through the indentations. Four spaces is commonly used for the indentation. 
 
 ```{python}
 def square(x):
