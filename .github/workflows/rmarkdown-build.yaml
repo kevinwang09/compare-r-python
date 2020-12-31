@@ -26,15 +26,16 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
       
-      - name: Conda permission
-        run: |
-          echo "unset SUDO_UID SUDO_GID SUDO_USER" >> ~/.bashrc
-          source ~/.bashrc
-
       - name: Install dependencies
         run: |
-          install.packages(c("rmarkdown", "knitr", "tidyverse", "tidymodels", "randomForest", "pkgdown", "reticulate"))
+          install.packages(c("rmarkdown", "knitr", "tidyverse", "tidymodels", "randomForest", "pkgdown")
         shell: Rscript {0}
+        
+      - name: Install Python
+        run: |
+          Rscript -e "remotes::install_github('rstudio/reticulate')"
+          Rscript -e "reticulate::install_miniconda()"
+          Rscript -e "reticulate::py_config()"
 
       - name: Render site
         run: |
