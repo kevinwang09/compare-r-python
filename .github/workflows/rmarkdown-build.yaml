@@ -33,7 +33,8 @@ jobs:
           Rscript -e "remotes::install_github('rstudio/reticulate')"
           Rscript -e "reticulate::install_miniconda()"
           Rscript -e "reticulate::py_config()"
-          Rscript -e "reticulate::py_install(c("pandas", "scikit-learn"))"
+          pip install pandas
+          pip install scikit-learn
 
       - name: Render site
         run: |
