@@ -157,6 +157,50 @@ print(y)
 ```
 </div>
 
+# Conversion functions
+
+<div class="left">
+
+## R
+
+In `R`, the `class` function shows the class of the object. And almost all functions that converts an object of one class to another is in the form of `as.xyz`.
+
+```{r}
+x = 1
+print(x)
+class(x)
+
+x_chr = as.character(x)
+print(x_chr) ## Notice the quotes
+class(x_chr)
+
+x_int = as.integer(x_chr)
+print(x_int)
+class(x_int)
+```
+</div>
+
+<div class="right">
+
+## Python
+
+In `python`, the `type` function shows the class of the object. The conversion between different classes has a specialised function. 
+
+```{python}
+x = 1
+print(x)
+type(x)
+
+x_chr = str(x)
+print(x_chr)
+type(x_chr)
+
+x_int = int(x_chr)
+print(x_int)
+type(x_int)
+```
+</div>
+
 
 # References
 

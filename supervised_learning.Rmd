@@ -13,6 +13,7 @@ The data that I will use is the `penguins` data from the `R` package `palmerpeng
 
 ```{r, eval = FALSE}
 library(palmerpenguins)
+library(tidyverse)
 readr::write_csv(penguins %>% na.omit, path = "data/penguins_complete.csv")
 ```
 

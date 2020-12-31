@@ -13,7 +13,7 @@
 
 <title>Compare R and Python: basic objects</title>
 
-<script src="site_libs/header-attrs-2.3.1/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -23,6 +23,15 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -68,6 +77,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
@@ -308,6 +318,7 @@ $(document).ready(function () {
 <li><a href="#negative-indices">Negative indices</a></li>
 <li><a href="#consecutive-numbers">Consecutive numbers</a></li>
 <li><a href="#variable-assignment">Variable assignment</a></li>
+<li><a href="#conversion-functions">Conversion functions</a></li>
 <li><a href="#references">References</a></li>
 </ul>
 </div>
@@ -434,6 +445,47 @@ print(y)</code></pre>
 <pre><code>## 2</code></pre>
 </div>
 </div>
+<div id="conversion-functions" class="section level1">
+<h1>Conversion functions</h1>
+<div id="r-4" class="section level2 left">
+<h2>R</h2>
+<p>In <code>R</code>, the <code>class</code> function shows the class of the object. And almost all functions that converts an object of one class to another is in the form of <code>as.xyz</code>.</p>
+<pre class="r"><code>x = 1
+print(x)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>class(x)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>x_chr = as.character(x)
+print(x_chr) ## Notice the quotes</code></pre>
+<pre><code>## [1] &quot;1&quot;</code></pre>
+<pre class="r"><code>class(x_chr)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>x_int = as.integer(x_chr)
+print(x_int)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>class(x_int)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+</div>
+<div id="python-4" class="section level2 right">
+<h2>Python</h2>
+<p>In <code>python</code>, the <code>type</code> function shows the class of the object. The conversion between different classes has a specialised function.</p>
+<pre class="python"><code>x = 1
+print(x)</code></pre>
+<pre><code>## 1</code></pre>
+<pre class="python"><code>type(x)</code></pre>
+<pre><code>## &lt;class &#39;int&#39;&gt;</code></pre>
+<pre class="python"><code>x_chr = str(x)
+print(x_chr)</code></pre>
+<pre><code>## 1</code></pre>
+<pre class="python"><code>type(x_chr)</code></pre>
+<pre><code>## &lt;class &#39;str&#39;&gt;</code></pre>
+<pre class="python"><code>x_int = int(x_chr)
+print(x_int)</code></pre>
+<pre><code>## 1</code></pre>
+<pre class="python"><code>type(x_int)</code></pre>
+<pre><code>## &lt;class &#39;int&#39;&gt;</code></pre>
+</div>
+</div>
 <div id="references" class="section level1">
 <h1>References</h1>
 <ul>
@@ -450,7 +502,7 @@ print(y)</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
