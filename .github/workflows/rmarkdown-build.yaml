@@ -38,8 +38,10 @@ jobs:
           reticulate::py_config()
           reticulate::virtualenv_create("r-reticulate")
           reticulate::use_virtualenv("r-reticulate")
-          reticulate::virtualenv_install("r-reticulate", c("pandas", "scikit-learn"))
-          reticulate::py_config()
+          packages = c("pandas", "scikit-learn")
+          reticulate::virtualenv_install("r-reticulate", packages = packages)
+          reticulate::py_module_available("pandas")
+          reticulate::py_module_available("scikit-learn")
           rmarkdown::render_site(".")
         shell: Rscript {0}
 

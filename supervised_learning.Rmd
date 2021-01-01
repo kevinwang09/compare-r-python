@@ -20,6 +20,8 @@ readr::write_csv(penguins %>% na.omit, path = "data/penguins_complete.csv")
 ```{r, echo = FALSE}
 reticulate::use_condaenv("r-reticulate")
 reticulate::py_config()
+reticulate::py_module_available("pandas")
+reticulate::py_module_available("scikit-learn")
 ```
 
 
