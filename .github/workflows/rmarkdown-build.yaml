@@ -36,10 +36,10 @@ jobs:
       - name: Render site
         run: |
           reticulate::py_config()
-          reticulate::virtualenv_create("r-reticulate")
+          packages = c("numpy", "pandas", "scikit-learn")
+          reticulate::virtualenv_create("r-reticulate", packages = packages)
           reticulate::use_virtualenv("r-reticulate")
-          packages = c("pandas", "scikit-learn")
-          reticulate::virtualenv_install("r-reticulate", packages = packages)
+          reticulate::py_module_available("numpy")
           reticulate::py_module_available("pandas")
           reticulate::py_module_available("scikit-learn")
           rmarkdown::render_site(".")
