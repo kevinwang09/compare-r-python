@@ -207,6 +207,31 @@ type(x_int)
 ```
 </div>
 
+# List and tuples
+
+<div class="left">
+
+## R
+
+`list` in `R` can very powerful. Each element of a `list` can be literally any object of any class. 
+
+```{r}
+x = list(
+  numeric = 1,
+  character = "cats",
+  data_frame = iris)
+
+class(x)
+lapply(x)
+```
+
+## Python
+
+`list` in `python` is 
+
+
+</div>
+
 
 # References
 
