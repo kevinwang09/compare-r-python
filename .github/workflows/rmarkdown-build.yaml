@@ -36,9 +36,10 @@ jobs:
       - name: Render site
         run: |
           reticulate::py_config()
-          reticulate::conda_create("r-reticulate")
-          reticulate::conda_install("r-reticulate", c("pandas", "scikit-learn"))
+          reticulate::virtualenv_create("r-reticulate")
+          reticulate::virtualenv_install("r-reticulate", c("pandas", "scikit-learn"))
           reticulate::use_condaenv("r-reticulate")
+          reticulate::py_config()
           rmarkdown::render_site(".")
         shell: Rscript {0}
 

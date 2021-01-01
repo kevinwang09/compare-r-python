@@ -3,3 +3,8 @@ title: "Compare R and Python"
 author: "Kevin Y.X. Wang"
 output: html_document
 ---
+
+```{r, echo = FALSE}
+reticulate::use_condaenv("r-reticulate")
+reticulate::py_config()
+```

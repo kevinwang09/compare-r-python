@@ -7,6 +7,12 @@ output:
     toc_depth: 1
 ---
 
+```{r, echo = FALSE}
+reticulate::use_condaenv("r-reticulate")
+reticulate::py_config()
+```
+
+
 # Vectors
 
 <div class="left">

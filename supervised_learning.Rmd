@@ -17,6 +17,12 @@ library(tidyverse)
 readr::write_csv(penguins %>% na.omit, path = "data/penguins_complete.csv")
 ```
 
+```{r, echo = FALSE}
+reticulate::use_condaenv("r-reticulate")
+reticulate::py_config()
+```
+
+
 
 # Importing data and getting a summary 
 
