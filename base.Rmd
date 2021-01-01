@@ -207,7 +207,7 @@ type(x_int)
 ```
 </div>
 
-# List and tuples
+# List, dictionary and tuples
 
 <div class="left">
 
@@ -221,15 +221,24 @@ x = list(
   character = "cats",
   data_frame = iris)
 
+print(x)
 class(x)
-lapply(x)
+lapply(x, class)
 ```
+
+</div>
 
 ## Python
 
-`list` in `python` is 
+`list` in `python` behaves more like vectors.
 
+```{python}
+x = [1, "cats"]
 
+print(x)
+type(x)
+[type(item) for item in x]
+```
 </div>
 
 
