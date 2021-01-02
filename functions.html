@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Kevin Y.X. Wang" />
 
 
-<title>Compare R and Python</title>
+<title>Compare R and Python: functions and methods</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -308,23 +307,50 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Compare R and Python</h1>
-<h4 class="author">Kevin Y.X. Wang</h4>
+<h1 class="title toc-ignore">Compare R and Python: functions and methods</h1>
 
 </div>
 
-
-<div id="why-i-am-making-this-site" class="section level1">
-<h1>Why I am making this site?</h1>
-<ol style="list-style-type: decimal">
-<li>I am still learning <code>python</code>, and I need a solid repository of codes for reference to perform tasks that I already know well in R, but don’t have a great memory for in <code>python</code>.</li>
-<li>Even though I can quickly hack together codes, this is not always great in the long term. I need a place to consolidate my understanding of coding.</li>
-<li>Hopefully, this will be a good place to point towards when I seek future employments.</li>
-</ol>
+<div id="TOC">
+<ul>
+<li><a href="#self-defined-functions">Self-defined Functions</a></li>
+<li><a href="#error-handling">Error handling</a></li>
+</ul>
 </div>
-<div id="structure" class="section level1">
-<h1>Structure</h1>
-<p>The rest of this site is organised into webpages at the top, with each webpage correspond to a specific task. Each webpage is organised into two columns, with <code>R</code> codes on the left and the <code>python</code> codes on the right, aiming to achieve the same tasks.</p>
+
+<pre><code>## python:         /usr/local/bin/python3
+## libpython:      /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin/libpython3.7.dylib
+## pythonhome:     /usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7:/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7
+## version:        3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
+## numpy:          /usr/local/lib/python3.7/site-packages/numpy
+## numpy_version:  1.17.0
+## 
+## NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
+<div id="self-defined-functions" class="section level1">
+<h1>Self-defined Functions</h1>
+<div id="r" class="section level2 left">
+<h2>R</h2>
+<p>In <code>R</code>, a function can be defined using <code>function</code> and braces are necessary to enclose the function body.</p>
+<pre class="r"><code>square = function(x){
+  return(x ** 2)
+}
+
+square(10)</code></pre>
+<pre><code>## [1] 100</code></pre>
+</div>
+<div id="python" class="section level2 right">
+<h2>Python</h2>
+<p>In <code>python</code>, a function can be defined using <code>def</code>, and the body is recognised through the indentations. Four spaces is commonly used for the indentation.</p>
+<pre class="python"><code>def square(x):
+    new_value = x ** 2
+    return new_value
+    
+square(10)</code></pre>
+<pre><code>## 100</code></pre>
+</div>
+</div>
+<div id="error-handling" class="section level1">
+<h1>Error handling</h1>
 </div>
 
 

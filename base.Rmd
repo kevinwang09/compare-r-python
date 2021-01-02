@@ -7,12 +7,6 @@ output:
     toc_depth: 1
 ---
 
-```{r, echo = FALSE}
-reticulate::use_condaenv("r-reticulate")
-reticulate::py_config()
-```
-
-
 # Vectors
 
 <div class="left">
@@ -53,11 +47,14 @@ print(y)
 
 # Subsetting vectors
 
-The biggest difference between R and Python is that R indexes from 1 and Python indexes from 0. 
-As a result of this: 
+The biggest difference between `R` and `Python` vectors is that `R` indexes from 1 and `Python` indexes from 0. 
+
+As a result of this, in `Python`:
 
 + when subsetting multiple consecutive elements from a list, the left index is inclusive but the right index is exclusive.
-+ when subsetting from the beginning of a list, Python doesn't have to specify the first index. `x[0:3]` can be written as `x[:3]`.
++ when subsetting from the beginning of a list, Python doesn't have to specify the first index. `x[0:3]` can be written as `x[:3]`. One can think of this as "getting 3 elements from the vector".
+
+Interestingly, `Python` does not operate on vectors element-wise as you would expect in `R`. To me, this makes `Python` slower to write when one needs to write codes for data analytics.  
 
 <div class="left">
 
@@ -70,11 +67,32 @@ x[2]
 x[2:4]
 
 x[1:3]
+## No equivalent way in R
+##
+##
+##
+```
+
+### Extracting multiple elements
+```{r}
+x[c(1, 3, 5)]
+##
+##
+##
+##
+##
+```
+
+
+### Filtering using logical
+```{r}
+x[x > 3]
 ```
 
 </div>
 
 <div class="right">
+
 ## Python
 
 ```{python}
@@ -87,15 +105,29 @@ x[0:3]
 x[:3] ## Equivalent to x[0:3]
 ```
 
+### Extracting multiple elements
+```{python}
+b = [0, 2, 4]
+[x[i] for i in b]
+import pandas as pd
+list(pd.Series(x)[b])
+```
+
+### Filtering using logical
+
+```{python}
+print(list(filter(lambda y: y > 3, x)))
+```
 </div>
 
 
-<div style="margin-bottom:800px;">
+<div style="margin-bottom:900px;">
 </div>
 
 # Negative indices
 
-+ negative indices carry very different meaning between the two languages. In R, the element with the negation will be deleted and in Python, the reversed element will be extracted.
++ negative indices carry very different meaning between the two languages. In `R`, the element with the negation will be deleted and in `Python`, the element counting from the end of the vector will be extracted.
+
 + extracting elements from the end of a vector/list is easier in Python than R because of this behaviour. 
 
 <div class="left">
@@ -163,6 +195,9 @@ print(y)
 ```
 </div>
 
+
+
+
 # Conversion functions
 
 <div class="left">
@@ -207,7 +242,9 @@ type(x_int)
 ```
 </div>
 
-# List, dictionary and tuples
+
+
+# List and tuples
 
 <div class="left">
 
@@ -219,7 +256,8 @@ type(x_int)
 x = list(
   numeric = 1,
   character = "cats",
-  data_frame = iris)
+  data_frame = data.frame(x = 1:3, 
+                          y = 2:4))
 
 print(x)
 class(x)
@@ -228,20 +266,80 @@ lapply(x, class)
 
 </div>
 
+<div class="right">
 ## Python
 
-`list` in `python` behaves more like vectors.
+As we have seen above, `list` in `Python` behaves more or less like a vector. 
 
 ```{python}
 x = [1, "cats"]
 
 print(x)
 type(x)
-[type(item) for item in x]
+print(list(map(lambda y: type(y), x)))
 ```
+
+
+A `tuple` behaves like a `list`, but it is immutable. 
+
+```{python, error = TRUE}
+y = tuple(x);
+
+x[0] = 10
+print(x)
+
+y[0] = 10
+print(y)
+```
+
 </div>
 
+# Named vector and dictionary
+
+Suppose we have a matching pair of information in the form of two vectors, and we wish to extract elements of a vector based on another vector. This can of course be done through the usual manipulations on vectors/for loops etc. However, both `R` and `Python` provide different solutions to this seemingly simple task. 
+
+<div class="left">
+
+## R
+
+In `R`, no additional class of object is needed. A `vector` can be given a vector of names, and the subsetting can be done using the names themselves. 
+
+```{r}
+x = c("alpha", "bravo", "charlie")
+names(x) = c("a", "b", "c")
+x[c("a", "c")]
+```
+
+</div>
+
+<div class="right">
+
+## Python
+
+In `Python`, a very interesting object class is `dict` (dictionary). A dictionary has two properties, a key and a value. The key behaves much like the `names()` of a vector in `R`. 
+
+```{python}
+d = {
+"a": "alpha",
+"b": "bravo",
+"c": "charlie"
+}
+d["a"]
+[d[i] for i in ["a", "c"]]
+```
+
+</div>
+
+<div style="margin-bottom:900px;">
+</div>
 
 # References
 
 + https://datacarpentry.org/python-ecology-lesson/03-index-slice-subset/index.html
+
+# Session info
+
+```{r, echo = FALSE}
+sessionInfo()
+reticulate::py_config()
+```

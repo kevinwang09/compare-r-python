@@ -45,3 +45,4 @@ square(10)
 
 </div>
 
+# Error handling

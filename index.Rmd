@@ -4,7 +4,12 @@ author: "Kevin Y.X. Wang"
 output: html_document
 ---
 
-```{r, echo = FALSE}
-reticulate::use_condaenv("r-reticulate")
-reticulate::py_config()
-```
+# Why I am making this site?
+
+1. I am still learning `python`, and I need a solid repository of codes for reference to perform tasks that I already know well in R, but don't have a great memory for in `python`. 
+2. Even though I can quickly hack together codes, this is not always great in the long term. I need a place to consolidate my understanding of coding. 
+3. Hopefully, this will be a good place to point towards when I seek future employments.
+
+# Structure
+
+The rest of this site is organised into webpages at the top, with each webpage correspond to a specific task. Each webpage is organised into two columns, with `R` codes on the left and the `python` codes on the right, aiming to achieve the same tasks. 
