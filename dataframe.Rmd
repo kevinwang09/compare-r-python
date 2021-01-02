@@ -7,7 +7,6 @@ output:
     toc_depth: 1
 ---
 
-```{r, echo = FALSE}
-reticulate::use_condaenv("r-reticulate")
-reticulate::py_config()
-```
+# Reading data frames 
+
+# Reading data frames (chunked)

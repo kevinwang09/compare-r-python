@@ -13,3 +13,5 @@ output: html_document
 # Structure
 
 The rest of this site is organised into webpages at the top, with each webpage correspond to a specific task. Each webpage is organised into two columns, with `R` codes on the left and the `python` codes on the right, aiming to achieve the same tasks. 
+
+# Virtual environment set up
