@@ -37,8 +37,7 @@ jobs:
         run: |
           reticulate::py_config()
           packages = c("numpy", "pandas", "scikit-learn")
-          reticulate::virtualenv_create("r-reticulate", packages = packages, 
-            python = "/Users/runner/Library/r-miniconda/envs/r-reticulate/bin/python")
+          reticulate::virtualenv_create("r-reticulate", packages = packages)
           reticulate::use_virtualenv("r-reticulate")
           reticulate::py_config()
           reticulate::virtualenv_list()
