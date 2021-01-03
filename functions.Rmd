@@ -8,8 +8,8 @@ output:
 ---
 
 ```{r, echo = FALSE}
-reticulate::use_condaenv("r-reticulate")
-reticulate::py_config()
+library(reticulate)
+reticulate::use_virtualenv(virtualenv = "r-reticulate", required = TRUE)
 ```
 
 # Self-defined Functions

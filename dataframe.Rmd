@@ -7,6 +7,11 @@ output:
     toc_depth: 1
 ---
 
+```{r, echo = FALSE}
+library(reticulate)
+reticulate::use_virtualenv(virtualenv = "r-reticulate", required = TRUE)
+```
+
 # Reading data frames 
 
 # Reading data frames (chunked)

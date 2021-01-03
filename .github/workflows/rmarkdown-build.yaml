@@ -32,8 +32,6 @@ jobs:
         run: |
           Rscript -e "remotes::install_github('rstudio/reticulate')"
           Rscript -e "reticulate::install_miniconda()"
-          sudo apt install -y python3-venv python3-pip python3-setuptools
-          sudo -H pip3 install virtualenv
           
       - name: Render site
         run: |
@@ -41,13 +39,9 @@ jobs:
           packages = c("numpy", "pandas", "scikit-learn")
           reticulate::virtualenv_create("r-reticulate", packages = packages, 
             python = "/Users/runner/Library/r-miniconda/envs/r-reticulate/bin/python")
-          reticulate::py_install(packages = packages, envname = "r-reticulate",
-            method = "virtualenv")
           reticulate::use_virtualenv("r-reticulate")
+          reticulate::py_config()
           reticulate::virtualenv_list()
-          reticulate::py_module_available("numpy")
-          reticulate::py_module_available("pandas")
-          reticulate::py_module_available("scikit-learn")
           rmarkdown::render_site(".")
         shell: Rscript {0}
 

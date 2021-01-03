@@ -7,6 +7,11 @@ output:
     toc_depth: 1
 ---
 
+```{r, echo = FALSE}
+library(reticulate)
+reticulate::use_virtualenv(virtualenv = "r-reticulate", required = TRUE)
+```
+
 For this comparison, I will compare the `scikit-learn` library in `Python` and the newly developed `tidymodels` meta-package in `R`. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations. 
 
 The data that I will use is the `penguins` data from the `R` package `palmerpenguins`, which you can learn more about [here](https://allisonhorst.github.io/palmerpenguins/articles/intro.html). The response variable is a factor variable, `species`, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have extracted the data below in a CSV format so that Python can also use this data through `pd.read_csv`

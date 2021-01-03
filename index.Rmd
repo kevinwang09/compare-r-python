@@ -4,6 +4,11 @@ author: "Kevin Y.X. Wang"
 output: html_document
 ---
 
+```{r, echo = FALSE}
+library(reticulate)
+reticulate::use_virtualenv(virtualenv = "r-reticulate", required = TRUE)
+```
+
 # Why I am making this site?
 
 1. I am still learning `python`, and I need a solid repository of codes for reference to perform tasks that I already know well in R, but don't have a great memory for in `python`. 
