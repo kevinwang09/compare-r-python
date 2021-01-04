@@ -23,6 +23,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -279,14 +281,11 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Kevin Wang</a>
+      <a class="navbar-brand" href="index.html">Compare R and Python</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="https://kevinwang09.github.io/compare-r-python/">Main directory</a>
-</li>
-<li>
   <a href="https://kevinwang09.github.io/compare-r-python/base.html">Basic objects</a>
 </li>
 <li>
@@ -297,7 +296,20 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kevinwang09/compare-r-python">
+    <span class="fas fa-code"></span>
+     
+    Source code
+  </a>
+</li>
+<li>
+  <a href="https://kevinwang09.github.io">
+    <span class="fas fa-user-tie"></span>
+     
+    About me
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -348,14 +360,14 @@ penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
 penguins %&gt;% glimpse()</code></pre>
 <pre><code>## Rows: 333
 ## Columns: 8
-## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie…
-## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;T…
-## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6, 34.6, 36.6, 3…
-## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2, 21.1, 17.8, 1…
-## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 185, 195, 197, 18…
-## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800, 4400, 3700, 3…
-## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;, &quot;fe…
-## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2…</code></pre>
+## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;A…
+## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;To…
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, …
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, …
+## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 19…
+## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, …
+## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;mal…
+## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, …</code></pre>
 </div>
 <div id="python-pandas" class="section level2 right">
 <h2><code>Python</code>: <code>pandas</code></h2>
@@ -399,30 +411,9 @@ penguins.info()</code></pre>
 <pre class="r"><code>library(tidymodels)
 set.seed(2020)
 penguins = penguins %&gt;% 
-  dplyr::mutate(across(.cols = is.character, .fns = as.factor))</code></pre>
-<pre><code>## Warning: Problem with `mutate()` input `..1`.
-## ℹ Predicate functions must be wrapped in `where()`.
-## 
-##   # Bad
-##   data %&gt;% select(is.character)
-## 
-##   # Good
-##   data %&gt;% select(where(is.character))
-## 
-## ℹ Please update your code.
-## This message is displayed once per session.
-## ℹ Input `..1` is `across(.cols = is.character, .fns = as.factor)`.</code></pre>
-<pre><code>## Warning: Predicate functions must be wrapped in `where()`.
-## 
-##   # Bad
-##   data %&gt;% select(is.character)
-## 
-##   # Good
-##   data %&gt;% select(where(is.character))
-## 
-## ℹ Please update your code.
-## This message is displayed once per session.</code></pre>
-<pre class="r"><code>penguins_split = rsample::initial_split(data = penguins, prop = 0.1)
+  dplyr::mutate(across(.cols = is.character, .fns = as.factor))
+
+penguins_split = rsample::initial_split(data = penguins, prop = 0.1)
 penguins_split</code></pre>
 <pre><code>## &lt;Analysis/Assess/Total&gt;
 ## &lt;34/299/333&gt;</code></pre>
@@ -465,7 +456,7 @@ penguins_recipe</code></pre>
 ## 
 ## Operations:
 ## 
-## K-nearest neighbor imputation for bill_length_mm, bill_depth_mm, flipper_length_mm, ... [trained]</code></pre>
+## K-nearest neighbor imputation for bill_length_mm, ... [trained]</code></pre>
 </div>
 <div id="python-none" class="section level2 right">
 <h2><code>Python</code>: None</h2>
@@ -579,13 +570,13 @@ y_pred = rf_pred_tbl.pred)
 print(cr)</code></pre>
 <pre><code>##               precision    recall  f1-score   support
 ## 
-##       Adelie       0.98      0.97      0.98       126
-##    Chinstrap       0.97      0.97      0.97        64
-##       Gentoo       0.97      0.99      0.98       110
+##       Adelie       0.92      0.98      0.95       126
+##    Chinstrap       1.00      0.84      0.92        64
+##       Gentoo       0.98      0.99      0.99       110
 ## 
-##     accuracy                           0.98       300
-##    macro avg       0.98      0.98      0.98       300
-## weighted avg       0.98      0.98      0.98       300</code></pre>
+##     accuracy                           0.96       300
+##    macro avg       0.97      0.94      0.95       300
+## weighted avg       0.96      0.96      0.96       300</code></pre>
 </div>
 </div>
 

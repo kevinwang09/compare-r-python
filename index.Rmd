@@ -1,22 +1,20 @@
 ---
 title: "Compare R and Python"
-author: "Kevin Y.X. Wang"
 output: html_document
 ---
 
-```{r, echo = FALSE}
-library(reticulate)
-reticulate::use_virtualenv(virtualenv = "r-reticulate", required = TRUE)
-```
-
 # Why I am making this site?
 
-1. I am still learning `python`, and I need a solid repository of codes for reference to perform tasks that I already know well in R, but don't have a great memory for in `python`. 
-2. Even though I can quickly hack together codes, this is not always great in the long term. I need a place to consolidate my understanding of coding. 
-3. Hopefully, this will be a good place to point towards when I seek future employments.
+1. There are pros and cons of both languages. Knowing which tasks can be performed well in one language can help me to choose the right tools when needed. 
+1. I am learning `python`, and I need a repository of codes for reference to perform tasks that I already know well in `R`.
+1. This is a place for me to document my self-learning during COVID-19. Hopefully this will be a good place to point to when I seek future employments.
 
 # Structure
 
 The rest of this site is organised into webpages at the top, with each webpage correspond to a specific task. Each webpage is organised into two columns, with `R` codes on the left and the `python` codes on the right, aiming to achieve the same tasks. 
 
-# Virtual environment set up
+# Code reproducibility
+
+![rmarkdown-build](https://github.com/kevinwang09/compare-r-python/workflows/rmarkdown-build/badge.svg)
+
+This website is deployed through GitHub Actions using [this workflow](https://github.com/kevinwang09/compare-r-python/blob/main/.github/workflows/rmarkdown-build.yaml). As such, the codes should be fully reproducible. The Python modules are also encapsulated in a virtual environment as specified in the workflow file. 

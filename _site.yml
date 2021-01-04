@@ -1,16 +1,21 @@
 # This file controls the layout of the website. 
-name: "Kevin Wang"
 navbar:
-  title: "Kevin Wang"
+  icon: fa-home
+  title: "Compare R and Python"
   left:
-    - text: "Main directory"
-      href: https://kevinwang09.github.io/compare-r-python/
     - text: "Basic objects"
       href: https://kevinwang09.github.io/compare-r-python/base.html
     - text: "Data frame manipulations"
       href: https://kevinwang09.github.io/compare-r-python/dataframe.html
     - text: "Supervised learning"
       href: https://kevinwang09.github.io/compare-r-python/supervised_learning.html
+  right:
+    - text: "Source code"
+      icon: fa-code
+      href: https://github.com/kevinwang09/compare-r-python
+    - text: "About me"
+      icon: fa-user-tie
+      href: https://kevinwang09.github.io
 output_dir: "."
 exclude: ["README*"]
 output:

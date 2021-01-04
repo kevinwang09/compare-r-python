@@ -23,6 +23,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -279,14 +281,11 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Kevin Wang</a>
+      <a class="navbar-brand" href="index.html">Compare R and Python</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="https://kevinwang09.github.io/compare-r-python/">Main directory</a>
-</li>
-<li>
   <a href="https://kevinwang09.github.io/compare-r-python/base.html">Basic objects</a>
 </li>
 <li>
@@ -297,7 +296,20 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kevinwang09/compare-r-python">
+    <span class="fas fa-code"></span>
+     
+    Source code
+  </a>
+</li>
+<li>
+  <a href="https://kevinwang09.github.io">
+    <span class="fas fa-user-tie"></span>
+     
+    About me
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -634,27 +646,46 @@ d[&quot;a&quot;]</code></pre>
 ## [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] stats     graphics  grDevices utils     datasets  methods  
+## [7] base     
 ## 
 ## other attached packages:
-## [1] reticulate_1.18
+##  [1] yardstick_0.0.7  workflows_0.2.1  tune_0.1.2      
+##  [4] rsample_0.0.8    recipes_0.1.15   parsnip_0.1.4   
+##  [7] modeldata_0.1.0  infer_0.5.3      dials_0.0.9     
+## [10] scales_1.1.1     broom_0.7.3      tidymodels_0.1.2
+## [13] forcats_0.5.0    stringr_1.4.0    dplyr_1.0.2     
+## [16] purrr_0.3.4      readr_1.4.0      tidyr_1.1.2     
+## [19] tibble_3.0.4     ggplot2_3.3.3    tidyverse_1.3.0 
+## [22] reticulate_1.18 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.5         gower_0.2.2        pillar_1.4.7       compiler_4.0.3    
-##  [5] class_7.3-17       tools_4.0.3        rpart_4.1-15       ipred_0.9-9       
-##  [9] digest_0.6.27      lubridate_1.7.9.2  jsonlite_1.7.2     rsample_0.0.8     
-## [13] evaluate_0.14      lifecycle_0.2.0    tibble_3.0.4       lattice_0.20-41   
-## [17] pkgconfig_2.0.3    rlang_0.4.10       Matrix_1.3-0       rstudioapi_0.13   
-## [21] yaml_2.2.1         parallel_4.0.3     prodlim_2019.11.13 xfun_0.19         
-## [25] stringr_1.4.0      withr_2.3.0        furrr_0.2.1        dplyr_1.0.2       
-## [29] knitr_1.30         recipes_0.1.15     generics_0.1.0     vctrs_0.3.6       
-## [33] globals_0.14.0     hms_0.5.3          nnet_7.3-14        grid_4.0.3        
-## [37] tidyselect_1.1.0   glue_1.4.2         listenv_0.8.0      R6_2.5.0          
-## [41] parallelly_1.22.0  survival_3.2-7     rmarkdown_2.6      lava_1.6.8.1      
-## [45] tidyr_1.1.2        readr_1.4.0        purrr_0.3.4        magrittr_2.0.1    
-## [49] splines_4.0.3      MASS_7.3-53        codetools_0.2-18   ellipsis_0.3.1    
-## [53] htmltools_0.5.0    timeDate_3043.102  future_1.21.0      stringi_1.5.3     
-## [57] crayon_1.3.4</code></pre>
+##  [1] fs_1.5.0            lubridate_1.7.9.2   DiceDesign_1.8-1   
+##  [4] httr_1.4.2          tools_4.0.3         backports_1.2.1    
+##  [7] utf8_1.1.4          R6_2.5.0            rpart_4.1-15       
+## [10] DBI_1.1.0           colorspace_2.0-0    nnet_7.3-14        
+## [13] withr_2.3.0         tidyselect_1.1.0    compiler_4.0.3     
+## [16] cli_2.2.0           rvest_0.3.6         xml2_1.3.2         
+## [19] randomForest_4.6-14 digest_0.6.27       rmarkdown_2.6      
+## [22] pkgconfig_2.0.3     htmltools_0.5.0     parallelly_1.22.0  
+## [25] lhs_1.1.1           dbplyr_2.0.0        rlang_0.4.10       
+## [28] readxl_1.3.1        rstudioapi_0.13     generics_0.1.0     
+## [31] jsonlite_1.7.2      magrittr_2.0.1      Matrix_1.3-0       
+## [34] Rcpp_1.0.5          munsell_0.5.0       fansi_0.4.1        
+## [37] GPfit_1.0-8         lifecycle_0.2.0     furrr_0.2.1        
+## [40] stringi_1.5.3       pROC_1.16.2         yaml_2.2.1         
+## [43] MASS_7.3-53         plyr_1.8.6          grid_4.0.3         
+## [46] parallel_4.0.3      listenv_0.8.0       crayon_1.3.4       
+## [49] lattice_0.20-41     haven_2.3.1         splines_4.0.3      
+## [52] hms_0.5.3           knitr_1.30          pillar_1.4.7       
+## [55] codetools_0.2-18    reprex_0.3.0        glue_1.4.2         
+## [58] evaluate_0.14       modelr_0.1.8        vctrs_0.3.6        
+## [61] foreach_1.5.1       cellranger_1.1.0    gtable_0.3.0       
+## [64] future_1.21.0       assertthat_0.2.1    xfun_0.19          
+## [67] gower_0.2.2         prodlim_2019.11.13  class_7.3-17       
+## [70] survival_3.2-7      timeDate_3043.102   iterators_1.0.13   
+## [73] hardhat_0.1.5       lava_1.6.8.1        globals_0.14.0     
+## [76] ellipsis_0.3.1      ipred_0.9-9</code></pre>
 <pre><code>## python:         /usr/local/bin/python3
 ## libpython:      /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin/libpython3.7.dylib
 ## pythonhome:     /usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7:/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7
