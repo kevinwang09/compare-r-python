@@ -48,10 +48,11 @@ jobs:
           rmarkdown::render_site(".")
         shell: Rscript {0}
 
-      - name: Deploy package
+      - name: Deploy site
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add -A
-          git commit -m "GitHub Actions trigger"
-          git push origin gh-pages
+          git add -A .
+          git commit --allow-empty -m "GHA deploy"
+          git remote -v
+          git push --force origin HEAD:gh-pages
