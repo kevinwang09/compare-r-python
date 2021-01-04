@@ -25,8 +25,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rmarkdown", "knitr", "tidyverse", "tidymodels", "randomForest", "png"))
-        shell: Rscript {0}
+          apt-get install libcurl4-openssl-dev
+          Rscript -e 'install.packages(c("remotes", "rmarkdown", "knitr", "tidyverse", "tidymodels", "randomForest", "png"))'
         
       - name: Install Python
         run: |
@@ -38,13 +38,13 @@ jobs:
           reticulate::py_config()
           packages = c("numpy", "pandas", "scikit-learn")
           reticulate::virtualenv_create("r-reticulate", packages = packages)
-          reticulate::use_virtualenv("r-reticulate")
           reticulate::py_config()
           reticulate::virtualenv_list()
         shell: Rscript {0}
         
       - name: Render site
         run: |
+          reticulate::use_virtualenv("r-reticulate")
           rmarkdown::render_site(".")
         shell: Rscript {0}
 
