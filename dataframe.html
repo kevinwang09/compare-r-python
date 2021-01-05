@@ -347,13 +347,58 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
+<li><a href="#creating-a-data-frame-manually">Creating a data frame manually</a></li>
 <li><a href="#reading-data-frames">Reading data frames</a></li>
 <li><a href="#reading-data-frames-chunked">Reading data frames (chunked)</a></li>
 </ul>
 </div>
 
+<div id="creating-a-data-frame-manually" class="section level1">
+<h1>Creating a data frame manually</h1>
+<div id="r" class="section level2 left">
+<h2>R</h2>
+<pre class="r"><code>data = data.frame(
+  x = 1:5, 
+  row.names = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;))
+print(data)</code></pre>
+<pre><code>##   x
+## a 1
+## b 2
+## c 3
+## d 4
+## e 5</code></pre>
+</div>
+<div id="python" class="section level2 right">
+<h2>Python</h2>
+<pre class="python"><code>import pandas as pd
+data = pd.DataFrame(
+  list(range(1, 6)), 
+  columns = [&quot;x&quot;], 
+  index = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;])
+print(data)</code></pre>
+<pre><code>##    x
+## a  1
+## b  2
+## c  3
+## d  4
+## e  5</code></pre>
+</div>
+<div style="margin-bottom:400px;">
+
+</div>
+</div>
 <div id="reading-data-frames" class="section level1">
 <h1>Reading data frames</h1>
+<div id="r-1" class="section level2 left">
+<h2>R</h2>
+<pre class="r"><code>library(readr)
+data = readr::read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
+</div>
+<div id="python-1" class="section level2 right">
+<h2>Python</h2>
+<pre class="python"><code>import pandas as pd
+data = pd.read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
+</div>
 </div>
 <div id="reading-data-frames-chunked" class="section level1">
 <h1>Reading data frames (chunked)</h1>

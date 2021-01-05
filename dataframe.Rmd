@@ -10,8 +10,59 @@ output:
 ```{r, echo = FALSE}
 library(reticulate)
 reticulate::use_virtualenv(virtualenv = "r-reticulate", required = TRUE)
+knitr::opts_chunk$set(message = FALSE)
 ```
 
-# Reading data frames 
+# Creating a data frame manually 
+
+<div class="left">
+
+## R
+
+```{r}
+data = data.frame(
+  x = 1:5, 
+  y = 2:6,
+  row.names = c("a", "b", "c", "d", "e"))
+print(data)
+```
+</div>
+
+<div class="right">
+
+## Python
+```{python}
+import pandas as pd
+data = pd.DataFrame(
+  {"x": list(range(1, 6)),
+   "y": list(range(2, 7))}, 
+  index = ["a", "b", "c", "d", "e"])
+print(data)
+```
+</div>
+
+<div style="margin-bottom:400px;">
+</div>
+
+# Reading data frames
+
+<div class="left">
+
+## R
+
+```{r}
+library(readr)
+data = readr::read_csv("data/penguins_complete.csv")
+```
+</div>
+
+<div class="right">
+
+## Python
+```{python}
+import pandas as pd
+data = pd.read_csv("data/penguins_complete.csv")
+```
+</div>
 
 # Reading data frames (chunked)
