@@ -1,6 +1,7 @@
 ---
 title: "Compare R and Python"
 output: html_document
+author: Kevin Y.X. Wang
 ---
 
 # Why I am making this site?
@@ -15,6 +16,6 @@ The rest of this site is organised into webpages at the top, with each webpage c
 
 # Code reproducibility
 
-![rmarkdown-build](https://github.com/kevinwang09/compare-r-python/workflows/rmarkdown-build/badge.svg)
+![](https://github.com/kevinwang09/compare-r-python/workflows/rmarkdown-build/badge.svg)
 
 This website is deployed through GitHub Actions using [this workflow](https://github.com/kevinwang09/compare-r-python/blob/main/.github/workflows/rmarkdown-build.yaml). As such, the codes should be fully reproducible. The Python modules are also encapsulated in a virtual environment as specified in the workflow file. 

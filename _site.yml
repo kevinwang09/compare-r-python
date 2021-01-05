@@ -3,12 +3,18 @@ navbar:
   icon: fa-home
   title: "Compare R and Python"
   left:
-    - text: "Basic objects"
-      href: https://kevinwang09.github.io/compare-r-python/base.html
-    - text: "Data frame manipulations"
-      href: https://kevinwang09.github.io/compare-r-python/dataframe.html
+    - text: "Basic concepts"
+      menu:
+        - text: lists, vectors, dictionaries
+          href: https://kevinwang09.github.io/compare-r-python/base.html
+        - text: data frames
+          href: https://kevinwang09.github.io/compare-r-python/dataframe.html
+        - text: functions
+          href: https://kevinwang09.github.io/compare-r-python/functions.html
     - text: "Supervised learning"
-      href: https://kevinwang09.github.io/compare-r-python/supervised_learning.html
+      menu:
+        - text: wrapping into workflows
+        - href: https://kevinwang09.github.io/compare-r-python/supervised_learning.html
   right:
     - text: "Source code"
       icon: fa-code
@@ -22,4 +28,3 @@ output:
   html_document:
     theme: paper
     highlight: textmate
-    css: style.css

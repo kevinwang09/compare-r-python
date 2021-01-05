@@ -13,7 +13,7 @@
 
 <title>Compare R and Python: basic objects</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -285,14 +285,36 @@ $(document).ready(function () {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="https://kevinwang09.github.io/compare-r-python/base.html">Basic objects</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Basic concepts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/base.html">lists, vectors, dictionaries</a>
+    </li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">data frames</a>
+    </li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">functions</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">Data frame manipulations</a>
-</li>
-<li>
-  <a href="https://kevinwang09.github.io/compare-r-python/supervised_learning.html">Supervised learning</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Supervised learning
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">wrapping into workflows</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/supervised_learning.html"></a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -646,46 +668,37 @@ d[&quot;a&quot;]</code></pre>
 ## [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods  
-## [7] base     
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] yardstick_0.0.7  workflows_0.2.1  tune_0.1.2      
-##  [4] rsample_0.0.8    recipes_0.1.15   parsnip_0.1.4   
-##  [7] modeldata_0.1.0  infer_0.5.3      dials_0.0.9     
-## [10] scales_1.1.1     broom_0.7.3      tidymodels_0.1.2
-## [13] forcats_0.5.0    stringr_1.4.0    dplyr_1.0.2     
-## [16] purrr_0.3.4      readr_1.4.0      tidyr_1.1.2     
-## [19] tibble_3.0.4     ggplot2_3.3.3    tidyverse_1.3.0 
-## [22] reticulate_1.18 
+##  [1] yardstick_0.0.7  workflows_0.2.1  tune_0.1.2       rsample_0.0.8    recipes_0.1.15  
+##  [6] parsnip_0.1.4    modeldata_0.1.0  infer_0.5.3      dials_0.0.9      scales_1.1.1    
+## [11] broom_0.7.3      tidymodels_0.1.2 forcats_0.5.0    stringr_1.4.0    dplyr_1.0.2     
+## [16] purrr_0.3.4      readr_1.4.0      tidyr_1.1.2      tibble_3.0.4     ggplot2_3.3.3   
+## [21] tidyverse_1.3.0  reticulate_1.18  rmarkdown_2.6.4 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] fs_1.5.0            lubridate_1.7.9.2   DiceDesign_1.8-1   
-##  [4] httr_1.4.2          tools_4.0.3         backports_1.2.1    
-##  [7] utf8_1.1.4          R6_2.5.0            rpart_4.1-15       
-## [10] DBI_1.1.0           colorspace_2.0-0    nnet_7.3-14        
-## [13] withr_2.3.0         tidyselect_1.1.0    compiler_4.0.3     
-## [16] cli_2.2.0           rvest_0.3.6         xml2_1.3.2         
-## [19] randomForest_4.6-14 digest_0.6.27       rmarkdown_2.6      
-## [22] pkgconfig_2.0.3     htmltools_0.5.0     parallelly_1.22.0  
-## [25] lhs_1.1.1           dbplyr_2.0.0        rlang_0.4.10       
-## [28] readxl_1.3.1        rstudioapi_0.13     generics_0.1.0     
-## [31] jsonlite_1.7.2      magrittr_2.0.1      Matrix_1.3-0       
-## [34] Rcpp_1.0.5          munsell_0.5.0       fansi_0.4.1        
-## [37] GPfit_1.0-8         lifecycle_0.2.0     furrr_0.2.1        
-## [40] stringi_1.5.3       pROC_1.16.2         yaml_2.2.1         
-## [43] MASS_7.3-53         plyr_1.8.6          grid_4.0.3         
-## [46] parallel_4.0.3      listenv_0.8.0       crayon_1.3.4       
-## [49] lattice_0.20-41     haven_2.3.1         splines_4.0.3      
-## [52] hms_0.5.3           knitr_1.30          pillar_1.4.7       
-## [55] codetools_0.2-18    reprex_0.3.0        glue_1.4.2         
-## [58] evaluate_0.14       modelr_0.1.8        vctrs_0.3.6        
-## [61] foreach_1.5.1       cellranger_1.1.0    gtable_0.3.0       
-## [64] future_1.21.0       assertthat_0.2.1    xfun_0.19          
-## [67] gower_0.2.2         prodlim_2019.11.13  class_7.3-17       
-## [70] survival_3.2-7      timeDate_3043.102   iterators_1.0.13   
-## [73] hardhat_0.1.5       lava_1.6.8.1        globals_0.14.0     
-## [76] ellipsis_0.3.1      ipred_0.9-9</code></pre>
+##  [1] colorspace_2.0-0    ellipsis_0.3.1      class_7.3-17        rprojroot_2.0.2    
+##  [5] fs_1.5.0            rstudioapi_0.13     listenv_0.8.0       furrr_0.2.1        
+##  [9] remotes_2.2.0       prodlim_2019.11.13  fansi_0.4.1         lubridate_1.7.9.2  
+## [13] xml2_1.3.2          codetools_0.2-18    splines_4.0.3       knitr_1.30         
+## [17] jsonlite_1.7.2      pROC_1.16.2         dbplyr_2.0.0        compiler_4.0.3     
+## [21] httr_1.4.2          backports_1.2.1     assertthat_0.2.1    Matrix_1.3-0       
+## [25] cli_2.2.0           htmltools_0.5.0     prettyunits_1.1.1   tools_4.0.3        
+## [29] gtable_0.3.0        glue_1.4.2          Rcpp_1.0.5          cellranger_1.1.0   
+## [33] DiceDesign_1.8-1    vctrs_0.3.6         iterators_1.0.13    timeDate_3043.102  
+## [37] gower_0.2.2         xfun_0.19           globals_0.14.0      ps_1.5.0           
+## [41] rvest_0.3.6         lifecycle_0.2.0     future_1.21.0       MASS_7.3-53        
+## [45] ipred_0.9-9         hms_0.5.3           parallel_4.0.3      yaml_2.2.1         
+## [49] curl_4.3            rpart_4.1-15        stringi_1.5.3       randomForest_4.6-14
+## [53] foreach_1.5.1       lhs_1.1.1           hardhat_0.1.5       pkgbuild_1.2.0     
+## [57] lava_1.6.8.1        rlang_0.4.10        pkgconfig_2.0.3     evaluate_0.14      
+## [61] lattice_0.20-41     processx_3.4.5      tidyselect_1.1.0    parallelly_1.22.0  
+## [65] plyr_1.8.6          magrittr_2.0.1      R6_2.5.0            generics_0.1.0     
+## [69] DBI_1.1.0           pillar_1.4.7        haven_2.3.1         withr_2.3.0        
+## [73] survival_3.2-7      nnet_7.3-14         modelr_0.1.8        crayon_1.3.4       
+## [77] utf8_1.1.4          grid_4.0.3          readxl_1.3.1        callr_3.5.1        
+## [81] reprex_0.3.0        digest_0.6.27       munsell_0.5.0       GPfit_1.0-8</code></pre>
 <pre><code>## python:         /usr/local/bin/python3
 ## libpython:      /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin/libpython3.7.dylib
 ## pythonhome:     /usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7:/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7

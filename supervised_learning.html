@@ -13,7 +13,7 @@
 
 <title>Compare R and Python: supervised learning</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -285,14 +285,36 @@ $(document).ready(function () {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="https://kevinwang09.github.io/compare-r-python/base.html">Basic objects</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Basic concepts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/base.html">lists, vectors, dictionaries</a>
+    </li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">data frames</a>
+    </li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">functions</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">Data frame manipulations</a>
-</li>
-<li>
-  <a href="https://kevinwang09.github.io/compare-r-python/supervised_learning.html">Supervised learning</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Supervised learning
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">wrapping into workflows</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/supervised_learning.html"></a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -360,14 +382,14 @@ penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
 penguins %&gt;% glimpse()</code></pre>
 <pre><code>## Rows: 333
 ## Columns: 8
-## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;A…
-## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;To…
-## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, …
-## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, …
-## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 19…
-## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, …
-## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;mal…
-## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, …</code></pre>
+## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie…
+## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;T…
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6, 34.6, 36.6, 3…
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2, 21.1, 17.8, 1…
+## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 185, 195, 197, 18…
+## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800, 4400, 3700, 3…
+## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;, &quot;fe…
+## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2…</code></pre>
 </div>
 <div id="python-pandas" class="section level2 right">
 <h2><code>Python</code>: <code>pandas</code></h2>
@@ -456,7 +478,7 @@ penguins_recipe</code></pre>
 ## 
 ## Operations:
 ## 
-## K-nearest neighbor imputation for bill_length_mm, ... [trained]</code></pre>
+## K-nearest neighbor imputation for bill_length_mm, bill_depth_mm, flipper_length_mm, ... [trained]</code></pre>
 </div>
 <div id="python-none" class="section level2 right">
 <h2><code>Python</code>: None</h2>
@@ -570,13 +592,13 @@ y_pred = rf_pred_tbl.pred)
 print(cr)</code></pre>
 <pre><code>##               precision    recall  f1-score   support
 ## 
-##       Adelie       0.92      0.98      0.95       126
-##    Chinstrap       1.00      0.84      0.92        64
-##       Gentoo       0.98      0.99      0.99       110
+##       Adelie       0.89      0.98      0.93       126
+##    Chinstrap       0.98      0.88      0.93        64
+##       Gentoo       0.98      0.94      0.96       110
 ## 
-##     accuracy                           0.96       300
-##    macro avg       0.97      0.94      0.95       300
-## weighted avg       0.96      0.96      0.96       300</code></pre>
+##     accuracy                           0.94       300
+##    macro avg       0.95      0.93      0.94       300
+## weighted avg       0.94      0.94      0.94       300</code></pre>
 </div>
 </div>
 
