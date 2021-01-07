@@ -349,6 +349,9 @@ $(document).ready(function () {
 <ul>
 <li><a href="#creating-a-data-frame-manually">Creating a data frame manually</a></li>
 <li><a href="#reading-data-frames">Reading data frames</a></li>
+<li><a href="#saving-data-frames">Saving data frames</a></li>
+<li><a href="#indexing-and-subsetting">Indexing and subsetting</a></li>
+<li><a href="#adding-new-columns">Adding new columns</a></li>
 <li><a href="#reading-data-frames-chunked">Reading data frames (chunked)</a></li>
 </ul>
 </div>
@@ -359,29 +362,30 @@ $(document).ready(function () {
 <h2>R</h2>
 <pre class="r"><code>data = data.frame(
   x = 1:5, 
+  y = 2:6,
   row.names = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;))
 print(data)</code></pre>
-<pre><code>##   x
-## a 1
-## b 2
-## c 3
-## d 4
-## e 5</code></pre>
+<pre><code>##   x y
+## a 1 2
+## b 2 3
+## c 3 4
+## d 4 5
+## e 5 6</code></pre>
 </div>
 <div id="python" class="section level2 right">
 <h2>Python</h2>
 <pre class="python"><code>import pandas as pd
 data = pd.DataFrame(
-  list(range(1, 6)), 
-  columns = [&quot;x&quot;], 
+  {&quot;x&quot;: list(range(1, 6)),
+   &quot;y&quot;: list(range(2, 7))}, 
   index = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;])
 print(data)</code></pre>
-<pre><code>##    x
-## a  1
-## b  2
-## c  3
-## d  4
-## e  5</code></pre>
+<pre><code>##    x  y
+## a  1  2
+## b  2  3
+## c  3  4
+## d  4  5
+## e  5  6</code></pre>
 </div>
 <div style="margin-bottom:400px;">
 
@@ -398,6 +402,207 @@ data = readr::read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 <h2>Python</h2>
 <pre class="python"><code>import pandas as pd
 data = pd.read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="saving-data-frames" class="section level1">
+<h1>Saving data frames</h1>
+<div id="r-2" class="section level2 left">
+<h2>R</h2>
+<pre class="r"><code>readr::write_csv(x = data, file = &quot;data/penguins_complete.csv&quot;)</code></pre>
+</div>
+<div id="python-2" class="section level2 right">
+<h2>Python</h2>
+<pre class="python"><code>data.to_csv(path_or_buf = &quot;data/penguins_complete2.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="indexing-and-subsetting" class="section level1">
+<h1>Indexing and subsetting</h1>
+<!-- ## Column-wise subsetting -->
+<!-- <div class="left"> -->
+<!-- ### R -->
+<!-- ```{r} -->
+<!-- ## A smaller dataframe/tibble -->
+<!-- data[,"species"] -->
+<!-- ## A vector -->
+<!-- head(data$species)  -->
+<!-- ``` -->
+<!-- </div> -->
+<!-- <div class="right"> -->
+<!-- ### Python -->
+<!-- ```{python} -->
+<!-- ## Both are pandas Series -->
+<!-- data["species"] -->
+<!-- data.species -->
+<!-- ``` -->
+<!-- </div> -->
+<div id="index-based-selection" class="section level2">
+<h2>Index-based selection</h2>
+<div id="r-3" class="section level3 left">
+<h3>R</h3>
+<pre class="r"><code>## First row
+data[1,]</code></pre>
+<pre><code>## # A tibble: 1 x 8
+##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1 Adelie  Torge…           39.1          18.7              181        3750 male 
+## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
+<pre class="r"><code>## Arbitary rows/columns through indexing
+data[c(1,3,5), c(1,3,5)]</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   species bill_length_mm flipper_length_mm
+##   &lt;chr&gt;            &lt;dbl&gt;             &lt;dbl&gt;
+## 1 Adelie            39.1               181
+## 2 Adelie            40.3               195
+## 3 Adelie            39.3               190</code></pre>
+</div>
+<div id="python-3" class="section level3 right">
+<h3>Python</h3>
+<pre class="python"><code>## First row
+data.iloc[0,:]
+## Arbitary rows/columns through indexing</code></pre>
+<pre><code>## species                 Adelie
+## island               Torgersen
+## bill_length_mm            39.1
+## bill_depth_mm             18.7
+## flipper_length_mm          181
+## body_mass_g               3750
+## sex                       male
+## year                      2007
+## Name: 0, dtype: object</code></pre>
+<pre class="python"><code>data.iloc[[0,2,4],[0,2,4]]</code></pre>
+<pre><code>##   species  bill_length_mm  flipper_length_mm
+## 0  Adelie            39.1                181
+## 2  Adelie            40.3                195
+## 4  Adelie            39.3                190</code></pre>
+</div>
+</div>
+<div id="label-based-selection" class="section level2">
+<h2>Label-based selection</h2>
+<div id="r-4" class="section level3 left">
+<h3>R</h3>
+<pre class="r"><code>## First five rows from the &quot;species&quot; column
+data[1:5, &quot;species&quot;]</code></pre>
+<pre><code>## # A tibble: 5 x 1
+##   species
+##   &lt;chr&gt;  
+## 1 Adelie 
+## 2 Adelie 
+## 3 Adelie 
+## 4 Adelie 
+## 5 Adelie</code></pre>
+</div>
+<div id="python-4" class="section level3 right">
+<h3>Python</h3>
+<pre class="python"><code>## First five rows from the &quot;species&quot; column, return as Series
+data.loc[0:4,&quot;species&quot;]</code></pre>
+<pre><code>## 0    Adelie
+## 1    Adelie
+## 2    Adelie
+## 3    Adelie
+## 4    Adelie
+## Name: species, dtype: object</code></pre>
+</div>
+</div>
+<div id="conditional-selection" class="section level2">
+<h2>Conditional selection</h2>
+<div id="r-5" class="section level3 left">
+<h3>R</h3>
+<pre class="r"><code>## Base R solution
+data[(data$species == &quot;Adelie&quot;) &amp; (data$bill_depth_mm &gt; 21), ]</code></pre>
+<pre><code>## # A tibble: 6 x 8
+##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1 Adelie  Torge…           38.6          21.2              191        3800 male 
+## 2 Adelie  Torge…           34.6          21.1              198        4400 male 
+## 3 Adelie  Torge…           46            21.5              194        4200 male 
+## 4 Adelie  Dream            39.2          21.1              196        4150 male 
+## 5 Adelie  Dream            42.3          21.2              191        4150 male 
+## 6 Adelie  Biscoe           41.3          21.1              195        4400 male 
+## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
+<pre class="r"><code>library(dplyr)
+data %&gt;% filter((species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21))</code></pre>
+<pre><code>## # A tibble: 6 x 8
+##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1 Adelie  Torge…           38.6          21.2              191        3800 male 
+## 2 Adelie  Torge…           34.6          21.1              198        4400 male 
+## 3 Adelie  Torge…           46            21.5              194        4200 male 
+## 4 Adelie  Dream            39.2          21.1              196        4150 male 
+## 5 Adelie  Dream            42.3          21.2              191        4150 male 
+## 6 Adelie  Biscoe           41.3          21.1              195        4400 male 
+## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
+</div>
+<div id="python-5" class="section level3 right">
+<h3>Python</h3>
+<pre class="python"><code>## Using loc
+data.loc[(data.species == &quot;Adelie&quot;) &amp; (data.bill_depth_mm &gt; 21)]
+
+## Using query()</code></pre>
+<pre><code>##    species     island  bill_length_mm  ...  body_mass_g   sex  year
+## 8   Adelie  Torgersen            38.6  ...         3800  male  2007
+## 9   Adelie  Torgersen            34.6  ...         4400  male  2007
+## 14  Adelie  Torgersen            46.0  ...         4200  male  2007
+## 30  Adelie      Dream            39.2  ...         4150  male  2007
+## 43  Adelie      Dream            42.3  ...         4150  male  2007
+## 55  Adelie     Biscoe            41.3  ...         4400  male  2008
+## 
+## [6 rows x 8 columns]</code></pre>
+<pre class="python"><code>data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#39;)</code></pre>
+<pre><code>##    species     island  bill_length_mm  ...  body_mass_g   sex  year
+## 8   Adelie  Torgersen            38.6  ...         3800  male  2007
+## 9   Adelie  Torgersen            34.6  ...         4400  male  2007
+## 14  Adelie  Torgersen            46.0  ...         4200  male  2007
+## 30  Adelie      Dream            39.2  ...         4150  male  2007
+## 43  Adelie      Dream            42.3  ...         4150  male  2007
+## 55  Adelie     Biscoe            41.3  ...         4400  male  2008
+## 
+## [6 rows x 8 columns]</code></pre>
+</div>
+</div>
+</div>
+<div id="adding-new-columns" class="section level1">
+<h1>Adding new columns</h1>
+<div id="r-6" class="section level2 left">
+<h2>R</h2>
+<pre class="r"><code>data[&quot;body_mass_kg&quot;] = data$body_mass_g/1000
+
+## dplyr solution
+data %&gt;% mutate(body_mass_kg = body_mass_g/1000)</code></pre>
+<pre><code>## # A tibble: 333 x 9
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torge…           39.1          18.7              181        3750
+##  2 Adelie  Torge…           39.5          17.4              186        3800
+##  3 Adelie  Torge…           40.3          18                195        3250
+##  4 Adelie  Torge…           36.7          19.3              193        3450
+##  5 Adelie  Torge…           39.3          20.6              190        3650
+##  6 Adelie  Torge…           38.9          17.8              181        3625
+##  7 Adelie  Torge…           39.2          19.6              195        4675
+##  8 Adelie  Torge…           41.1          17.6              182        3200
+##  9 Adelie  Torge…           38.6          21.2              191        3800
+## 10 Adelie  Torge…           34.6          21.1              198        4400
+## # … with 323 more rows, and 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;,
+## #   body_mass_kg &lt;dbl&gt;</code></pre>
+</div>
+<div id="python-6" class="section level2 right">
+<h2>Python</h2>
+<pre class="python"><code>data[&quot;body_mass_kg&quot;] = data.body_mass_g/1000
+
+data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
+<pre><code>##        species     island  bill_length_mm  ...     sex  year  body_mass_kg
+## 0       Adelie  Torgersen            39.1  ...    male  2007         3.750
+## 1       Adelie  Torgersen            39.5  ...  female  2007         3.800
+## 2       Adelie  Torgersen            40.3  ...  female  2007         3.250
+## 3       Adelie  Torgersen            36.7  ...  female  2007         3.450
+## 4       Adelie  Torgersen            39.3  ...    male  2007         3.650
+## ..         ...        ...             ...  ...     ...   ...           ...
+## 328  Chinstrap      Dream            55.8  ...    male  2009         4.000
+## 329  Chinstrap      Dream            43.5  ...  female  2009         3.400
+## 330  Chinstrap      Dream            49.6  ...    male  2009         3.775
+## 331  Chinstrap      Dream            50.8  ...    male  2009         4.100
+## 332  Chinstrap      Dream            50.2  ...  female  2009         3.775
+## 
+## [333 rows x 9 columns]</code></pre>
 </div>
 </div>
 <div id="reading-data-frames-chunked" class="section level1">

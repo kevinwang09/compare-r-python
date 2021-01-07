@@ -65,4 +65,150 @@ data = pd.read_csv("data/penguins_complete.csv")
 ```
 </div>
 
+# Saving data frames
+
+<div class="left">
+
+## R
+
+```{r, eval = FALSE}
+readr::write_csv(x = data, file = "data/penguins_complete.csv")
+```
+</div>
+
+<div class="right">
+
+## Python
+```{python, eval = FALSE}
+data.to_csv(path_or_buf = "data/penguins_complete2.csv")
+```
+</div>
+
+# Indexing and subsetting
+
+<!-- ## Column-wise subsetting -->
+
+<!-- <div class="left"> -->
+
+<!-- ### R -->
+
+<!-- ```{r} -->
+<!-- ## A smaller dataframe/tibble -->
+<!-- data[,"species"] -->
+<!-- ## A vector -->
+<!-- head(data$species)  -->
+<!-- ``` -->
+<!-- </div> -->
+
+<!-- <div class="right"> -->
+
+<!-- ### Python -->
+<!-- ```{python} -->
+<!-- ## Both are pandas Series -->
+<!-- data["species"] -->
+<!-- data.species -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+
+## Index-based selection
+
+<div class="left">
+
+### R
+
+```{r}
+## First row
+data[1,]
+## Arbitary rows/columns through indexing
+data[c(1,3,5), c(1,3,5)]
+```
+</div>
+
+<div class="right">
+
+### Python
+```{python}
+## First row
+data.iloc[0,:]
+## Arbitary rows/columns through indexing
+data.iloc[[0,2,4],[0,2,4]]
+```
+</div>
+
+
+## Label-based selection
+
+<div class="left">
+
+### R
+
+```{r}
+## First five rows from the "species" column
+data[1:5, "species"]
+```
+</div>
+
+<div class="right">
+
+### Python
+```{python}
+## First five rows from the "species" column, return as Series
+data.loc[0:4,"species"]
+```
+</div>
+
+## Conditional selection
+
+<div class="left">
+
+### R
+
+```{r}
+## Base R solution
+data[(data$species == "Adelie") & (data$bill_depth_mm > 21), ]
+
+library(dplyr)
+data %>% filter((species == "Adelie") & (bill_depth_mm > 21))
+```
+</div>
+
+<div class="right">
+
+### Python
+```{python}
+## Using loc
+data.loc[(data.species == "Adelie") & (data.bill_depth_mm > 21)]
+
+## Using query()
+data.query('(species == "Adelie") & (bill_depth_mm > 21)')
+```
+</div>
+
+
+# Adding new columns
+
+<div class="left">
+
+## R
+
+```{r}
+data["body_mass_kg"] = data$body_mass_g/1000
+
+## dplyr solution
+data %>% mutate(body_mass_kg = body_mass_g/1000)
+```
+</div>
+
+<div class="right">
+
+## Python
+```{python}
+data["body_mass_kg"] = data.body_mass_g/1000
+
+data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)
+```
+</div>
+
 # Reading data frames (chunked)
