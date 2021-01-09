@@ -249,9 +249,7 @@ table(data$species)
 data.head()
 data.describe()
 data.info()
-data.shape()
 data.shape
-shape(data)
 
 data.species.unique()
 data.species.value_counts()
