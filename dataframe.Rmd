@@ -159,6 +159,15 @@ data.loc[0:4,"species"]
 ```
 </div>
 
+## A note about `loc` and `iloc`
+
+`loc`'s label-querying capabilities means that it will subset **inclusively** on the indices. 
+```{python}
+data.loc[0:4,"species"]
+data.iloc[0:4,1]
+```
+
+
 ## Conditional selection
 
 <div class="left">
@@ -168,9 +177,11 @@ data.loc[0:4,"species"]
 ```{r}
 ## Base R solution
 data[(data$species == "Adelie") & (data$bill_depth_mm > 21), ]
+data[data$species %in% c("Adelie", "Chinstrap"), ]
 
 library(dplyr)
 data %>% filter((species == "Adelie") & (bill_depth_mm > 21))
+data %>% filter(species %in% c("Adelie", "Chinstrap"))
 ```
 </div>
 
@@ -180,6 +191,7 @@ data %>% filter((species == "Adelie") & (bill_depth_mm > 21))
 ```{python}
 ## Using loc
 data.loc[(data.species == "Adelie") & (data.bill_depth_mm > 21)]
+data.loc[(data.species.isin(["Adelie", "Chinstrap"]))]
 
 ## Using query()
 data.query('(species == "Adelie") & (bill_depth_mm > 21)')
@@ -212,3 +224,36 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)
 </div>
 
 # Reading data frames (chunked)
+
+# Previewing and describing data
+
+<div class="left">
+
+## R
+
+```{r}
+head(data)
+summary(data)
+glimpse(data)
+dim(data)
+
+unique(data$species)
+table(data$species)
+```
+</div>
+
+<div class="right">
+
+## Python
+```{python}
+data.head()
+data.describe()
+data.info()
+data.shape()
+data.shape
+shape(data)
+
+data.species.unique()
+data.species.value_counts()
+```
+</div>
