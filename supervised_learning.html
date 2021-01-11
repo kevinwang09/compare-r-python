@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Compare R and Python: supervised learning</title>
+
+<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Compare R and Python</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Basic concepts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/base.html">lists, vectors, dictionaries</a>
+    </li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">data frames</a>
+    </li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">functions</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Supervised learning
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">wrapping into workflows</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/supervised_learning.html"></a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/kevinwang09/compare-r-python">
+    <span class="fas fa-code"></span>
+     
+    Source code
+  </a>
+</li>
+<li>
+  <a href="https://kevinwang09.github.io">
+    <span class="fas fa-user-tie"></span>
+     
+    About me
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Compare R and Python: supervised learning</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#importing-data-and-getting-a-summary">Importing data and getting a summary</a></li>
+<li><a href="#splitting-data-into-train-test-set">Splitting data into train-test set</a></li>
+<li><a href="#setting-up-a-recipe">Setting up a recipe</a></li>
+<li><a href="#defining-a-random-forest-model">Defining a (random forest) model</a></li>
+<li><a href="#setting-up-a-workflowpipeline">Setting up a workflow/pipeline</a></li>
+<li><a href="#evaluation">Evaluation</a></li>
+</ul>
+</div>
+
+<p>For this comparison, I will compare the <code>scikit-learn</code> library in <code>Python</code> and the newly developed <code>tidymodels</code> meta-package in <code>R</code>. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.</p>
+<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a factor variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code></p>
+<pre class="r"><code>library(palmerpenguins)
+library(tidyverse)
+readr::write_csv(penguins %&gt;% na.omit, path = &quot;data/penguins_complete.csv&quot;)</code></pre>
+<pre><code>## python:         /usr/local/bin/python3
+## libpython:      /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin/libpython3.7.dylib
+## pythonhome:     /usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7:/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7
+## version:        3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
+## numpy:          /usr/local/lib/python3.7/site-packages/numpy
+## numpy_version:  1.17.0
+## 
+## NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<div id="importing-data-and-getting-a-summary" class="section level1">
+<h1>Importing data and getting a summary</h1>
+<div id="r-tidyverse" class="section level2 left">
+<h2><code>R</code>: <code>tidyverse</code></h2>
+<p>It is hard for me to remember how to use <code>R</code> without <code>tidyverse</code>. And by <code>tidyverse</code>, I am referring to both the package and the whole framework that it has established and keeps proliferating through many community-built <code>R</code> packages.</p>
+<p>Here, we will use the <code>readr</code> and <code>dplyr</code> packages to import the data and quickly get a summary of the data.</p>
+<pre class="r"><code>library(tidyverse)
+penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
+penguins %&gt;% glimpse()</code></pre>
+<pre><code>## Rows: 333
+## Columns: 8
+## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;…
+## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;,…
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.…
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.…
+## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 1…
+## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 380…
+## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;fema…
+## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 200…</code></pre>
+</div>
+<div id="python-pandas" class="section level2 right">
+<h2><code>Python</code>: <code>pandas</code></h2>
+<pre class="python"><code>import pandas as pd
+penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
+penguins.info()</code></pre>
+<pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+## RangeIndex: 333 entries, 0 to 332
+## Data columns (total 8 columns):
+## species              333 non-null object
+## island               333 non-null object
+## bill_length_mm       333 non-null float64
+## bill_depth_mm        333 non-null float64
+## flipper_length_mm    333 non-null int64
+## body_mass_g          333 non-null int64
+## sex                  333 non-null object
+## year                 333 non-null int64
+## dtypes: float64(2), int64(3), object(3)
+## memory usage: 20.9+ KB</code></pre>
+<pre class="python"><code>penguins.describe()</code></pre>
+<pre><code>##        bill_length_mm  bill_depth_mm  ...  body_mass_g         year
+## count      333.000000     333.000000  ...   333.000000   333.000000
+## mean        43.992793      17.164865  ...  4207.057057  2008.042042
+## std          5.468668       1.969235  ...   805.215802     0.812944
+## min         32.100000      13.100000  ...  2700.000000  2007.000000
+## 25%         39.500000      15.600000  ...  3550.000000  2007.000000
+## 50%         44.500000      17.300000  ...  4050.000000  2008.000000
+## 75%         48.600000      18.700000  ...  4775.000000  2009.000000
+## max         59.600000      21.500000  ...  6300.000000  2009.000000
+## 
+## [8 rows x 5 columns]</code></pre>
+</div>
+<div style="margin-bottom:1000px;">
+
+</div>
+</div>
+<div id="splitting-data-into-train-test-set" class="section level1">
+<h1>Splitting data into train-test set</h1>
+<div id="r-rsample" class="section level2 left">
+<h2><code>R</code>: <code>rsample</code></h2>
+<pre class="r"><code>library(tidymodels)
+set.seed(2020)
+penguins = penguins %&gt;% 
+  dplyr::mutate(across(.cols = is.character, .fns = as.factor))</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `..1`.
+## ℹ Predicate functions must be wrapped in `where()`.
+## 
+##   # Bad
+##   data %&gt;% select(is.character)
+## 
+##   # Good
+##   data %&gt;% select(where(is.character))
+## 
+## ℹ Please update your code.
+## This message is displayed once per session.
+## ℹ Input `..1` is `across(.cols = is.character, .fns = as.factor)`.</code></pre>
+<pre><code>## Warning: Predicate functions must be wrapped in `where()`.
+## 
+##   # Bad
+##   data %&gt;% select(is.character)
+## 
+##   # Good
+##   data %&gt;% select(where(is.character))
+## 
+## ℹ Please update your code.
+## This message is displayed once per session.</code></pre>
+<pre class="r"><code>penguins_split = rsample::initial_split(data = penguins, prop = 0.1)
+penguins_split</code></pre>
+<pre><code>## &lt;Analysis/Assess/Total&gt;
+## &lt;34/299/333&gt;</code></pre>
+<pre class="r"><code>penguins_train = penguins_split %&gt;% training()
+penguins_test = penguins_split %&gt;% testing()</code></pre>
+</div>
+<div id="python-train_test_split-from-sklearn.model_selection" class="section level2 right">
+<h2><code>Python</code>: <code>train_test_split</code> from <code>sklearn.model_selection</code></h2>
+<pre class="python"><code>from sklearn.model_selection import train_test_split
+from pandas import get_dummies
+
+y = penguins[&quot;species&quot;].values
+penguins_x = pd.get_dummies(penguins.drop(&quot;species&quot;, axis = 1))
+x = penguins_x.values
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = 0.1, random_state = 123)</code></pre>
+</div>
+<div style="margin-bottom:800px;">
+
+</div>
+</div>
+<div id="setting-up-a-recipe" class="section level1">
+<h1>Setting up a recipe</h1>
+<div id="r-recipes" class="section level2 left">
+<h2><code>R</code>: <code>recipes</code></h2>
+<pre class="r"><code>penguins_recipe = recipes::recipe(species ~ ., data = penguins_train) %&gt;% 
+  step_knnimpute(all_predictors()) %&gt;% 
+  prep()
+
+penguins_recipe</code></pre>
+<pre><code>## Data Recipe
+## 
+## Inputs:
+## 
+##       role #variables
+##    outcome          1
+##  predictor          7
+## 
+## Training data contained 34 data points and no missing data.
+## 
+## Operations:
+## 
+## K-nearest neighbor imputation for bill_length_mm, ... [trained]</code></pre>
+</div>
+<div id="python-none" class="section level2 right">
+<h2><code>Python</code>: None</h2>
+</div>
+<div style="margin-bottom:800px;">
+
+</div>
+</div>
+<div id="defining-a-random-forest-model" class="section level1">
+<h1>Defining a (random forest) model</h1>
+<div id="r-parsnip" class="section level2 left">
+<h2><code>R</code>: <code>parsnip</code></h2>
+<pre class="r"><code>rf_model = rand_forest() %&gt;%
+  set_args(trees = 100) %&gt;% 
+  set_engine(&quot;randomForest&quot;) %&gt;% 
+  set_mode(&quot;classification&quot;)</code></pre>
+</div>
+<div id="python-sklearn.ensemble" class="section level2 right">
+<h2><code>Python</code>: <code>sklearn.ensemble</code></h2>
+<pre class="python"><code>from sklearn.ensemble import RandomForestClassifier
+
+steps = [(&#39;rf&#39;, RandomForestClassifier(n_estimators = 100))]</code></pre>
+</div>
+<div style="margin-bottom:800px;">
+
+</div>
+</div>
+<div id="setting-up-a-workflowpipeline" class="section level1">
+<h1>Setting up a workflow/pipeline</h1>
+<div id="r-workflowr" class="section level2 left">
+<h2><code>R</code>: <code>workflowr</code></h2>
+<pre class="r"><code>rf_workflow = workflow() %&gt;% 
+  add_recipe(penguins_recipe) %&gt;% 
+  add_model(rf_model)
+
+rf_pred_tbl = predict(rf_workflow %&gt;% fit(data = penguins_train), 
+                      new_data = penguins_test)
+
+rf_pred_tbl = rf_pred_tbl %&gt;% 
+  dplyr::mutate(true = penguins_test$species %&gt;% factor)
+
+rf_pred_tbl</code></pre>
+<pre><code>## # A tibble: 299 x 2
+##    .pred_class true  
+##    &lt;fct&gt;       &lt;fct&gt; 
+##  1 Adelie      Adelie
+##  2 Adelie      Adelie
+##  3 Adelie      Adelie
+##  4 Adelie      Adelie
+##  5 Adelie      Adelie
+##  6 Adelie      Adelie
+##  7 Adelie      Adelie
+##  8 Adelie      Adelie
+##  9 Adelie      Adelie
+## 10 Adelie      Adelie
+## # … with 289 more rows</code></pre>
+</div>
+<div id="python-pipeline-from-sklearn.pipeline" class="section level2 right">
+<h2><code>Python</code>: <code>Pipeline</code> from <code>sklearn.pipeline</code></h2>
+<pre class="python"><code>from sklearn.pipeline import Pipeline
+pipeline = Pipeline(steps = steps)
+
+rf_pipeline_model = pipeline.fit(x_train, y_train)
+
+rf_pred_tbl = pd.DataFrame(
+{&quot;true&quot;: y_test,
+&quot;pred&quot;: rf_pipeline_model.predict(x_test)})
+
+rf_pred_tbl</code></pre>
+<pre><code>##           true       pred
+## 0       Adelie     Gentoo
+## 1       Gentoo     Gentoo
+## 2    Chinstrap  Chinstrap
+## 3    Chinstrap  Chinstrap
+## 4       Gentoo     Gentoo
+## ..         ...        ...
+## 295     Adelie     Adelie
+## 296  Chinstrap  Chinstrap
+## 297     Gentoo     Gentoo
+## 298     Adelie     Adelie
+## 299  Chinstrap  Chinstrap
+## 
+## [300 rows x 2 columns]</code></pre>
+</div>
+<div style="margin-bottom:800px;">
+
+</div>
+</div>
+<div id="evaluation" class="section level1">
+<h1>Evaluation</h1>
+<div id="r-yardstick" class="section level2 left">
+<h2><code>R</code>: <code>yardstick</code></h2>
+<pre class="r"><code>multi_metric = metric_set(accuracy, precision, recall, f_meas)
+multi_metric(data = rf_pred_tbl, truth = true, estimate = &quot;.pred_class&quot;)</code></pre>
+<pre><code>## # A tibble: 4 x 3
+##   .metric   .estimator .estimate
+##   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy  multiclass     0.946
+## 2 precision macro          0.962
+## 3 recall    macro          0.914
+## 4 f_meas    macro          0.931</code></pre>
+</div>
+<div id="python-sklearn.metrics" class="section level2 right">
+<h2><code>Python</code>: <code>sklearn.metrics</code></h2>
+<pre class="python"><code>from sklearn.metrics import classification_report
+
+cr = classification_report(
+y_true = rf_pred_tbl.true, 
+y_pred = rf_pred_tbl.pred)
+
+print(cr)</code></pre>
+<pre><code>##               precision    recall  f1-score   support
+## 
+##       Adelie       0.95      0.97      0.96       126
+##    Chinstrap       0.97      0.92      0.94        64
+##       Gentoo       0.98      0.99      0.99       110
+## 
+##     accuracy                           0.97       300
+##    macro avg       0.97      0.96      0.96       300
+## weighted avg       0.97      0.97      0.97       300</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

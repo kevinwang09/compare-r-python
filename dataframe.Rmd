@@ -255,3 +255,84 @@ data.species.unique()
 data.species.value_counts()
 ```
 </div>
+
+
+# Grouped operations 
+
+
+<div class="left">
+
+## R
+
+```{r}
+library(dplyr)
+data %>% 
+  group_by(species) %>% 
+  tally()
+
+data %>% 
+  group_by(species) %>% 
+  summarise(mean_bill_length = mean(bill_length_mm))
+
+data %>% 
+  group_by(species) %>% 
+  summarise_if(.predicate = is.numeric, .funs = mean)
+
+data %>% 
+  group_by(species) %>% 
+  summarise(mean_bill_length_top1 = bill_length_mm[1])
+
+data %>% 
+  group_by(species, sex) %>% 
+  summarise(longest = bill_length_mm[bill_length_mm == max(bill_length_mm)])
+
+data %>% 
+  group_by(species) %>% 
+  summarise_at(.vars = vars(bill_length_mm),
+               .funs = lst(min, max, mean, length))
+```
+
+</div>
+
+<div class="right">
+
+## Python
+```{python}
+data.groupby("species").species.count()
+data.groupby("species")["bill_length_mm"].mean()
+data.groupby("species").mean()
+data.groupby("species").apply(lambda x: x.bill_length_mm.iloc[0])
+data.groupby(["species", "sex"]).apply(lambda x: x.loc[x.bill_length_mm.idxmax(), "bill_length_mm"])
+data.groupby("species").bill_length_mm.agg([min, max, "mean", "size"])
+```
+</div>
+
+# Handling of missing values
+
+
+
+<div class="left">
+
+## R
+
+```{r}
+library(dplyr)
+missing_data = readr::read_csv("data/penguins.csv")
+missing_data %>% 
+  filter(is.na(bill_length_mm))
+
+missing_data %>% 
+  dplyr::mutate(bill_length_mm = coalesce(bill_length_mm, 0))
+```
+
+</div>
+
+<div class="right">
+
+## Python
+```{python}
+missing_data = pd.read_csv("data/penguins.csv")
+missing_data[pd.isnull(missing_data.bill_length_mm)]
+missing_data.bill_length_mm.fillna(0)
+```
+</div>
