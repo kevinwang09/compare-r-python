@@ -350,9 +350,7 @@ $(document).ready(function () {
 <li><a href="#creating-a-data-frame-manually">Creating a data frame manually</a></li>
 <li><a href="#reading-data-frames">Reading data frames</a></li>
 <li><a href="#saving-data-frames">Saving data frames</a></li>
-<li><a href="#indexing-and-subsetting">Indexing and subsetting</a></li>
 <li><a href="#adding-new-columns">Adding new columns</a></li>
-<li><a href="#reading-data-frames-chunked">Reading data frames (chunked)</a></li>
 <li><a href="#previewing-and-describing-data">Previewing and describing data</a></li>
 <li><a href="#grouped-operations">Grouped operations</a></li>
 <li><a href="#handling-of-missing-values">Handling of missing values</a></li>
@@ -367,6 +365,7 @@ $(document).ready(function () {
   x = 1:5, 
   y = 2:6,
   row.names = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;))
+
 print(data)</code></pre>
 <pre><code>##   x y
 ## a 1 2
@@ -415,31 +414,12 @@ data = pd.read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
 <div id="python-2" class="section level2 right">
 <h2>Python</h2>
-<pre class="python"><code>data.to_csv(path_or_buf = &quot;data/penguins_complete2.csv&quot;)</code></pre>
+<pre class="python"><code>data.to_csv(path_or_buf = &quot;data/penguins_complete2.csv&quot;)
+## </code></pre>
 </div>
-</div>
-<div id="indexing-and-subsetting" class="section level1">
-<h1>Indexing and subsetting</h1>
-<!-- ## Column-wise subsetting -->
-<!-- <div class="left"> -->
-<!-- ### R -->
-<!-- ```{r} -->
-<!-- ## A smaller dataframe/tibble -->
-<!-- data[,"species"] -->
-<!-- ## A vector -->
-<!-- head(data$species)  -->
-<!-- ``` -->
-<!-- </div> -->
-<!-- <div class="right"> -->
-<!-- ### Python -->
-<!-- ```{python} -->
-<!-- ## Both are pandas Series -->
-<!-- data["species"] -->
-<!-- data.species -->
-<!-- ``` -->
-<!-- </div> -->
 <div id="index-based-selection" class="section level2">
 <h2>Index-based selection</h2>
+<p>In <code>R</code>, both index-based and label-based subsetting are performed through <code>[,]</code>. In <code>Python</code>, this is separated into <code>iloc</code> and <code>loc</code> respectively.</p>
 <div id="r-3" class="section level3 left">
 <h3>R</h3>
 <pre class="r"><code>## First row
@@ -449,8 +429,7 @@ data[1,]</code></pre>
 ##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
 ## 1 Adelie  Torge…           39.1          18.7              181        3750 male 
 ## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
-<pre class="r"><code>## Arbitary rows/columns through indexing
-data[c(1,3,5), c(1,3,5)]</code></pre>
+<pre class="r"><code>data[c(1,3,5), c(1,3,5)]</code></pre>
 <pre><code>## # A tibble: 3 x 3
 ##   species bill_length_mm flipper_length_mm
 ##   &lt;chr&gt;            &lt;dbl&gt;             &lt;dbl&gt;
@@ -461,8 +440,7 @@ data[c(1,3,5), c(1,3,5)]</code></pre>
 <div id="python-3" class="section level3 right">
 <h3>Python</h3>
 <pre class="python"><code>## First row
-data.iloc[0,:]
-## Arbitary rows/columns through indexing</code></pre>
+data.iloc[0,:]</code></pre>
 <pre><code>## species                 Adelie
 ## island               Torgersen
 ## bill_length_mm            39.1
@@ -478,9 +456,13 @@ data.iloc[0,:]
 ## 2  Adelie            40.3                195
 ## 4  Adelie            39.3                190</code></pre>
 </div>
+<div style="margin-bottom:600px;">
+
+</div>
 </div>
 <div id="label-based-selection" class="section level2">
 <h2>Label-based selection</h2>
+<p>In <code>R</code>, both index-based and label-based subsetting are performed through <code>[,]</code>. In <code>Python</code>, this is separated into <code>iloc</code> and <code>loc</code> respectively.</p>
 <div id="r-4" class="section level3 left">
 <h3>R</h3>
 <pre class="r"><code>## First five rows from the &quot;species&quot; column
@@ -505,10 +487,13 @@ data.loc[0:4,&quot;species&quot;]</code></pre>
 ## 4    Adelie
 ## Name: species, dtype: object</code></pre>
 </div>
+<div style="margin-bottom:400px;">
+
+</div>
 </div>
 <div id="a-note-about-loc-and-iloc" class="section level2">
 <h2>A note about <code>loc</code> and <code>iloc</code></h2>
-<p><code>loc</code>’s label-querying capabilities means that it will subset <strong>inclusively</strong> on the indices.</p>
+<p>In Python, <code>loc</code>’s label-querying capabilities means that it will subset <strong>inclusively</strong> on the indices. This means that even if we use the same indices in the code, but depending on which method is used, we can get different results.</p>
 <pre class="python"><code>data.loc[0:4,&quot;species&quot;]</code></pre>
 <pre><code>## 0    Adelie
 ## 1    Adelie
@@ -539,7 +524,9 @@ data[(data$species == &quot;Adelie&quot;) &amp; (data$bill_depth_mm &gt; 21), ]<
 ## 5 Adelie  Dream            42.3          21.2              191        4150 male 
 ## 6 Adelie  Biscoe           41.3          21.1              195        4400 male 
 ## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
-<pre class="r"><code>data[data$species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;), ]</code></pre>
+<pre class="r"><code>##
+##
+data[data$species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;), ]</code></pre>
 <pre><code>## # A tibble: 214 x 8
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
 ##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
@@ -585,7 +572,10 @@ data %&gt;% filter((species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)
 <div id="python-5" class="section level3 right">
 <h3>Python</h3>
 <pre class="python"><code>## Using loc
-data.loc[(data.species == &quot;Adelie&quot;) &amp; (data.bill_depth_mm &gt; 21)]</code></pre>
+data.loc[(data.species == &quot;Adelie&quot;) &amp; (data.bill_depth_mm &gt; 21)]
+##
+##
+##</code></pre>
 <pre><code>##    species     island  bill_length_mm  ...  body_mass_g   sex  year
 ## 8   Adelie  Torgersen            38.6  ...         3800  male  2007
 ## 9   Adelie  Torgersen            34.6  ...         4400  male  2007
@@ -595,9 +585,8 @@ data.loc[(data.species == &quot;Adelie&quot;) &amp; (data.bill_depth_mm &gt; 21)
 ## 55  Adelie     Biscoe            41.3  ...         4400  male  2008
 ## 
 ## [6 rows x 8 columns]</code></pre>
-<pre class="python"><code>data.loc[(data.species.isin([&quot;Adelie&quot;, &quot;Chinstrap&quot;]))]
-
-## Using query()</code></pre>
+<pre class="python"><code>substypes = [&quot;Adelie&quot;, &quot;Chinstrap&quot;]
+data.loc[(data.species.isin(substypes))]</code></pre>
 <pre><code>##        species     island  bill_length_mm  ...  body_mass_g     sex  year
 ## 0       Adelie  Torgersen            39.1  ...         3750    male  2007
 ## 1       Adelie  Torgersen            39.5  ...         3800  female  2007
@@ -612,7 +601,13 @@ data.loc[(data.species == &quot;Adelie&quot;) &amp; (data.bill_depth_mm &gt; 21)
 ## 332  Chinstrap      Dream            50.2  ...         3775  female  2009
 ## 
 ## [214 rows x 8 columns]</code></pre>
-<pre class="python"><code>data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#39;)</code></pre>
+<pre class="python"><code>##
+##
+## Using query()
+data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#39;)
+##
+##
+##</code></pre>
 <pre><code>##    species     island  bill_length_mm  ...  body_mass_g   sex  year
 ## 8   Adelie  Torgersen            38.6  ...         3800  male  2007
 ## 9   Adelie  Torgersen            34.6  ...         4400  male  2007
@@ -622,6 +617,24 @@ data.loc[(data.species == &quot;Adelie&quot;) &amp; (data.bill_depth_mm &gt; 21)
 ## 55  Adelie     Biscoe            41.3  ...         4400  male  2008
 ## 
 ## [6 rows x 8 columns]</code></pre>
+<pre class="python"><code>data.query(&#39;species == @substypes&#39;)</code></pre>
+<pre><code>##        species     island  bill_length_mm  ...  body_mass_g     sex  year
+## 0       Adelie  Torgersen            39.1  ...         3750    male  2007
+## 1       Adelie  Torgersen            39.5  ...         3800  female  2007
+## 2       Adelie  Torgersen            40.3  ...         3250  female  2007
+## 3       Adelie  Torgersen            36.7  ...         3450  female  2007
+## 4       Adelie  Torgersen            39.3  ...         3650    male  2007
+## ..         ...        ...             ...  ...          ...     ...   ...
+## 328  Chinstrap      Dream            55.8  ...         4000    male  2009
+## 329  Chinstrap      Dream            43.5  ...         3400  female  2009
+## 330  Chinstrap      Dream            49.6  ...         3775    male  2009
+## 331  Chinstrap      Dream            50.8  ...         4100    male  2009
+## 332  Chinstrap      Dream            50.2  ...         3775  female  2009
+## 
+## [214 rows x 8 columns]</code></pre>
+</div>
+<div style="margin-bottom:2700px;">
+
 </div>
 </div>
 </div>
@@ -669,9 +682,9 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 ## 
 ## [333 rows x 9 columns]</code></pre>
 </div>
+<div style="margin-bottom:1000px;">
+
 </div>
-<div id="reading-data-frames-chunked" class="section level1">
-<h1>Reading data frames (chunked)</h1>
 </div>
 <div id="previewing-and-describing-data" class="section level1">
 <h1>Previewing and describing data</h1>
@@ -726,14 +739,21 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 <pre><code>## [1] 333   9</code></pre>
 <pre class="r"><code>unique(data$species)</code></pre>
 <pre><code>## [1] &quot;Adelie&quot;    &quot;Gentoo&quot;    &quot;Chinstrap&quot;</code></pre>
-<pre class="r"><code>table(data$species)</code></pre>
+<pre class="r"><code>##
+table(data$species)</code></pre>
 <pre><code>## 
 ##    Adelie Chinstrap    Gentoo 
 ##       146        68       119</code></pre>
 </div>
 <div id="python-7" class="section level2 right">
 <h2>Python</h2>
-<pre class="python"><code>data.head()</code></pre>
+<pre class="python"><code>data.head()
+##
+##
+##
+##
+##
+##</code></pre>
 <pre><code>##   species     island  bill_length_mm  ...     sex  year  body_mass_kg
 ## 0  Adelie  Torgersen            39.1  ...    male  2007          3.75
 ## 1  Adelie  Torgersen            39.5  ...  female  2007          3.80
@@ -742,7 +762,22 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 ## 4  Adelie  Torgersen            39.3  ...    male  2007          3.65
 ## 
 ## [5 rows x 9 columns]</code></pre>
-<pre class="python"><code>data.describe()</code></pre>
+<pre class="python"><code>data.describe()
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##</code></pre>
 <pre><code>##        bill_length_mm  bill_depth_mm  ...         year  body_mass_kg
 ## count      333.000000     333.000000  ...   333.000000    333.000000
 ## mean        43.992793      17.164865  ...  2008.042042      4.207057
@@ -754,7 +789,14 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 ## max         59.600000      21.500000  ...  2009.000000      6.300000
 ## 
 ## [8 rows x 6 columns]</code></pre>
-<pre class="python"><code>data.info()</code></pre>
+<pre class="python"><code>data.info()
+##
+##
+##
+##
+##
+##
+##</code></pre>
 <pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 ## RangeIndex: 333 entries, 0 to 332
 ## Data columns (total 9 columns):
@@ -779,9 +821,14 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 ## Chinstrap     68
 ## Name: species, dtype: int64</code></pre>
 </div>
+<div style="margin-bottom:2000px;">
+
+</div>
 </div>
 <div id="grouped-operations" class="section level1">
 <h1>Grouped operations</h1>
+<p>The <code>dplyr</code> package (a part of the <code>tidyverse</code>) contains important functions that makes the manipulation of data.frame very easy. A very important part of the dplyr package is the use of the pipe operator, <code>%&gt;%</code>. Together with the use of spaces and line breaks, this often makes the <code>R</code> code more readable, so that one can read the code from top to bottom and left to right, i.e. consistent with how we would structure an English sentence. This design framework to make readable codes is a very important reason of why <code>R</code> has gained a renewed popularity in data science.</p>
+<p>In comparison, <code>Python</code> (<code>pandas</code>) also adopts similar principle, but the structuring of the codes is not as consistent.</p>
 <div id="r-8" class="section level2 left">
 <h2>R</h2>
 <pre class="r"><code>library(dplyr)
@@ -848,19 +895,28 @@ data %&gt;%
 </div>
 <div id="python-8" class="section level2 right">
 <h2>Python</h2>
-<pre class="python"><code>data.groupby(&quot;species&quot;).species.count()</code></pre>
+<pre class="python"><code>data.groupby(&quot;species&quot;).species.count()
+##
+##
+##</code></pre>
 <pre><code>## species
 ## Adelie       146
 ## Chinstrap     68
 ## Gentoo       119
 ## Name: species, dtype: int64</code></pre>
-<pre class="python"><code>data.groupby(&quot;species&quot;)[&quot;bill_length_mm&quot;].mean()</code></pre>
+<pre class="python"><code>data.groupby(&quot;species&quot;)[&quot;bill_length_mm&quot;].mean()
+##
+##
+##</code></pre>
 <pre><code>## species
 ## Adelie       38.823973
 ## Chinstrap    48.833824
 ## Gentoo       47.568067
 ## Name: bill_length_mm, dtype: float64</code></pre>
-<pre class="python"><code>data.groupby(&quot;species&quot;).mean()</code></pre>
+<pre class="python"><code>data.groupby(&quot;species&quot;).mean()
+##
+##
+##</code></pre>
 <pre><code>##            bill_length_mm  bill_depth_mm  ...         year  body_mass_kg
 ## species                                   ...                           
 ## Adelie          38.823973      18.347260  ...  2008.054795      3.706164
@@ -868,13 +924,19 @@ data %&gt;%
 ## Gentoo          47.568067      14.996639  ...  2008.067227      5.092437
 ## 
 ## [3 rows x 6 columns]</code></pre>
-<pre class="python"><code>data.groupby(&quot;species&quot;).apply(lambda x: x.bill_length_mm.iloc[0])</code></pre>
+<pre class="python"><code>data.groupby(&quot;species&quot;).apply(lambda x: x.bill_length_mm.iloc[0])
+##
+##
+##</code></pre>
 <pre><code>## species
 ## Adelie       39.1
 ## Chinstrap    46.5
 ## Gentoo       46.1
 ## dtype: float64</code></pre>
-<pre class="python"><code>data.groupby([&quot;species&quot;, &quot;sex&quot;]).apply(lambda x: x.loc[x.bill_length_mm.idxmax(), &quot;bill_length_mm&quot;])</code></pre>
+<pre class="python"><code>data.groupby([&quot;species&quot;, &quot;sex&quot;]).apply(lambda x: x.loc[x.bill_length_mm.idxmax(), &quot;bill_length_mm&quot;])
+##
+##
+##</code></pre>
 <pre><code>## species    sex   
 ## Adelie     female    42.2
 ##            male      46.0
@@ -889,6 +951,9 @@ data %&gt;%
 ## Adelie     32.1  46.0  38.823973   146
 ## Chinstrap  40.9  58.0  48.833824    68
 ## Gentoo     40.9  59.6  47.568067   119</code></pre>
+</div>
+<div style="margin-bottom:2000px;">
+
 </div>
 </div>
 <div id="handling-of-missing-values" class="section level1">
@@ -925,6 +990,11 @@ missing_data %&gt;%
 <div id="python-9" class="section level2 right">
 <h2>Python</h2>
 <pre class="python"><code>missing_data = pd.read_csv(&quot;data/penguins.csv&quot;)
+##
+##
+##
+##
+##
 missing_data[pd.isnull(missing_data.bill_length_mm)]</code></pre>
 <pre><code>##     species     island  bill_length_mm  ...  body_mass_g  sex  year
 ## 3    Adelie  Torgersen             NaN  ...          NaN  NaN  2007

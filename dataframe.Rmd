@@ -24,6 +24,7 @@ data = data.frame(
   x = 1:5, 
   y = 2:6,
   row.names = c("a", "b", "c", "d", "e"))
+
 print(data)
 ```
 </div>
@@ -81,47 +82,19 @@ readr::write_csv(x = data, file = "data/penguins_complete.csv")
 ## Python
 ```{python, eval = FALSE}
 data.to_csv(path_or_buf = "data/penguins_complete2.csv")
+## 
 ```
 </div>
 
-# Indexing and subsetting
-
-<!-- ## Column-wise subsetting -->
-
-<!-- <div class="left"> -->
-
-<!-- ### R -->
-
-<!-- ```{r} -->
-<!-- ## A smaller dataframe/tibble -->
-<!-- data[,"species"] -->
-<!-- ## A vector -->
-<!-- head(data$species)  -->
-<!-- ``` -->
-<!-- </div> -->
-
-<!-- <div class="right"> -->
-
-<!-- ### Python -->
-<!-- ```{python} -->
-<!-- ## Both are pandas Series -->
-<!-- data["species"] -->
-<!-- data.species -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-
 ## Index-based selection
+In `R`, both index-based and label-based subsetting are performed through `[,]`. In `Python`, this is separated into `iloc` and `loc` respectively. 
 
 <div class="left">
-
 ### R
 
 ```{r}
 ## First row
 data[1,]
-## Arbitary rows/columns through indexing
 data[c(1,3,5), c(1,3,5)]
 ```
 </div>
@@ -132,13 +105,15 @@ data[c(1,3,5), c(1,3,5)]
 ```{python}
 ## First row
 data.iloc[0,:]
-## Arbitary rows/columns through indexing
 data.iloc[[0,2,4],[0,2,4]]
 ```
 </div>
 
+<div style="margin-bottom:600px;">
+</div>
 
 ## Label-based selection
+In `R`, both index-based and label-based subsetting are performed through `[,]`. In `Python`, this is separated into `iloc` and `loc` respectively. 
 
 <div class="left">
 
@@ -159,9 +134,13 @@ data.loc[0:4,"species"]
 ```
 </div>
 
+<div style="margin-bottom:400px;">
+</div>
+
 ## A note about `loc` and `iloc`
 
-`loc`'s label-querying capabilities means that it will subset **inclusively** on the indices. 
+In Python, `loc`'s label-querying capabilities means that it will subset **inclusively** on the indices. This means that even if we use the same indices in the code, but depending on which method is used, we can get different results.  
+
 ```{python}
 data.loc[0:4,"species"]
 data.iloc[0:4,1]
@@ -177,13 +156,18 @@ data.iloc[0:4,1]
 ```{r}
 ## Base R solution
 data[(data$species == "Adelie") & (data$bill_depth_mm > 21), ]
+##
+##
 data[data$species %in% c("Adelie", "Chinstrap"), ]
+```
 
+```{r}
 library(dplyr)
 data %>% filter((species == "Adelie") & (bill_depth_mm > 21))
 data %>% filter(species %in% c("Adelie", "Chinstrap"))
 ```
 </div>
+
 
 <div class="right">
 
@@ -191,13 +175,29 @@ data %>% filter(species %in% c("Adelie", "Chinstrap"))
 ```{python}
 ## Using loc
 data.loc[(data.species == "Adelie") & (data.bill_depth_mm > 21)]
-data.loc[(data.species.isin(["Adelie", "Chinstrap"]))]
+##
+##
+##
+substypes = ["Adelie", "Chinstrap"]
+data.loc[(data.species.isin(substypes))]
+```
 
+```{python}
+##
+##
 ## Using query()
 data.query('(species == "Adelie") & (bill_depth_mm > 21)')
+##
+##
+##
+data.query('species == @substypes')
 ```
 </div>
 
+
+
+<div style="margin-bottom:2700px;">
+</div>
 
 # Adding new columns
 
@@ -223,7 +223,8 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)
 ```
 </div>
 
-# Reading data frames (chunked)
+<div style="margin-bottom:1000px;">
+</div>
 
 # Previewing and describing data
 
@@ -238,6 +239,7 @@ glimpse(data)
 dim(data)
 
 unique(data$species)
+##
 table(data$species)
 ```
 </div>
@@ -247,8 +249,36 @@ table(data$species)
 ## Python
 ```{python}
 data.head()
+##
+##
+##
+##
+##
+##
 data.describe()
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
+##
 data.info()
+##
+##
+##
+##
+##
+##
+##
 data.shape
 
 data.species.unique()
@@ -256,9 +286,14 @@ data.species.value_counts()
 ```
 </div>
 
+<div style="margin-bottom:2000px;">
+</div>
 
 # Grouped operations 
 
+The `dplyr` package (a part of the `tidyverse`) contains important functions that makes the manipulation of data.frame very easy. A very important part of the dplyr package is the use of the pipe operator, `%>%`. Together with the use of spaces and line breaks, this often makes the `R` code more readable, so that one can read the code from top to bottom and left to right, i.e. consistent with how we would structure an English sentence. This design framework to make readable codes is a very important reason of why `R` has gained a renewed popularity in data science.
+
+In comparison, `Python` (`pandas`) also adopts similar principle, but the structuring of the codes is not as consistent. 
 
 <div class="left">
 
@@ -299,18 +334,33 @@ data %>%
 ## Python
 ```{python}
 data.groupby("species").species.count()
+##
+##
+##
 data.groupby("species")["bill_length_mm"].mean()
+##
+##
+##
 data.groupby("species").mean()
+##
+##
+##
 data.groupby("species").apply(lambda x: x.bill_length_mm.iloc[0])
+##
+##
+##
 data.groupby(["species", "sex"]).apply(lambda x: x.loc[x.bill_length_mm.idxmax(), "bill_length_mm"])
+##
+##
+##
 data.groupby("species").bill_length_mm.agg([min, max, "mean", "size"])
 ```
 </div>
 
+<div style="margin-bottom:2000px;">
+</div>
+
 # Handling of missing values
-
-
-
 <div class="left">
 
 ## R
@@ -332,6 +382,11 @@ missing_data %>%
 ## Python
 ```{python}
 missing_data = pd.read_csv("data/penguins.csv")
+##
+##
+##
+##
+##
 missing_data[pd.isnull(missing_data.bill_length_mm)]
 missing_data.bill_length_mm.fillna(0)
 ```

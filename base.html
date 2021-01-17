@@ -350,21 +350,22 @@ $(document).ready(function () {
 <li><a href="#vectors">Vectors</a></li>
 <li><a href="#subsetting-vectors">Subsetting vectors</a></li>
 <li><a href="#negative-indices">Negative indices</a></li>
+<li><a href="#rlist">List and tuples</a></li>
 <li><a href="#consecutive-numbers">Consecutive numbers</a></li>
 <li><a href="#variable-assignment">Variable assignment</a></li>
 <li><a href="#conversion-functions">Conversion functions</a></li>
-<li><a href="#list-and-tuples">List and tuples</a></li>
 <li><a href="#named-vector-and-dictionary">Named vector and dictionary</a></li>
 <li><a href="#references">References</a></li>
 <li><a href="#session-info">Session info</a></li>
 </ul>
 </div>
 
+<p>In this section, we explore some basic objects in both languages. Some of the objects are comparable with each other while some are unique to a language.</p>
 <div id="vectors" class="section level1">
 <h1>Vectors</h1>
 <div id="r" class="section level2 left">
 <h2>R</h2>
-<p><code>R</code> comes with a vector class. The definition of a vector is using the <code>c()</code> function.</p>
+<p><code>R</code> comes with a <code>vector</code> (including both <code>numeric</code> and <code>character</code>) class. The definition of a vector is using the <code>c()</code> function.</p>
 <pre class="r"><code>x = c(1, 3, 5)
 class(x)</code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
@@ -389,6 +390,10 @@ type(y)</code></pre>
 <pre><code>## &lt;class &#39;list&#39;&gt;</code></pre>
 <pre class="python"><code>print(y)</code></pre>
 <pre><code>## [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]</code></pre>
+</div>
+<div id="a-note-of-difference" class="section level2">
+<h2>A note of difference</h2>
+<p>Each element in a <code>R</code> vector must be of the same class. For example <code>x = c(1, "a")</code> gives a character vector (because character is considered to be more general than numeric. However, in Python these elements can co-exist, for example in <code>x = [1, "a"]</code>, <code>type(x[0])</code> is an <code>int</code> but <code>type(x[1])</code> is a <code>str</code>. Of course, <code>R</code> also has a <code>list</code> class, which can accommodate different classes for different elements, see <a href="#rlist">below</a>.</p>
 </div>
 </div>
 <div id="subsetting-vectors" class="section level1">
@@ -423,6 +428,10 @@ x[1]</code></pre>
 ##
 ##
 ##
+##
+##
+##
+##
 ##</code></pre>
 </div>
 <div id="filtering-using-logical" class="section level3">
@@ -447,7 +456,11 @@ x[0]</code></pre>
 <div id="extracting-multiple-elements-1" class="section level3">
 <h3>Extracting multiple elements</h3>
 <pre class="python"><code>b = [0, 2, 4]
-[x[i] for i in b]</code></pre>
+
+## Using list comprehension 
+[x[i] for i in b] 
+
+## Using pandas</code></pre>
 <pre><code>## [1, 3, 5]</code></pre>
 <pre class="python"><code>import pandas as pd
 list(pd.Series(x)[b])</code></pre>
@@ -467,7 +480,7 @@ list(pd.Series(x)[b])</code></pre>
 <h1>Negative indices</h1>
 <ul>
 <li><p>negative indices carry very different meaning between the two languages. In <code>R</code>, the element with the negation will be deleted and in <code>Python</code>, the element counting from the end of the vector will be extracted.</p></li>
-<li><p>extracting elements from the end of a vector/list is easier in Python than R because of this behaviour.</p></li>
+<li><p>extracting elements from the end of a vector/list is easier in <code>Python</code> than <code>R</code> because of this behaviour.</p></li>
 </ul>
 <div id="r-2" class="section level2 left">
 <h2>R</h2>
@@ -484,83 +497,13 @@ print(x)</code></pre>
 <pre class="python"><code>x[-2:] ## Extracting the second last element to the end of the vector</code></pre>
 <pre><code>## [4, 5]</code></pre>
 </div>
-</div>
-<div id="consecutive-numbers" class="section level1">
-<h1>Consecutive numbers</h1>
-<p>Again, due to the indexing, Python will require an offset.</p>
-<pre class="r"><code>1:8</code></pre>
-<pre><code>## [1] 1 2 3 4 5 6 7 8</code></pre>
-<pre class="python"><code>list(range(1, 9))</code></pre>
-<pre><code>## [1, 2, 3, 4, 5, 6, 7, 8]</code></pre>
-</div>
-<div id="variable-assignment" class="section level1">
-<h1>Variable assignment</h1>
-<p>It is very important to note that in Python, the <code>=</code> assignment only allows one to make another reference to the same variable. Whereas in R, performing this assignment will overwrite the original object.</p>
-<div id="r-3" class="section level2 left">
-<h2>R</h2>
-<pre class="r"><code>x = 1
-y = x
-print(y)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>y = 2
-print(y)</code></pre>
-<pre><code>## [1] 2</code></pre>
-</div>
-<div id="python-3" class="section level2 right">
-<h2>Python</h2>
-<pre class="python"><code>x = 1
-y = x
-print(y)</code></pre>
-<pre><code>## 1</code></pre>
-<pre class="python"><code>y = 2
-print(y)</code></pre>
-<pre><code>## 2</code></pre>
+<div style="margin-bottom:900px;">
+
 </div>
 </div>
-<div id="conversion-functions" class="section level1">
-<h1>Conversion functions</h1>
-<div id="r-4" class="section level2 left">
-<h2>R</h2>
-<p>In <code>R</code>, the <code>class</code> function shows the class of the object. And almost all functions that converts an object of one class to another is in the form of <code>as.xyz</code>.</p>
-<pre class="r"><code>x = 1
-print(x)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>class(x)</code></pre>
-<pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>x_chr = as.character(x)
-print(x_chr) ## Notice the quotes</code></pre>
-<pre><code>## [1] &quot;1&quot;</code></pre>
-<pre class="r"><code>class(x_chr)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>x_int = as.integer(x_chr)
-print(x_int)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>class(x_int)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-</div>
-<div id="python-4" class="section level2 right">
-<h2>Python</h2>
-<p>In <code>python</code>, the <code>type</code> function shows the class of the object. The conversion between different classes has a specialised function.</p>
-<pre class="python"><code>x = 1
-print(x)</code></pre>
-<pre><code>## 1</code></pre>
-<pre class="python"><code>type(x)</code></pre>
-<pre><code>## &lt;class &#39;int&#39;&gt;</code></pre>
-<pre class="python"><code>x_chr = str(x)
-print(x_chr)</code></pre>
-<pre><code>## 1</code></pre>
-<pre class="python"><code>type(x_chr)</code></pre>
-<pre><code>## &lt;class &#39;str&#39;&gt;</code></pre>
-<pre class="python"><code>x_int = int(x_chr)
-print(x_int)</code></pre>
-<pre><code>## 1</code></pre>
-<pre class="python"><code>type(x_int)</code></pre>
-<pre><code>## &lt;class &#39;int&#39;&gt;</code></pre>
-</div>
-</div>
-<div id="list-and-tuples" class="section level1">
+<div id="rlist" class="section level1">
 <h1>List and tuples</h1>
-<div id="r-5" class="section level2 left">
+<div id="r-3" class="section level2 left">
 <h2>R</h2>
 <p><code>list</code> in <code>R</code> can very powerful. Each element of a <code>list</code> can be literally any object of any class.</p>
 <pre class="r"><code>x = list(
@@ -593,7 +536,7 @@ print(x)</code></pre>
 ## $data_frame
 ## [1] &quot;data.frame&quot;</code></pre>
 </div>
-<div id="python-5" class="section level2 right">
+<div id="python-3" class="section level2 right">
 <h2>Python</h2>
 <p>As we have seen above, <code>list</code> in <code>Python</code> behaves more or less like a vector.</p>
 <pre class="python"><code>x = [1, &quot;cats&quot;]
@@ -619,10 +562,89 @@ print(x)</code></pre>
 <pre><code>## (1, &#39;cats&#39;)</code></pre>
 </div>
 </div>
+<div id="consecutive-numbers" class="section level1">
+<h1>Consecutive numbers</h1>
+<p>Again, due to the indexing, Python will require an offset.</p>
+<div id="r-4" class="section level2 left">
+<h2>R</h2>
+<pre class="r"><code>1:8</code></pre>
+<pre><code>## [1] 1 2 3 4 5 6 7 8</code></pre>
+</div>
+<div id="python-4" class="section level2 right">
+<h2>Python</h2>
+<pre class="python"><code>list(range(1, 9))</code></pre>
+<pre><code>## [1, 2, 3, 4, 5, 6, 7, 8]</code></pre>
+</div>
+</div>
+<div id="variable-assignment" class="section level1">
+<h1>Variable assignment</h1>
+<p>It is very important to note that in Python, the <code>=</code> assignment only allows one to make another reference to the same variable. Whereas in R, performing this assignment will overwrite the original object.</p>
+<div id="r-5" class="section level2 left">
+<h2>R</h2>
+<pre class="r"><code>x = 1
+y = x
+print(y)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>y = 2
+print(y)</code></pre>
+<pre><code>## [1] 2</code></pre>
+</div>
+<div id="python-5" class="section level2 right">
+<h2>Python</h2>
+<pre class="python"><code>x = 1
+y = x
+print(y)</code></pre>
+<pre><code>## 1</code></pre>
+<pre class="python"><code>y = 2
+print(y)</code></pre>
+<pre><code>## 2</code></pre>
+</div>
+</div>
+<div id="conversion-functions" class="section level1">
+<h1>Conversion functions</h1>
+<div id="r-6" class="section level2 left">
+<h2>R</h2>
+<p>In <code>R</code>, the <code>class</code> function shows the class of the object. And almost all functions that converts an object of one class to another is in the form of <code>as.xyz</code>.</p>
+<pre class="r"><code>x = 1
+print(x)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>class(x)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>x_chr = as.character(x)
+print(x_chr) ## Notice the quotes</code></pre>
+<pre><code>## [1] &quot;1&quot;</code></pre>
+<pre class="r"><code>class(x_chr)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>x_int = as.integer(x_chr)
+print(x_int)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>class(x_int)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+</div>
+<div id="python-6" class="section level2 right">
+<h2>Python</h2>
+<p>In <code>python</code>, the <code>type</code> function shows the class of the object. The conversion between different classes has a specialised function.</p>
+<pre class="python"><code>x = 1
+print(x)</code></pre>
+<pre><code>## 1</code></pre>
+<pre class="python"><code>type(x)</code></pre>
+<pre><code>## &lt;class &#39;int&#39;&gt;</code></pre>
+<pre class="python"><code>x_chr = str(x)
+print(x_chr)</code></pre>
+<pre><code>## 1</code></pre>
+<pre class="python"><code>type(x_chr)</code></pre>
+<pre><code>## &lt;class &#39;str&#39;&gt;</code></pre>
+<pre class="python"><code>x_int = int(x_chr)
+print(x_int)</code></pre>
+<pre><code>## 1</code></pre>
+<pre class="python"><code>type(x_int)</code></pre>
+<pre><code>## &lt;class &#39;int&#39;&gt;</code></pre>
+</div>
+</div>
 <div id="named-vector-and-dictionary" class="section level1">
 <h1>Named vector and dictionary</h1>
 <p>Suppose we have a matching pair of information in the form of two vectors, and we wish to extract elements of a vector based on another vector. This can of course be done through the usual manipulations on vectors/for loops etc. However, both <code>R</code> and <code>Python</code> provide different solutions to this seemingly simple task.</p>
-<div id="r-6" class="section level2 left">
+<div id="r-7" class="section level2 left">
 <h2>R</h2>
 <p>In <code>R</code>, no additional class of object is needed. A <code>vector</code> can be given a vector of names, and the subsetting can be done using the names themselves.</p>
 <pre class="r"><code>x = c(&quot;alpha&quot;, &quot;bravo&quot;, &quot;charlie&quot;)
@@ -631,7 +653,7 @@ x[c(&quot;a&quot;, &quot;c&quot;)]</code></pre>
 <pre><code>##         a         c 
 ##   &quot;alpha&quot; &quot;charlie&quot;</code></pre>
 </div>
-<div id="python-6" class="section level2 right">
+<div id="python-7" class="section level2 right">
 <h2>Python</h2>
 <p>In <code>Python</code>, a very interesting object class is <code>dict</code> (dictionary). A dictionary has two properties, a key and a value. The key behaves much like the <code>names()</code> of a vector in <code>R</code>.</p>
 <pre class="python"><code>d = {
