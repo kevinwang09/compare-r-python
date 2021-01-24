@@ -82,10 +82,10 @@ rpart.plot(dtc_model)
 ## `Python`: `pandas`
 
 ```{python}
-# from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 import matplotlib as plt
+import matplotlib.pyplot as pltpyplot
 from sklearn.metrics import confusion_matrix
 
 feature_set = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
@@ -104,9 +104,9 @@ confusion_matrix(y, dtc_model.predict(X))
 ##
 ##
 ##
-plt.pyplot.figure()
+pltpyplot.figure()
 tree.plot_tree(dtc_model, filled = True, feature_names = feature_set, class_names = list(set(list(penguins.species))))
-plt.pyplot.savefig('figures/py_penguins_decision_tree.png', format = 'png', bbox_inches = "tight")
+pltpyplot.savefig('figures/py_penguins_decision_tree.png', format = 'png', bbox_inches = "tight")
 ```
 
 <img src="figures/py_penguins_decision_tree.png" width="600" height="400">
