@@ -5,16 +5,20 @@ navbar:
   left:
     - text: "Basic concepts"
       menu:
-        - text: lists, vectors, dictionaries
+        - text: Lists, vectors, dictionaries
           href: https://kevinwang09.github.io/compare-r-python/base.html
-        - text: data frames
+        - text: DataFrames
           href: https://kevinwang09.github.io/compare-r-python/dataframe.html
-        - text: functions
+        - text: Functions
           href: https://kevinwang09.github.io/compare-r-python/functions.html
     - text: "Supervised learning"
       menu:
-        - text: wrapping into workflows
-        - href: https://kevinwang09.github.io/compare-r-python/supervised_learning.html
+        - text: Basic classifiers
+        - href: https://kevinwang09.github.io/compare-r-python/classifiers.html
+        - text: Model tuning
+        - href: https://kevinwang09.github.io/compare-r-python/model_tuning.html
+        - text: Wrapping into workflows
+        - href: https://kevinwang09.github.io/compare-r-python/workflows.html
   right:
     - text: "Source code"
       icon: fa-code

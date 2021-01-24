@@ -11,7 +11,7 @@
 
 
 
-<title>Compare R and Python: functions and methods</title>
+<title>Compare R and Python: basic classifiers</title>
 
 <script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -341,80 +341,156 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Compare R and Python: functions and methods</h1>
+<h1 class="title toc-ignore">Compare R and Python: basic classifiers</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#self-defined-functions">Self-defined Functions</a></li>
-<li><a href="#list-comprehensions">List comprehensions</a></li>
-<li><a href="#error-handling">Error handling</a></li>
-<li><a href="#mapping">Mapping</a></li>
+<li><a href="#importing-data-and-getting-a-summary">Importing data and getting a summary</a></li>
+<li><a href="#decision-tree-classification">Decision tree classification</a></li>
+<li><a href="#splitting-data-into-train-test-sets">Splitting data into train-test sets</a></li>
+<li><a href="#splitting-data-through-k-fold-cross-validation-scheme">Splitting data through k-fold cross-validation scheme</a></li>
 </ul>
 </div>
 
-<div id="self-defined-functions" class="section level1">
-<h1>Self-defined Functions</h1>
-<div id="r" class="section level2 left">
-<h2>R</h2>
-<p>In <code>R</code>, a function can be defined using <code>function</code> and braces are necessary to enclose the function body.</p>
-<pre class="r"><code>square = function(x){
-  return(x ** 2)
-}
+<p>For this comparison, I will compare the <code>scikit-learn</code> library in <code>Python</code> and the newly developed <code>tidymodels</code> meta-package in <code>R</code>. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.</p>
+<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a <code>factor</code> variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code></p>
+<pre class="r"><code>library(palmerpenguins)
+library(tidyverse)
+readr::write_csv(penguins %&gt;% na.omit, path = &quot;data/penguins_complete.csv&quot;)</code></pre>
+<div id="importing-data-and-getting-a-summary" class="section level1">
+<h1>Importing data and getting a summary</h1>
+<div id="r-tidyverse" class="section level2 left">
+<h2><code>R</code>: <code>tidyverse</code></h2>
+<pre class="r"><code>library(tidyverse)
+penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
+penguins %&gt;% colnames()</code></pre>
+<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
+</div>
+<div id="python-pandas" class="section level2 right">
+<h2><code>Python</code>: <code>pandas</code></h2>
+<pre class="python"><code>import pandas as pd
+penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
+penguins.columns</code></pre>
+<pre><code>## Index([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;,
+##        &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;, &#39;sex&#39;, &#39;year&#39;],
+##       dtype=&#39;object&#39;)</code></pre>
+</div>
+<div style="margin-bottom:1000px;">
 
-square(10)</code></pre>
-<pre><code>## [1] 100</code></pre>
+</div>
+</div>
+<div id="decision-tree-classification" class="section level1">
+<h1>Decision tree classification</h1>
+<div id="r-rpart" class="section level2 left">
+<h2><code>R</code>: <code>rpart</code></h2>
+<pre class="r"><code>##
+##
+##
+##
+##
+##
+##
+##
+library(rpart)
+library(rpart.plot)
+
+feature_set = c(&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;)
+sub_penguins = penguins[,c(&#39;species&#39;, feature_set)]
+dtc_model = rpart::rpart(species ~ ., data = sub_penguins)
+table(sub_penguins$species, 
+      predict(dtc_model, type = &quot;class&quot;))</code></pre>
+<pre><code>##            
+##             Adelie Chinstrap Gentoo
+##   Adelie       140         6      0
+##   Chinstrap      5        63      0
+##   Gentoo         0         1    118</code></pre>
+<pre class="r"><code>rpart.plot(dtc_model)</code></pre>
+<p><img src="classifiers_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="python-pandas-1" class="section level2 right">
+<h2><code>Python</code>: <code>pandas</code></h2>
+<pre class="python"><code># from sklearn.model_selection import cross_val_score
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
+import matplotlib as plt
+from sklearn.metrics import confusion_matrix
+
+feature_set = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+X = penguins[feature_set]
+y = penguins.species
+dtc_model = DecisionTreeClassifier(random_state = 1, max_depth = 2)
+
+# Fit model
+
+dtc_model.fit(X, y)</code></pre>
+<pre><code>## DecisionTreeClassifier(ccp_alpha=0.0, class_weight=None, criterion=&#39;gini&#39;,
+##                        max_depth=2, max_features=None, max_leaf_nodes=None,
+##                        min_impurity_decrease=0.0, min_impurity_split=None,
+##                        min_samples_leaf=1, min_samples_split=2,
+##                        min_weight_fraction_leaf=0.0, presort=&#39;deprecated&#39;,
+##                        random_state=1, splitter=&#39;best&#39;)</code></pre>
+<pre class="python"><code>confusion_matrix(y, dtc_model.predict(X))</code></pre>
+<pre><code>## array([[140,   6,   0],
+##        [  5,  63,   0],
+##        [  0,   1, 118]])</code></pre>
+<pre class="python"><code>##
+##
+##
+plt.pyplot.figure()
+tree.plot_tree(dtc_model, filled = True, feature_names = feature_set, class_names = list(set(list(penguins.species))))</code></pre>
+<pre class="python"><code>plt.pyplot.savefig(&#39;figures/py_penguins_decision_tree.png&#39;, format = &#39;png&#39;, bbox_inches = &quot;tight&quot;)</code></pre>
+<p><img src="figures/py_penguins_decision_tree.png" width="600" height="400"></p>
+</div>
+<div style="margin-bottom:1500px;">
+
+</div>
+<div id="some-alternatives" class="section level2">
+<h2>Some alternatives</h2>
+<p><code>R</code> benefits greatly from contributions from the community and there are mamy ways of performing the task albeit with improvements over the standard solution, often with a slightly more considerations for the user experience. <code>treeheatr</code> is a good example of this. It improves on the tree diagram and uses an additional heatmap for visualisation while keeping the API simple.</p>
+<pre class="r"><code>library(treeheatr)
+
+heat_tree(sub_penguins, target_lab = &#39;species&#39;)</code></pre>
+<p><img src="classifiers_files/figure-html/unnamed-chunk-7-1.png" width="960" /></p>
+</div>
+</div>
+<div id="splitting-data-into-train-test-sets" class="section level1">
+<h1>Splitting data into train-test sets</h1>
+<div id="r-rpart-1" class="section level2 left">
+<h2><code>R</code>: <code>rpart</code></h2>
 </div>
 <div id="python" class="section level2 right">
-<h2>Python</h2>
-<p>In <code>python</code>, a function can be defined using <code>def</code>, and the body is recognised through the indentations. Four spaces is commonly used for the indentation.</p>
-<pre class="python"><code>def square(x):
-    new_value = x ** 2
-    return new_value
-    
-square(10)</code></pre>
-<pre><code>## 100</code></pre>
+<h2><code>Python</code></h2>
+<pre class="python"><code>from sklearn.model_selection import train_test_split
+
+train_X, test_X, train_y, test_y = train_test_split(X, y, random_state = 0)
+
+dtc_train_model = DecisionTreeClassifier(random_state = 1, max_depth = 2)
+dtc_train_model = dtc_train_model.fit(train_X, train_y)
+dtc_predictions = dtc_train_model.predict(test_X)</code></pre>
+<pre class="python"><code>from sklearn.metrics import classification_report
+
+cr = classification_report(
+y_true = test_y, 
+y_pred = dtc_predictions)
+
+print(cr)</code></pre>
+<pre><code>##               precision    recall  f1-score   support
+## 
+##       Adelie       0.98      0.98      0.98        42
+##    Chinstrap       0.93      0.93      0.93        15
+##       Gentoo       1.00      1.00      1.00        27
+## 
+##     accuracy                           0.98        84
+##    macro avg       0.97      0.97      0.97        84
+## weighted avg       0.98      0.98      0.98        84</code></pre>
 </div>
 </div>
-<div id="list-comprehensions" class="section level1">
-<h1>List comprehensions</h1>
-<p>Generation of special lists/vectors is a common task in any programming language.</p>
-<div id="r-1" class="section level2 left">
-<h2>R</h2>
-<pre class="r"><code>x = 1:20
-(2*x)[x %% 2 == 0]</code></pre>
-<pre><code>##  [1]  4  8 12 16 20 24 28 32 36 40</code></pre>
-<pre class="r"><code>ifelse(x %% 2 == 0, 2*x, 0)</code></pre>
-<pre><code>##  [1]  0  4  0  8  0 12  0 16  0 20  0 24  0 28  0 32  0 36  0 40</code></pre>
-</div>
-<div id="python-1" class="section level2 right">
-<h2>Python</h2>
-<p>In <code>python</code>, list comprehensions is a powerful way to generate a list in the coding style of a for loop.</p>
-<pre class="python"><code>[2*x for x in range(1, 21) if x % 2 == 0]</code></pre>
-<pre><code>## [4, 8, 12, 16, 20, 24, 28, 32, 36, 40]</code></pre>
-<pre class="python"><code>[2*x if x % 2 == 0 else 0 for x in range(1, 21)]</code></pre>
-<pre><code>## [0, 4, 0, 8, 0, 12, 0, 16, 0, 20, 0, 24, 0, 28, 0, 32, 0, 36, 0, 40]</code></pre>
-</div>
-</div>
-<div id="error-handling" class="section level1">
-<h1>Error handling</h1>
-</div>
-<div id="mapping" class="section level1">
-<h1>Mapping</h1>
-<div id="r-2" class="section level2 left">
-<h2>R</h2>
-<pre class="r"><code>x = 1:10
-purrr::map_dbl(x, ~.x^2)</code></pre>
-<pre><code>##  [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
-</div>
-<div id="python-2" class="section level2 right">
-<h2>Python</h2>
-<p>In <code>python</code>, list comprehensions is a powerful way to generate a list in the coding style of a for loop.</p>
-<pre class="python"><code>x = list(range(1, 11))
-list(map(lambda num: num**2, x))</code></pre>
-<pre><code>## [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</code></pre>
-</div>
+<div id="splitting-data-through-k-fold-cross-validation-scheme" class="section level1">
+<h1>Splitting data through k-fold cross-validation scheme</h1>
 </div>
 
 

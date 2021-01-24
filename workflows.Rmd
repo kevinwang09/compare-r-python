@@ -1,5 +1,5 @@
 ---
-title: "Compare R and Python: supervised learning"
+title: "Compare R and Python: workflows"
 output: 
   html_document:
     css: style.css

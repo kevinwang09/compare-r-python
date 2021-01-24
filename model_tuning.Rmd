@@ -1,0 +1,22 @@
+---
+title: "Compare R and Python: model tuning"
+output: 
+  html_document:
+    css: style.css
+    toc: true
+    toc_depth: 1
+---
+
+# Model tuning 
+
+<div class="left">
+
+## `R`
+
+</div>
+
+<div class="right">
+
+## `Python`
+
+</div>
