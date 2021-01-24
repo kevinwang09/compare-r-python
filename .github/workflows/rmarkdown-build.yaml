@@ -26,7 +26,8 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install libcurl4-openssl-dev
-          Rscript -e 'install.packages(c("remotes", "rmarkdown", "knitr", "tidyverse", "tidymodels", "randomForest", "png", "treeheatr"))'
+          Rscript -e 'install.packages(c("remotes", "rmarkdown", "knitr", "tidyverse", 
+          "tidymodels", "randomForest", "png", "treeheatr", "rpart", "rpart.plot"))'
         
       - name: Install Python
         run: |
