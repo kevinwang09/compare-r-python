@@ -293,13 +293,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/base.html">lists, vectors, dictionaries</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/base.html">Lists, vectors, dictionaries</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">data frames</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">DataFrames</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">functions</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">Functions</a>
     </li>
   </ul>
 </li>
@@ -310,7 +310,15 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">wrapping into workflows</li>
+    <li class="dropdown-header">Basic classifiers</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/classifiers.html"></a>
+    </li>
+    <li class="dropdown-header">Model tuning</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/model_tuning.html"></a>
+    </li>
+    <li class="dropdown-header">Wrapping into workflows</li>
     <li>
       <a href="https://kevinwang09.github.io/compare-r-python/workflows.html"></a>
     </li>
@@ -357,7 +365,7 @@ $(document).ready(function () {
 </div>
 
 <p>For this comparison, I will compare the <code>scikit-learn</code> library in <code>Python</code> and the newly developed <code>tidymodels</code> meta-package in <code>R</code>. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.</p>
-<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a factor variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code></p>
+<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a <code>factor</code> variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have reduced the number of species to two and extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code>.</p>
 <pre class="r"><code>library(palmerpenguins)
 library(tidyverse)
 readr::write_csv(penguins %&gt;% na.omit, path = &quot;data/penguins_complete.csv&quot;)</code></pre>
@@ -380,7 +388,7 @@ readr::write_csv(penguins %&gt;% na.omit, path = &quot;data/penguins_complete.cs
 <pre class="r"><code>library(tidyverse)
 penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
 penguins %&gt;% glimpse()</code></pre>
-<pre><code>## Rows: 333
+<pre><code>## Rows: 214
 ## Columns: 8
 ## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;…
 ## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;,…
@@ -397,28 +405,28 @@ penguins %&gt;% glimpse()</code></pre>
 penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
 penguins.info()</code></pre>
 <pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-## RangeIndex: 333 entries, 0 to 332
+## RangeIndex: 214 entries, 0 to 213
 ## Data columns (total 8 columns):
-## species              333 non-null object
-## island               333 non-null object
-## bill_length_mm       333 non-null float64
-## bill_depth_mm        333 non-null float64
-## flipper_length_mm    333 non-null int64
-## body_mass_g          333 non-null int64
-## sex                  333 non-null object
-## year                 333 non-null int64
+## species              214 non-null object
+## island               214 non-null object
+## bill_length_mm       214 non-null float64
+## bill_depth_mm        214 non-null float64
+## flipper_length_mm    214 non-null int64
+## body_mass_g          214 non-null int64
+## sex                  214 non-null object
+## year                 214 non-null int64
 ## dtypes: float64(2), int64(3), object(3)
-## memory usage: 20.9+ KB</code></pre>
+## memory usage: 13.5+ KB</code></pre>
 <pre class="python"><code>penguins.describe()</code></pre>
 <pre><code>##        bill_length_mm  bill_depth_mm  ...  body_mass_g         year
-## count      333.000000     333.000000  ...   333.000000   333.000000
-## mean        43.992793      17.164865  ...  4207.057057  2008.042042
-## std          5.468668       1.969235  ...   805.215802     0.812944
-## min         32.100000      13.100000  ...  2700.000000  2007.000000
-## 25%         39.500000      15.600000  ...  3550.000000  2007.000000
-## 50%         44.500000      17.300000  ...  4050.000000  2008.000000
-## 75%         48.600000      18.700000  ...  4775.000000  2009.000000
-## max         59.600000      21.500000  ...  6300.000000  2009.000000
+## count      214.000000     214.000000  ...   214.000000   214.000000
+## mean        42.004673      18.370561  ...  3714.719626  2008.028037
+## std          5.491545       1.191134  ...   435.667063     0.827440
+## min         32.100000      15.500000  ...  2700.000000  2007.000000
+## 25%         37.800000      17.500000  ...  3400.000000  2007.000000
+## 50%         40.600000      18.400000  ...  3700.000000  2008.000000
+## 75%         46.000000      19.100000  ...  3993.750000  2009.000000
+## max         58.000000      21.500000  ...  4800.000000  2009.000000
 ## 
 ## [8 rows x 5 columns]</code></pre>
 </div>
@@ -459,7 +467,7 @@ penguins = penguins %&gt;%
 <pre class="r"><code>penguins_split = rsample::initial_split(data = penguins, prop = 0.1)
 penguins_split</code></pre>
 <pre><code>## &lt;Analysis/Assess/Total&gt;
-## &lt;34/299/333&gt;</code></pre>
+## &lt;22/192/214&gt;</code></pre>
 <pre class="r"><code>penguins_train = penguins_split %&gt;% training()
 penguins_test = penguins_split %&gt;% testing()</code></pre>
 </div>
@@ -495,7 +503,7 @@ penguins_recipe</code></pre>
 ##    outcome          1
 ##  predictor          7
 ## 
-## Training data contained 34 data points and no missing data.
+## Training data contained 22 data points and no missing data.
 ## 
 ## Operations:
 ## 
@@ -542,7 +550,7 @@ rf_pred_tbl = rf_pred_tbl %&gt;%
   dplyr::mutate(true = penguins_test$species %&gt;% factor)
 
 rf_pred_tbl</code></pre>
-<pre><code>## # A tibble: 299 x 2
+<pre><code>## # A tibble: 192 x 2
 ##    .pred_class true  
 ##    &lt;fct&gt;       &lt;fct&gt; 
 ##  1 Adelie      Adelie
@@ -555,7 +563,7 @@ rf_pred_tbl</code></pre>
 ##  8 Adelie      Adelie
 ##  9 Adelie      Adelie
 ## 10 Adelie      Adelie
-## # … with 289 more rows</code></pre>
+## # … with 182 more rows</code></pre>
 </div>
 <div id="python-pipeline-from-sklearn.pipeline" class="section level2 right">
 <h2><code>Python</code>: <code>Pipeline</code> from <code>sklearn.pipeline</code></h2>
@@ -570,19 +578,19 @@ rf_pred_tbl = pd.DataFrame(
 
 rf_pred_tbl</code></pre>
 <pre><code>##           true       pred
-## 0       Adelie     Gentoo
-## 1       Gentoo     Gentoo
-## 2    Chinstrap  Chinstrap
-## 3    Chinstrap  Chinstrap
-## 4       Gentoo     Gentoo
+## 0    Chinstrap     Adelie
+## 1    Chinstrap  Chinstrap
+## 2       Adelie     Adelie
+## 3       Adelie     Adelie
+## 4       Adelie     Adelie
 ## ..         ...        ...
-## 295     Adelie     Adelie
-## 296  Chinstrap  Chinstrap
-## 297     Gentoo     Gentoo
-## 298     Adelie     Adelie
-## 299  Chinstrap  Chinstrap
+## 188     Adelie     Adelie
+## 189     Adelie     Adelie
+## 190     Adelie     Adelie
+## 191     Adelie     Adelie
+## 192  Chinstrap  Chinstrap
 ## 
-## [300 rows x 2 columns]</code></pre>
+## [193 rows x 2 columns]</code></pre>
 </div>
 <div style="margin-bottom:800px;">
 
@@ -597,10 +605,10 @@ multi_metric(data = rf_pred_tbl, truth = true, estimate = &quot;.pred_class&quot
 <pre><code>## # A tibble: 4 x 3
 ##   .metric   .estimator .estimate
 ##   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;
-## 1 accuracy  multiclass     0.946
-## 2 precision macro          0.962
-## 3 recall    macro          0.914
-## 4 f_meas    macro          0.931</code></pre>
+## 1 accuracy  binary         0.958
+## 2 precision binary         0.956
+## 3 recall    binary         0.985
+## 4 f_meas    binary         0.970</code></pre>
 </div>
 <div id="python-sklearn.metrics" class="section level2 right">
 <h2><code>Python</code>: <code>sklearn.metrics</code></h2>
@@ -613,13 +621,12 @@ y_pred = rf_pred_tbl.pred)
 print(cr)</code></pre>
 <pre><code>##               precision    recall  f1-score   support
 ## 
-##       Adelie       0.97      0.98      0.97       126
-##    Chinstrap       0.98      0.94      0.96        64
-##       Gentoo       0.97      0.99      0.98       110
+##       Adelie       0.96      1.00      0.98       130
+##    Chinstrap       1.00      0.90      0.95        63
 ## 
-##     accuracy                           0.97       300
-##    macro avg       0.98      0.97      0.97       300
-## weighted avg       0.97      0.97      0.97       300</code></pre>
+##     accuracy                           0.97       193
+##    macro avg       0.98      0.95      0.96       193
+## weighted avg       0.97      0.97      0.97       193</code></pre>
 </div>
 </div>
 

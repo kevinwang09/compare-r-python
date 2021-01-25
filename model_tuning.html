@@ -293,13 +293,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/base.html">lists, vectors, dictionaries</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/base.html">Lists, vectors, dictionaries</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">data frames</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">DataFrames</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">functions</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">Functions</a>
     </li>
   </ul>
 </li>
@@ -310,7 +310,15 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">wrapping into workflows</li>
+    <li class="dropdown-header">Basic classifiers</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/classifiers.html"></a>
+    </li>
+    <li class="dropdown-header">Model tuning</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/model_tuning.html"></a>
+    </li>
+    <li class="dropdown-header">Wrapping into workflows</li>
     <li>
       <a href="https://kevinwang09.github.io/compare-r-python/workflows.html"></a>
     </li>
@@ -347,17 +355,80 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#model-tuning">Model tuning</a></li>
+<li><a href="#importing-data-and-getting-a-summary">Importing data and getting a summary</a></li>
+<li><a href="#grid-search">Grid search</a></li>
 </ul>
 </div>
 
-<div id="model-tuning" class="section level1">
-<h1>Model tuning</h1>
-<div id="r" class="section level2 left">
-<h2><code>R</code></h2>
+<p>For this comparison, I will compare the <code>scikit-learn</code> library in <code>Python</code> and the newly developed <code>tidymodels</code> meta-package in <code>R</code>. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.</p>
+<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a <code>factor</code> variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have reduced the number of species to two and extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code>.</p>
+<pre class="r"><code>library(palmerpenguins)
+library(tidyverse)
+
+penguins %&gt;% 
+  na.omit %&gt;% 
+  dplyr::filter(species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;)) %&gt;% 
+  readr::write_csv(path = &quot;data/penguins_complete.csv&quot;)</code></pre>
+<div id="importing-data-and-getting-a-summary" class="section level1">
+<h1>Importing data and getting a summary</h1>
+<div id="r-tidyverse" class="section level2 left">
+<h2><code>R</code>: <code>tidyverse</code></h2>
+<pre class="r"><code>library(tidyverse)
+penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
+penguins %&gt;% colnames()</code></pre>
+<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
 </div>
-<div id="python" class="section level2 right">
-<h2><code>Python</code></h2>
+<div id="python-pandas" class="section level2 right">
+<h2><code>Python</code>: <code>pandas</code></h2>
+<pre class="python"><code>import pandas as pd
+penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
+penguins.columns</code></pre>
+<pre><code>## Index([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;,
+##        &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;, &#39;sex&#39;, &#39;year&#39;],
+##       dtype=&#39;object&#39;)</code></pre>
+<pre class="python"><code>feature_set = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+X = penguins[feature_set]
+y = penguins.species</code></pre>
+</div>
+<div style="margin-bottom:1000px;">
+
+</div>
+</div>
+<div id="grid-search" class="section level1">
+<h1>Grid search</h1>
+<div id="r" class="section level2">
+<h2>R</h2>
+</div>
+<div id="python" class="section level2">
+<h2>Python</h2>
+<pre class="python"><code>from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import GridSearchCV
+import numpy as np
+
+param_grid = {&#39;max_depth&#39;: np.arange(1, 10)} 
+dtc_model = DecisionTreeClassifier(random_state = 0)
+dtc_cv = GridSearchCV(dtc_model, param_grid, cv = 5) 
+dtc_cv.fit(X, y)</code></pre>
+<pre><code>## GridSearchCV(cv=5, error_score=nan,
+##              estimator=DecisionTreeClassifier(ccp_alpha=0.0, class_weight=None,
+##                                               criterion=&#39;gini&#39;, max_depth=None,
+##                                               max_features=None,
+##                                               max_leaf_nodes=None,
+##                                               min_impurity_decrease=0.0,
+##                                               min_impurity_split=None,
+##                                               min_samples_leaf=1,
+##                                               min_samples_split=2,
+##                                               min_weight_fraction_leaf=0.0,
+##                                               presort=&#39;deprecated&#39;,
+##                                               random_state=0, splitter=&#39;best&#39;),
+##              iid=&#39;deprecated&#39;, n_jobs=None,
+##              param_grid={&#39;max_depth&#39;: array([1, 2, 3, 4, 5, 6, 7, 8, 9])},
+##              pre_dispatch=&#39;2*n_jobs&#39;, refit=True, return_train_score=False,
+##              scoring=None, verbose=0)</code></pre>
+<pre class="python"><code>dtc_cv.best_params_</code></pre>
+<pre><code>## {&#39;max_depth&#39;: 3}</code></pre>
 </div>
 </div>
 

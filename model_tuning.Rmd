@@ -7,16 +7,68 @@ output:
     toc_depth: 1
 ---
 
-# Model tuning 
+For this comparison, I will compare the `scikit-learn` library in `Python` and the newly developed `tidymodels` meta-package in `R`. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations. 
+
+The data that I will use is the `penguins` data from the `R` package `palmerpenguins`, which you can learn more about [here](https://allisonhorst.github.io/palmerpenguins/articles/intro.html). The response variable is a `factor` variable, `species`, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have reduced the number of species to two and extracted the data below in a CSV format so that Python can also use this data through `pd.read_csv`.
+
+```{r, eval = FALSE}
+library(palmerpenguins)
+library(tidyverse)
+
+penguins %>% 
+  na.omit %>% 
+  dplyr::filter(species %in% c("Adelie", "Chinstrap")) %>% 
+  readr::write_csv(path = "data/penguins_complete.csv")
+```
+
+# Importing data and getting a summary 
 
 <div class="left">
 
-## `R`
+## `R`: `tidyverse`
+
+```{r, message = FALSE}
+library(tidyverse)
+penguins = readr::read_csv(file = "data/penguins_complete.csv")
+penguins %>% colnames()
+```
 
 </div>
 
 <div class="right">
 
-## `Python`
+## `Python`: `pandas`
+
+```{python}
+import pandas as pd
+penguins = pd.read_csv("data/penguins_complete.csv")
+penguins.columns
+
+feature_set = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
+X = penguins[feature_set]
+y = penguins.species
+```
 
 </div>
+
+<div style="margin-bottom:1000px;">
+</div>
+
+# Grid search
+
+## R
+
+## Python
+
+```{python}
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import GridSearchCV
+import numpy as np
+
+param_grid = {'max_depth': np.arange(1, 10)} 
+dtc_model = DecisionTreeClassifier(random_state = 0)
+dtc_cv = GridSearchCV(dtc_model, param_grid, cv = 5) 
+dtc_cv.fit(X, y)
+dtc_cv.best_params_
+```
+

@@ -293,13 +293,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/base.html">lists, vectors, dictionaries</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/base.html">Lists, vectors, dictionaries</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">data frames</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">DataFrames</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">functions</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">Functions</a>
     </li>
   </ul>
 </li>
@@ -310,7 +310,15 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">wrapping into workflows</li>
+    <li class="dropdown-header">Basic classifiers</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/classifiers.html"></a>
+    </li>
+    <li class="dropdown-header">Model tuning</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/model_tuning.html"></a>
+    </li>
+    <li class="dropdown-header">Wrapping into workflows</li>
     <li>
       <a href="https://kevinwang09.github.io/compare-r-python/workflows.html"></a>
     </li>
@@ -350,15 +358,20 @@ $(document).ready(function () {
 <li><a href="#importing-data-and-getting-a-summary">Importing data and getting a summary</a></li>
 <li><a href="#decision-tree-classification">Decision tree classification</a></li>
 <li><a href="#splitting-data-into-train-test-sets">Splitting data into train-test sets</a></li>
+<li><a href="#roc-curve">ROC curve</a></li>
 <li><a href="#splitting-data-through-k-fold-cross-validation-scheme">Splitting data through k-fold cross-validation scheme</a></li>
 </ul>
 </div>
 
 <p>For this comparison, I will compare the <code>scikit-learn</code> library in <code>Python</code> and the newly developed <code>tidymodels</code> meta-package in <code>R</code>. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.</p>
-<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a <code>factor</code> variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code></p>
+<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a <code>factor</code> variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have reduced the number of species to two and extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code>.</p>
 <pre class="r"><code>library(palmerpenguins)
 library(tidyverse)
-readr::write_csv(penguins %&gt;% na.omit, path = &quot;data/penguins_complete.csv&quot;)</code></pre>
+
+penguins %&gt;% 
+  na.omit %&gt;% 
+  dplyr::filter(species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;)) %&gt;% 
+  readr::write_csv(path = &quot;data/penguins_complete.csv&quot;)</code></pre>
 <div id="importing-data-and-getting-a-summary" class="section level1">
 <h1>Importing data and getting a summary</h1>
 <div id="r-tidyverse" class="section level2 left">
@@ -404,19 +417,18 @@ dtc_model = rpart::rpart(species ~ ., data = sub_penguins)
 table(sub_penguins$species, 
       predict(dtc_model, type = &quot;class&quot;))</code></pre>
 <pre><code>##            
-##             Adelie Chinstrap Gentoo
-##   Adelie       140         6      0
-##   Chinstrap      5        63      0
-##   Gentoo         0         1    118</code></pre>
+##             Adelie Chinstrap
+##   Adelie       143         3
+##   Chinstrap      6        62</code></pre>
 <pre class="r"><code>rpart.plot(dtc_model)</code></pre>
 <p><img src="classifiers_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="python-pandas-1" class="section level2 right">
 <h2><code>Python</code>: <code>pandas</code></h2>
-<pre class="python"><code># from sklearn.model_selection import cross_val_score
-from sklearn.tree import DecisionTreeClassifier
+<pre class="python"><code>from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 import matplotlib as plt
+import matplotlib.pyplot as pltpyplot
 from sklearn.metrics import confusion_matrix
 
 feature_set = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
@@ -434,16 +446,15 @@ dtc_model.fit(X, y)</code></pre>
 ##                        min_weight_fraction_leaf=0.0, presort=&#39;deprecated&#39;,
 ##                        random_state=1, splitter=&#39;best&#39;)</code></pre>
 <pre class="python"><code>confusion_matrix(y, dtc_model.predict(X))</code></pre>
-<pre><code>## array([[140,   6,   0],
-##        [  5,  63,   0],
-##        [  0,   1, 118]])</code></pre>
+<pre><code>## array([[144,   2],
+##        [  6,  62]])</code></pre>
 <pre class="python"><code>##
 ##
 ##
-plt.pyplot.figure()
+pltpyplot.figure()
 tree.plot_tree(dtc_model, filled = True, feature_names = feature_set, class_names = list(set(list(penguins.species))))</code></pre>
-<pre class="python"><code>plt.pyplot.savefig(&#39;figures/py_penguins_decision_tree.png&#39;, format = &#39;png&#39;, bbox_inches = &quot;tight&quot;)</code></pre>
-<p><img src="figures/py_penguins_decision_tree.png" width="600" height="400"></p>
+<pre class="python"><code>pltpyplot.show()</code></pre>
+<p><img src="classifiers_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div style="margin-bottom:1500px;">
 
@@ -480,13 +491,34 @@ y_pred = dtc_predictions)
 print(cr)</code></pre>
 <pre><code>##               precision    recall  f1-score   support
 ## 
-##       Adelie       0.98      0.98      0.98        42
-##    Chinstrap       0.93      0.93      0.93        15
-##       Gentoo       1.00      1.00      1.00        27
+##       Adelie       0.95      1.00      0.97        38
+##    Chinstrap       1.00      0.88      0.93        16
 ## 
-##     accuracy                           0.98        84
-##    macro avg       0.97      0.97      0.97        84
-## weighted avg       0.98      0.98      0.98        84</code></pre>
+##     accuracy                           0.96        54
+##    macro avg       0.97      0.94      0.95        54
+## weighted avg       0.96      0.96      0.96        54</code></pre>
+</div>
+</div>
+<div id="roc-curve" class="section level1">
+<h1>ROC curve</h1>
+<div id="r-rpart-2" class="section level2 left">
+<h2><code>R</code>: <code>rpart</code></h2>
+</div>
+<div id="python-1" class="section level2 right">
+<h2><code>Python</code></h2>
+<pre class="python"><code>from sklearn.metrics import roc_curve
+y_pred_prob = dtc_train_model.predict_proba(test_X)[:,1]
+fpr, tpr, thresholds = roc_curve(test_y, y_pred_prob, pos_label = &quot;Chinstrap&quot;)
+
+# Plot ROC curve
+pltpyplot.close()
+pltpyplot.plot([0, 1], [0, 1], &#39;k--&#39;)
+pltpyplot.plot(fpr, tpr)
+pltpyplot.xlabel(&#39;False Positive Rate&#39;)
+pltpyplot.ylabel(&#39;True Positive Rate&#39;)
+pltpyplot.title(&#39;ROC Curve&#39;)
+pltpyplot.show()</code></pre>
+<p><img src="classifiers_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
 <div id="splitting-data-through-k-fold-cross-validation-scheme" class="section level1">

@@ -293,13 +293,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/base.html">lists, vectors, dictionaries</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/base.html">Lists, vectors, dictionaries</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">data frames</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">DataFrames</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">functions</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/functions.html">Functions</a>
     </li>
   </ul>
 </li>
@@ -310,7 +310,15 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">wrapping into workflows</li>
+    <li class="dropdown-header">Basic classifiers</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/classifiers.html"></a>
+    </li>
+    <li class="dropdown-header">Model tuning</li>
+    <li>
+      <a href="https://kevinwang09.github.io/compare-r-python/model_tuning.html"></a>
+    </li>
+    <li class="dropdown-header">Wrapping into workflows</li>
     <li>
       <a href="https://kevinwang09.github.io/compare-r-python/workflows.html"></a>
     </li>
@@ -594,11 +602,11 @@ data.loc[(data.species.isin(substypes))]</code></pre>
 ## 3       Adelie  Torgersen            36.7  ...         3450  female  2007
 ## 4       Adelie  Torgersen            39.3  ...         3650    male  2007
 ## ..         ...        ...             ...  ...          ...     ...   ...
-## 328  Chinstrap      Dream            55.8  ...         4000    male  2009
-## 329  Chinstrap      Dream            43.5  ...         3400  female  2009
-## 330  Chinstrap      Dream            49.6  ...         3775    male  2009
-## 331  Chinstrap      Dream            50.8  ...         4100    male  2009
-## 332  Chinstrap      Dream            50.2  ...         3775  female  2009
+## 209  Chinstrap      Dream            55.8  ...         4000    male  2009
+## 210  Chinstrap      Dream            43.5  ...         3400  female  2009
+## 211  Chinstrap      Dream            49.6  ...         3775    male  2009
+## 212  Chinstrap      Dream            50.8  ...         4100    male  2009
+## 213  Chinstrap      Dream            50.2  ...         3775  female  2009
 ## 
 ## [214 rows x 8 columns]</code></pre>
 <pre class="python"><code>##
@@ -625,11 +633,11 @@ data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#3
 ## 3       Adelie  Torgersen            36.7  ...         3450  female  2007
 ## 4       Adelie  Torgersen            39.3  ...         3650    male  2007
 ## ..         ...        ...             ...  ...          ...     ...   ...
-## 328  Chinstrap      Dream            55.8  ...         4000    male  2009
-## 329  Chinstrap      Dream            43.5  ...         3400  female  2009
-## 330  Chinstrap      Dream            49.6  ...         3775    male  2009
-## 331  Chinstrap      Dream            50.8  ...         4100    male  2009
-## 332  Chinstrap      Dream            50.2  ...         3775  female  2009
+## 209  Chinstrap      Dream            55.8  ...         4000    male  2009
+## 210  Chinstrap      Dream            43.5  ...         3400  female  2009
+## 211  Chinstrap      Dream            49.6  ...         3775    male  2009
+## 212  Chinstrap      Dream            50.8  ...         4100    male  2009
+## 213  Chinstrap      Dream            50.2  ...         3775  female  2009
 ## 
 ## [214 rows x 8 columns]</code></pre>
 </div>
@@ -646,7 +654,7 @@ data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#3
 
 ## dplyr solution
 data %&gt;% mutate(body_mass_kg = body_mass_g/1000)</code></pre>
-<pre><code>## # A tibble: 333 x 9
+<pre><code>## # A tibble: 214 x 9
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
 ##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
 ##  1 Adelie  Torge…           39.1          18.7              181        3750
@@ -659,7 +667,7 @@ data %&gt;% mutate(body_mass_kg = body_mass_g/1000)</code></pre>
 ##  8 Adelie  Torge…           41.1          17.6              182        3200
 ##  9 Adelie  Torge…           38.6          21.2              191        3800
 ## 10 Adelie  Torge…           34.6          21.1              198        4400
-## # … with 323 more rows, and 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;,
+## # … with 204 more rows, and 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;,
 ## #   body_mass_kg &lt;dbl&gt;</code></pre>
 </div>
 <div id="python-6" class="section level2 right">
@@ -674,13 +682,13 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 ## 3       Adelie  Torgersen            36.7  ...  female  2007         3.450
 ## 4       Adelie  Torgersen            39.3  ...    male  2007         3.650
 ## ..         ...        ...             ...  ...     ...   ...           ...
-## 328  Chinstrap      Dream            55.8  ...    male  2009         4.000
-## 329  Chinstrap      Dream            43.5  ...  female  2009         3.400
-## 330  Chinstrap      Dream            49.6  ...    male  2009         3.775
-## 331  Chinstrap      Dream            50.8  ...    male  2009         4.100
-## 332  Chinstrap      Dream            50.2  ...  female  2009         3.775
+## 209  Chinstrap      Dream            55.8  ...    male  2009         4.000
+## 210  Chinstrap      Dream            43.5  ...  female  2009         3.400
+## 211  Chinstrap      Dream            49.6  ...    male  2009         3.775
+## 212  Chinstrap      Dream            50.8  ...    male  2009         4.100
+## 213  Chinstrap      Dream            50.2  ...  female  2009         3.775
 ## 
-## [333 rows x 9 columns]</code></pre>
+## [214 rows x 9 columns]</code></pre>
 </div>
 <div style="margin-bottom:1000px;">
 
@@ -702,29 +710,29 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 ## 6 Adelie  Torge…           38.9          17.8              181        3625 fema…
 ## # … with 2 more variables: year &lt;dbl&gt;, body_mass_kg &lt;dbl&gt;</code></pre>
 <pre class="r"><code>summary(data)</code></pre>
-<pre><code>##    species             island          bill_length_mm  bill_depth_mm  
-##  Length:333         Length:333         Min.   :32.10   Min.   :13.10  
-##  Class :character   Class :character   1st Qu.:39.50   1st Qu.:15.60  
-##  Mode  :character   Mode  :character   Median :44.50   Median :17.30  
-##                                        Mean   :43.99   Mean   :17.16  
-##                                        3rd Qu.:48.60   3rd Qu.:18.70  
-##                                        Max.   :59.60   Max.   :21.50  
+<pre><code>##    species             island          bill_length_mm bill_depth_mm  
+##  Length:214         Length:214         Min.   :32.1   Min.   :15.50  
+##  Class :character   Class :character   1st Qu.:37.8   1st Qu.:17.50  
+##  Mode  :character   Mode  :character   Median :40.6   Median :18.40  
+##                                        Mean   :42.0   Mean   :18.37  
+##                                        3rd Qu.:46.0   3rd Qu.:19.10  
+##                                        Max.   :58.0   Max.   :21.50  
 ##  flipper_length_mm  body_mass_g       sex                 year     
-##  Min.   :172       Min.   :2700   Length:333         Min.   :2007  
-##  1st Qu.:190       1st Qu.:3550   Class :character   1st Qu.:2007  
-##  Median :197       Median :4050   Mode  :character   Median :2008  
-##  Mean   :201       Mean   :4207                      Mean   :2008  
-##  3rd Qu.:213       3rd Qu.:4775                      3rd Qu.:2009  
-##  Max.   :231       Max.   :6300                      Max.   :2009  
+##  Min.   :172.0     Min.   :2700   Length:214         Min.   :2007  
+##  1st Qu.:187.0     1st Qu.:3400   Class :character   1st Qu.:2007  
+##  Median :191.0     Median :3700   Mode  :character   Median :2008  
+##  Mean   :191.9     Mean   :3715                      Mean   :2008  
+##  3rd Qu.:196.0     3rd Qu.:3994                      3rd Qu.:2009  
+##  Max.   :212.0     Max.   :4800                      Max.   :2009  
 ##   body_mass_kg  
 ##  Min.   :2.700  
-##  1st Qu.:3.550  
-##  Median :4.050  
-##  Mean   :4.207  
-##  3rd Qu.:4.775  
-##  Max.   :6.300</code></pre>
+##  1st Qu.:3.400  
+##  Median :3.700  
+##  Mean   :3.715  
+##  3rd Qu.:3.994  
+##  Max.   :4.800</code></pre>
 <pre class="r"><code>glimpse(data)</code></pre>
-<pre><code>## Rows: 333
+<pre><code>## Rows: 214
 ## Columns: 9
 ## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;…
 ## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;,…
@@ -736,14 +744,14 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 ## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 200…
 ## $ body_mass_kg      &lt;dbl&gt; 3.750, 3.800, 3.250, 3.450, 3.650, 3.625, 4.675, 3.…</code></pre>
 <pre class="r"><code>dim(data)</code></pre>
-<pre><code>## [1] 333   9</code></pre>
+<pre><code>## [1] 214   9</code></pre>
 <pre class="r"><code>unique(data$species)</code></pre>
-<pre><code>## [1] &quot;Adelie&quot;    &quot;Gentoo&quot;    &quot;Chinstrap&quot;</code></pre>
+<pre><code>## [1] &quot;Adelie&quot;    &quot;Chinstrap&quot;</code></pre>
 <pre class="r"><code>##
 table(data$species)</code></pre>
 <pre><code>## 
-##    Adelie Chinstrap    Gentoo 
-##       146        68       119</code></pre>
+##    Adelie Chinstrap 
+##       146        68</code></pre>
 </div>
 <div id="python-7" class="section level2 right">
 <h2>Python</h2>
@@ -779,14 +787,14 @@ table(data$species)</code></pre>
 ##
 ##</code></pre>
 <pre><code>##        bill_length_mm  bill_depth_mm  ...         year  body_mass_kg
-## count      333.000000     333.000000  ...   333.000000    333.000000
-## mean        43.992793      17.164865  ...  2008.042042      4.207057
-## std          5.468668       1.969235  ...     0.812944      0.805216
-## min         32.100000      13.100000  ...  2007.000000      2.700000
-## 25%         39.500000      15.600000  ...  2007.000000      3.550000
-## 50%         44.500000      17.300000  ...  2008.000000      4.050000
-## 75%         48.600000      18.700000  ...  2009.000000      4.775000
-## max         59.600000      21.500000  ...  2009.000000      6.300000
+## count      214.000000     214.000000  ...   214.000000    214.000000
+## mean        42.004673      18.370561  ...  2008.028037      3.714720
+## std          5.491545       1.191134  ...     0.827440      0.435667
+## min         32.100000      15.500000  ...  2007.000000      2.700000
+## 25%         37.800000      17.500000  ...  2007.000000      3.400000
+## 50%         40.600000      18.400000  ...  2008.000000      3.700000
+## 75%         46.000000      19.100000  ...  2009.000000      3.993750
+## max         58.000000      21.500000  ...  2009.000000      4.800000
 ## 
 ## [8 rows x 6 columns]</code></pre>
 <pre class="python"><code>data.info()
@@ -798,26 +806,25 @@ table(data$species)</code></pre>
 ##
 ##</code></pre>
 <pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-## RangeIndex: 333 entries, 0 to 332
+## RangeIndex: 214 entries, 0 to 213
 ## Data columns (total 9 columns):
-## species              333 non-null object
-## island               333 non-null object
-## bill_length_mm       333 non-null float64
-## bill_depth_mm        333 non-null float64
-## flipper_length_mm    333 non-null int64
-## body_mass_g          333 non-null int64
-## sex                  333 non-null object
-## year                 333 non-null int64
-## body_mass_kg         333 non-null float64
+## species              214 non-null object
+## island               214 non-null object
+## bill_length_mm       214 non-null float64
+## bill_depth_mm        214 non-null float64
+## flipper_length_mm    214 non-null int64
+## body_mass_g          214 non-null int64
+## sex                  214 non-null object
+## year                 214 non-null int64
+## body_mass_kg         214 non-null float64
 ## dtypes: float64(3), int64(3), object(3)
-## memory usage: 23.5+ KB</code></pre>
+## memory usage: 15.2+ KB</code></pre>
 <pre class="python"><code>data.shape</code></pre>
-<pre><code>## (333, 9)</code></pre>
+<pre><code>## (214, 9)</code></pre>
 <pre class="python"><code>data.species.unique()</code></pre>
-<pre><code>## array([&#39;Adelie&#39;, &#39;Gentoo&#39;, &#39;Chinstrap&#39;], dtype=object)</code></pre>
+<pre><code>## array([&#39;Adelie&#39;, &#39;Chinstrap&#39;], dtype=object)</code></pre>
 <pre class="python"><code>data.species.value_counts()</code></pre>
 <pre><code>## Adelie       146
-## Gentoo       119
 ## Chinstrap     68
 ## Name: species, dtype: int64</code></pre>
 </div>
@@ -835,63 +842,56 @@ table(data$species)</code></pre>
 data %&gt;% 
   group_by(species) %&gt;% 
   tally()</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 2 x 2
 ##   species       n
 ##   &lt;chr&gt;     &lt;int&gt;
 ## 1 Adelie      146
-## 2 Chinstrap    68
-## 3 Gentoo      119</code></pre>
+## 2 Chinstrap    68</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
   summarise(mean_bill_length = mean(bill_length_mm))</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 2 x 2
 ##   species   mean_bill_length
 ##   &lt;chr&gt;                &lt;dbl&gt;
 ## 1 Adelie                38.8
-## 2 Chinstrap             48.8
-## 3 Gentoo                47.6</code></pre>
+## 2 Chinstrap             48.8</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
   summarise_if(.predicate = is.numeric, .funs = mean)</code></pre>
-<pre><code>## # A tibble: 3 x 7
+<pre><code>## # A tibble: 2 x 7
 ##   species bill_length_mm bill_depth_mm flipper_length_… body_mass_g  year
 ##   &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Adelie            38.8          18.3             190.       3706. 2008.
 ## 2 Chinst…           48.8          18.4             196.       3733. 2008.
-## 3 Gentoo            47.6          15.0             217.       5092. 2008.
 ## # … with 1 more variable: body_mass_kg &lt;dbl&gt;</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
   summarise(mean_bill_length_top1 = bill_length_mm[1])</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 2 x 2
 ##   species   mean_bill_length_top1
 ##   &lt;chr&gt;                     &lt;dbl&gt;
 ## 1 Adelie                     39.1
-## 2 Chinstrap                  46.5
-## 3 Gentoo                     46.1</code></pre>
+## 2 Chinstrap                  46.5</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species, sex) %&gt;% 
   summarise(longest = bill_length_mm[bill_length_mm == max(bill_length_mm)])</code></pre>
-<pre><code>## # A tibble: 6 x 3
-## # Groups:   species [3]
+<pre><code>## # A tibble: 4 x 3
+## # Groups:   species [2]
 ##   species   sex    longest
 ##   &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;
 ## 1 Adelie    female    42.2
 ## 2 Adelie    male      46  
 ## 3 Chinstrap female    58  
-## 4 Chinstrap male      55.8
-## 5 Gentoo    female    50.5
-## 6 Gentoo    male      59.6</code></pre>
+## 4 Chinstrap male      55.8</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
   summarise_at(.vars = vars(bill_length_mm),
                .funs = lst(min, max, mean, length))</code></pre>
-<pre><code>## # A tibble: 3 x 5
+<pre><code>## # A tibble: 2 x 5
 ##   species     min   max  mean length
 ##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt;
-## 1 Adelie     32.1  46    38.8    146
-## 2 Chinstrap  40.9  58    48.8     68
-## 3 Gentoo     40.9  59.6  47.6    119</code></pre>
+## 1 Adelie     32.1    46  38.8    146
+## 2 Chinstrap  40.9    58  48.8     68</code></pre>
 </div>
 <div id="python-8" class="section level2 right">
 <h2>Python</h2>
@@ -902,7 +902,6 @@ data %&gt;%
 <pre><code>## species
 ## Adelie       146
 ## Chinstrap     68
-## Gentoo       119
 ## Name: species, dtype: int64</code></pre>
 <pre class="python"><code>data.groupby(&quot;species&quot;)[&quot;bill_length_mm&quot;].mean()
 ##
@@ -911,7 +910,6 @@ data %&gt;%
 <pre><code>## species
 ## Adelie       38.823973
 ## Chinstrap    48.833824
-## Gentoo       47.568067
 ## Name: bill_length_mm, dtype: float64</code></pre>
 <pre class="python"><code>data.groupby(&quot;species&quot;).mean()
 ##
@@ -921,9 +919,8 @@ data %&gt;%
 ## species                                   ...                           
 ## Adelie          38.823973      18.347260  ...  2008.054795      3.706164
 ## Chinstrap       48.833824      18.420588  ...  2007.970588      3.733088
-## Gentoo          47.568067      14.996639  ...  2008.067227      5.092437
 ## 
-## [3 rows x 6 columns]</code></pre>
+## [2 rows x 6 columns]</code></pre>
 <pre class="python"><code>data.groupby(&quot;species&quot;).apply(lambda x: x.bill_length_mm.iloc[0])
 ##
 ##
@@ -931,7 +928,6 @@ data %&gt;%
 <pre><code>## species
 ## Adelie       39.1
 ## Chinstrap    46.5
-## Gentoo       46.1
 ## dtype: float64</code></pre>
 <pre class="python"><code>data.groupby([&quot;species&quot;, &quot;sex&quot;]).apply(lambda x: x.loc[x.bill_length_mm.idxmax(), &quot;bill_length_mm&quot;])
 ##
@@ -942,15 +938,12 @@ data %&gt;%
 ##            male      46.0
 ## Chinstrap  female    58.0
 ##            male      55.8
-## Gentoo     female    50.5
-##            male      59.6
 ## dtype: float64</code></pre>
 <pre class="python"><code>data.groupby(&quot;species&quot;).bill_length_mm.agg([min, max, &quot;mean&quot;, &quot;size&quot;])</code></pre>
 <pre><code>##             min   max       mean  size
 ## species                               
 ## Adelie     32.1  46.0  38.823973   146
-## Chinstrap  40.9  58.0  48.833824    68
-## Gentoo     40.9  59.6  47.568067   119</code></pre>
+## Chinstrap  40.9  58.0  48.833824    68</code></pre>
 </div>
 <div style="margin-bottom:2000px;">
 

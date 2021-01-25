@@ -9,12 +9,16 @@ output:
 
 For this comparison, I will compare the `scikit-learn` library in `Python` and the newly developed `tidymodels` meta-package in `R`. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations. 
 
-The data that I will use is the `penguins` data from the `R` package `palmerpenguins`, which you can learn more about [here](https://allisonhorst.github.io/palmerpenguins/articles/intro.html). The response variable is a `factor` variable, `species`, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have extracted the data below in a CSV format so that Python can also use this data through `pd.read_csv`
+The data that I will use is the `penguins` data from the `R` package `palmerpenguins`, which you can learn more about [here](https://allisonhorst.github.io/palmerpenguins/articles/intro.html). The response variable is a `factor` variable, `species`, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have reduced the number of species to two and extracted the data below in a CSV format so that Python can also use this data through `pd.read_csv`.
 
 ```{r, eval = FALSE}
 library(palmerpenguins)
 library(tidyverse)
-readr::write_csv(penguins %>% na.omit, path = "data/penguins_complete.csv")
+
+penguins %>% 
+  na.omit %>% 
+  dplyr::filter(species %in% c("Adelie", "Chinstrap")) %>% 
+  readr::write_csv(path = "data/penguins_complete.csv")
 ```
 
 # Importing data and getting a summary 
@@ -106,10 +110,8 @@ confusion_matrix(y, dtc_model.predict(X))
 ##
 pltpyplot.figure()
 tree.plot_tree(dtc_model, filled = True, feature_names = feature_set, class_names = list(set(list(penguins.species))))
-pltpyplot.savefig('figures/py_penguins_decision_tree.png', format = 'png', bbox_inches = "tight")
+pltpyplot.show()
 ```
-
-<img src="figures/py_penguins_decision_tree.png" width="600" height="400">
 
 </div>
 
@@ -156,6 +158,35 @@ y_true = test_y,
 y_pred = dtc_predictions)
 
 print(cr)
+```
+
+</div>
+
+# ROC curve
+
+<div class="left">
+
+## `R`: `rpart`
+
+</div>
+
+<div class="right">
+
+## `Python`
+
+```{python}
+from sklearn.metrics import roc_curve
+y_pred_prob = dtc_train_model.predict_proba(test_X)[:,1]
+fpr, tpr, thresholds = roc_curve(test_y, y_pred_prob, pos_label = "Chinstrap")
+
+# Plot ROC curve
+pltpyplot.close()
+pltpyplot.plot([0, 1], [0, 1], 'k--')
+pltpyplot.plot(fpr, tpr)
+pltpyplot.xlabel('False Positive Rate')
+pltpyplot.ylabel('True Positive Rate')
+pltpyplot.title('ROC Curve')
+pltpyplot.show()
 ```
 
 </div>
