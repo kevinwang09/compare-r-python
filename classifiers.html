@@ -359,7 +359,7 @@ $(document).ready(function () {
 <li><a href="#decision-tree-classification">Decision tree classification</a></li>
 <li><a href="#splitting-data-into-train-test-sets">Splitting data into train-test sets</a></li>
 <li><a href="#roc-curve">ROC curve</a></li>
-<li><a href="#splitting-data-through-k-fold-cross-validation-scheme">Splitting data through k-fold cross-validation scheme</a></li>
+<li><a href="#k-fold-cross-validation">k-fold cross-validation</a></li>
 </ul>
 </div>
 
@@ -413,7 +413,8 @@ library(rpart.plot)
 
 feature_set = c(&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;)
 sub_penguins = penguins[,c(&#39;species&#39;, feature_set)]
-dtc_model = rpart::rpart(species ~ ., data = sub_penguins)
+dtc_model = rpart::rpart(species ~ ., data = sub_penguins,
+                         control = rpart.control(maxdepth = 1))
 table(sub_penguins$species, 
       predict(dtc_model, type = &quot;class&quot;))</code></pre>
 <pre><code>##            
@@ -434,19 +435,19 @@ from sklearn.metrics import confusion_matrix
 feature_set = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
 X = penguins[feature_set]
 y = penguins.species
-dtc_model = DecisionTreeClassifier(random_state = 1, max_depth = 2)
+dtc_model = DecisionTreeClassifier(random_state = 1, max_depth = 1)
 
 # Fit model
 
 dtc_model.fit(X, y)</code></pre>
 <pre><code>## DecisionTreeClassifier(ccp_alpha=0.0, class_weight=None, criterion=&#39;gini&#39;,
-##                        max_depth=2, max_features=None, max_leaf_nodes=None,
+##                        max_depth=1, max_features=None, max_leaf_nodes=None,
 ##                        min_impurity_decrease=0.0, min_impurity_split=None,
 ##                        min_samples_leaf=1, min_samples_split=2,
 ##                        min_weight_fraction_leaf=0.0, presort=&#39;deprecated&#39;,
 ##                        random_state=1, splitter=&#39;best&#39;)</code></pre>
 <pre class="python"><code>confusion_matrix(y, dtc_model.predict(X))</code></pre>
-<pre><code>## array([[144,   2],
+<pre><code>## array([[143,   3],
 ##        [  6,  62]])</code></pre>
 <pre class="python"><code>##
 ##
@@ -521,8 +522,26 @@ pltpyplot.show()</code></pre>
 <p><img src="classifiers_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
-<div id="splitting-data-through-k-fold-cross-validation-scheme" class="section level1">
-<h1>Splitting data through k-fold cross-validation scheme</h1>
+<div id="k-fold-cross-validation" class="section level1">
+<h1>k-fold cross-validation</h1>
+<div id="python-2" class="section level2">
+<h2>Python</h2>
+<div class="right">
+<pre class="python"><code>from sklearn.model_selection import RepeatedKFold
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import f1_score, make_scorer
+import numpy as np
+
+cv = RepeatedKFold(n_splits = 5, n_repeats = 20, random_state = 1)
+dtc_train_model = DecisionTreeClassifier(random_state = 1, max_depth = 2)
+scorer = make_scorer(f1_score, pos_label = &#39;Adelie&#39;)
+
+scores = cross_val_score(estimator = dtc_train_model, X = train_X, y = train_y, scoring = scorer, cv = cv) ## n_jobs = -1 can be used for parallelisation
+
+print(&quot;F1 statistics, mean (sd): &quot; + str(np.round(np.mean(scores), 4)) + &quot;(&quot; + str(np.round(np.std(scores), 4)) + &quot;)&quot;)</code></pre>
+<pre><code>## F1 statistics, mean (sd): 0.9474(0.0281)</code></pre>
+</div>
+</div>
 </div>
 
 

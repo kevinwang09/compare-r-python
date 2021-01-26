@@ -7,7 +7,7 @@ output:
     toc_depth: 1
 ---
 
-For this comparison, I will compare the `scikit-learn` library in `Python` and the newly developed `tidymodels` meta-package in `R`. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations. 
+For this comparison, I will compare the `scikit-learn` library in `Python` and the newly developed `tidymodels` meta-package in `R`. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.
 
 The data that I will use is the `penguins` data from the `R` package `palmerpenguins`, which you can learn more about [here](https://allisonhorst.github.io/palmerpenguins/articles/intro.html). The response variable is a `factor` variable, `species`, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have reduced the number of species to two and extracted the data below in a CSV format so that Python can also use this data through `pd.read_csv`.
 
@@ -21,10 +21,9 @@ penguins %>%
   readr::write_csv(path = "data/penguins_complete.csv")
 ```
 
-# Importing data and getting a summary 
+# Importing data and getting a summary
 
-<div class="left">
-
+::: {.left}
 ## `R`: `tidyverse`
 
 ```{r, message = FALSE}
@@ -32,11 +31,9 @@ library(tidyverse)
 penguins = readr::read_csv(file = "data/penguins_complete.csv")
 penguins %>% colnames()
 ```
+:::
 
-</div>
-
-<div class="right">
-
+::: {.right}
 ## `Python`: `pandas`
 
 ```{python}
@@ -48,16 +45,18 @@ feature_set = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mas
 X = penguins[feature_set]
 y = penguins.species
 ```
+:::
 
-</div>
-
-<div style="margin-bottom:1000px;">
-</div>
+::: {style="margin-bottom:1000px;"}
+:::
 
 # Grid search
 
+::: {.left}
 ## R
+:::
 
+::: {.right}
 ## Python
 
 ```{python}
@@ -71,4 +70,4 @@ dtc_cv = GridSearchCV(dtc_model, param_grid, cv = 5)
 dtc_cv.fit(X, y)
 dtc_cv.best_params_
 ```
-
+:::
