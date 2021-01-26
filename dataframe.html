@@ -13,7 +13,6 @@
 
 <title>Compare R and Python: data frame manipulations</title>
 
-<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -367,8 +366,8 @@ $(document).ready(function () {
 
 <div id="creating-a-data-frame-manually" class="section level1">
 <h1>Creating a data frame manually</h1>
-<div id="r" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r">R</h2>
 <pre class="r"><code>data = data.frame(
   x = 1:5, 
   y = 2:6,
@@ -382,8 +381,8 @@ print(data)</code></pre>
 ## d 4 5
 ## e 5 6</code></pre>
 </div>
-<div id="python" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python">Python</h2>
 <pre class="python"><code>import pandas as pd
 data = pd.DataFrame(
   {&quot;x&quot;: list(range(1, 6)),
@@ -403,50 +402,50 @@ print(data)</code></pre>
 </div>
 <div id="reading-data-frames" class="section level1">
 <h1>Reading data frames</h1>
-<div id="r-1" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-1">R</h2>
 <pre class="r"><code>library(readr)
 data = readr::read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
-<div id="python-1" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-1">Python</h2>
 <pre class="python"><code>import pandas as pd
 data = pd.read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="saving-data-frames" class="section level1">
 <h1>Saving data frames</h1>
-<div id="r-2" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-2">R</h2>
 <pre class="r"><code>readr::write_csv(x = data, file = &quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
-<div id="python-2" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-2">Python</h2>
 <pre class="python"><code>data.to_csv(path_or_buf = &quot;data/penguins_complete2.csv&quot;)
 ## </code></pre>
 </div>
 <div id="index-based-selection" class="section level2">
 <h2>Index-based selection</h2>
 <p>In <code>R</code>, both index-based and label-based subsetting are performed through <code>[,]</code>. In <code>Python</code>, this is separated into <code>iloc</code> and <code>loc</code> respectively.</p>
-<div id="r-3" class="section level3 left">
-<h3>R</h3>
+<div class="left">
+<h3 id="r-3">R</h3>
 <pre class="r"><code>## First row
 data[1,]</code></pre>
-<pre><code>## # A tibble: 1 x 8
+<pre><code>## [90m# A tibble: 1 x 8[39m
 ##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
-##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1 Adelie  Torge…           39.1          18.7              181        3750 male 
-## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m
+## [90m1[39m Adelie  Torge…           39.1          18.7              181        [4m3[24m750 male 
+## [90m# … with 1 more variable: year [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 <pre class="r"><code>data[c(1,3,5), c(1,3,5)]</code></pre>
-<pre><code>## # A tibble: 3 x 3
+<pre><code>## [90m# A tibble: 3 x 3[39m
 ##   species bill_length_mm flipper_length_mm
-##   &lt;chr&gt;            &lt;dbl&gt;             &lt;dbl&gt;
-## 1 Adelie            39.1               181
-## 2 Adelie            40.3               195
-## 3 Adelie            39.3               190</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m             [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Adelie            39.1               181
+## [90m2[39m Adelie            40.3               195
+## [90m3[39m Adelie            39.3               190</code></pre>
 </div>
-<div id="python-3" class="section level3 right">
-<h3>Python</h3>
+<div class="right">
+<h3 id="python-3">Python</h3>
 <pre class="python"><code>## First row
 data.iloc[0,:]</code></pre>
 <pre><code>## species                 Adelie
@@ -459,10 +458,51 @@ data.iloc[0,:]</code></pre>
 ## year                      2007
 ## Name: 0, dtype: object</code></pre>
 <pre class="python"><code>data.iloc[[0,2,4],[0,2,4]]</code></pre>
-<pre><code>##   species  bill_length_mm  flipper_length_mm
-## 0  Adelie            39.1                181
-## 2  Adelie            40.3                195
-## 4  Adelie            39.3                190</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>bill_length_mm</th>
+      <th>flipper_length_mm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>39.1</td>
+      <td>181</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>40.3</td>
+      <td>195</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>39.3</td>
+      <td>190</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 <div style="margin-bottom:600px;">
 
@@ -471,21 +511,21 @@ data.iloc[0,:]</code></pre>
 <div id="label-based-selection" class="section level2">
 <h2>Label-based selection</h2>
 <p>In <code>R</code>, both index-based and label-based subsetting are performed through <code>[,]</code>. In <code>Python</code>, this is separated into <code>iloc</code> and <code>loc</code> respectively.</p>
-<div id="r-4" class="section level3 left">
-<h3>R</h3>
+<div class="left">
+<h3 id="r-4">R</h3>
 <pre class="r"><code>## First five rows from the &quot;species&quot; column
 data[1:5, &quot;species&quot;]</code></pre>
-<pre><code>## # A tibble: 5 x 1
+<pre><code>## [90m# A tibble: 5 x 1[39m
 ##   species
-##   &lt;chr&gt;  
-## 1 Adelie 
-## 2 Adelie 
-## 3 Adelie 
-## 4 Adelie 
-## 5 Adelie</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m  
+## [90m1[39m Adelie 
+## [90m2[39m Adelie 
+## [90m3[39m Adelie 
+## [90m4[39m Adelie 
+## [90m5[39m Adelie</code></pre>
 </div>
-<div id="python-4" class="section level3 right">
-<h3>Python</h3>
+<div class="right">
+<h3 id="python-4">Python</h3>
 <pre class="python"><code>## First five rows from the &quot;species&quot; column, return as Series
 data.loc[0:4,&quot;species&quot;]</code></pre>
 <pre><code>## 0    Adelie
@@ -518,97 +558,326 @@ data.loc[0:4,&quot;species&quot;]</code></pre>
 </div>
 <div id="conditional-selection" class="section level2">
 <h2>Conditional selection</h2>
-<div id="r-5" class="section level3 left">
-<h3>R</h3>
+<div class="left">
+<h3 id="r-5">R</h3>
 <pre class="r"><code>## Base R solution
 data[(data$species == &quot;Adelie&quot;) &amp; (data$bill_depth_mm &gt; 21), ]</code></pre>
-<pre><code>## # A tibble: 6 x 8
+<pre><code>## [90m# A tibble: 6 x 8[39m
 ##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
-##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1 Adelie  Torge…           38.6          21.2              191        3800 male 
-## 2 Adelie  Torge…           34.6          21.1              198        4400 male 
-## 3 Adelie  Torge…           46            21.5              194        4200 male 
-## 4 Adelie  Dream            39.2          21.1              196        4150 male 
-## 5 Adelie  Dream            42.3          21.2              191        4150 male 
-## 6 Adelie  Biscoe           41.3          21.1              195        4400 male 
-## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m
+## [90m1[39m Adelie  Torge…           38.6          21.2              191        [4m3[24m800 male 
+## [90m2[39m Adelie  Torge…           34.6          21.1              198        [4m4[24m400 male 
+## [90m3[39m Adelie  Torge…           46            21.5              194        [4m4[24m200 male 
+## [90m4[39m Adelie  Dream            39.2          21.1              196        [4m4[24m150 male 
+## [90m5[39m Adelie  Dream            42.3          21.2              191        [4m4[24m150 male 
+## [90m6[39m Adelie  Biscoe           41.3          21.1              195        [4m4[24m400 male 
+## [90m# … with 1 more variable: year [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 <pre class="r"><code>##
 ##
 data[data$species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;), ]</code></pre>
-<pre><code>## # A tibble: 214 x 8
+<pre><code>## [90m# A tibble: 214 x 8[39m
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…           36.7          19.3              193        3450
-##  5 Adelie  Torge…           39.3          20.6              190        3650
-##  6 Adelie  Torge…           38.9          17.8              181        3625
-##  7 Adelie  Torge…           39.2          19.6              195        4675
-##  8 Adelie  Torge…           41.1          17.6              182        3200
-##  9 Adelie  Torge…           38.6          21.2              191        3800
-## 10 Adelie  Torge…           34.6          21.1              198        4400
-## # … with 204 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+##    [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m
+## [90m 1[39m Adelie  Torge…           39.1          18.7              181        [4m3[24m750
+## [90m 2[39m Adelie  Torge…           39.5          17.4              186        [4m3[24m800
+## [90m 3[39m Adelie  Torge…           40.3          18                195        [4m3[24m250
+## [90m 4[39m Adelie  Torge…           36.7          19.3              193        [4m3[24m450
+## [90m 5[39m Adelie  Torge…           39.3          20.6              190        [4m3[24m650
+## [90m 6[39m Adelie  Torge…           38.9          17.8              181        [4m3[24m625
+## [90m 7[39m Adelie  Torge…           39.2          19.6              195        [4m4[24m675
+## [90m 8[39m Adelie  Torge…           41.1          17.6              182        [4m3[24m200
+## [90m 9[39m Adelie  Torge…           38.6          21.2              191        [4m3[24m800
+## [90m10[39m Adelie  Torge…           34.6          21.1              198        [4m4[24m400
+## [90m# … with 204 more rows, and 2 more variables: sex [3m[90m&lt;chr&gt;[90m[23m, year [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 <pre class="r"><code>library(dplyr)
 data %&gt;% filter((species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21))</code></pre>
-<pre><code>## # A tibble: 6 x 8
+<pre><code>## [90m# A tibble: 6 x 8[39m
 ##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
-##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1 Adelie  Torge…           38.6          21.2              191        3800 male 
-## 2 Adelie  Torge…           34.6          21.1              198        4400 male 
-## 3 Adelie  Torge…           46            21.5              194        4200 male 
-## 4 Adelie  Dream            39.2          21.1              196        4150 male 
-## 5 Adelie  Dream            42.3          21.2              191        4150 male 
-## 6 Adelie  Biscoe           41.3          21.1              195        4400 male 
-## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m
+## [90m1[39m Adelie  Torge…           38.6          21.2              191        [4m3[24m800 male 
+## [90m2[39m Adelie  Torge…           34.6          21.1              198        [4m4[24m400 male 
+## [90m3[39m Adelie  Torge…           46            21.5              194        [4m4[24m200 male 
+## [90m4[39m Adelie  Dream            39.2          21.1              196        [4m4[24m150 male 
+## [90m5[39m Adelie  Dream            42.3          21.2              191        [4m4[24m150 male 
+## [90m6[39m Adelie  Biscoe           41.3          21.1              195        [4m4[24m400 male 
+## [90m# … with 1 more variable: year [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 <pre class="r"><code>data %&gt;% filter(species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;))</code></pre>
-<pre><code>## # A tibble: 214 x 8
+<pre><code>## [90m# A tibble: 214 x 8[39m
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…           36.7          19.3              193        3450
-##  5 Adelie  Torge…           39.3          20.6              190        3650
-##  6 Adelie  Torge…           38.9          17.8              181        3625
-##  7 Adelie  Torge…           39.2          19.6              195        4675
-##  8 Adelie  Torge…           41.1          17.6              182        3200
-##  9 Adelie  Torge…           38.6          21.2              191        3800
-## 10 Adelie  Torge…           34.6          21.1              198        4400
-## # … with 204 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+##    [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m
+## [90m 1[39m Adelie  Torge…           39.1          18.7              181        [4m3[24m750
+## [90m 2[39m Adelie  Torge…           39.5          17.4              186        [4m3[24m800
+## [90m 3[39m Adelie  Torge…           40.3          18                195        [4m3[24m250
+## [90m 4[39m Adelie  Torge…           36.7          19.3              193        [4m3[24m450
+## [90m 5[39m Adelie  Torge…           39.3          20.6              190        [4m3[24m650
+## [90m 6[39m Adelie  Torge…           38.9          17.8              181        [4m3[24m625
+## [90m 7[39m Adelie  Torge…           39.2          19.6              195        [4m4[24m675
+## [90m 8[39m Adelie  Torge…           41.1          17.6              182        [4m3[24m200
+## [90m 9[39m Adelie  Torge…           38.6          21.2              191        [4m3[24m800
+## [90m10[39m Adelie  Torge…           34.6          21.1              198        [4m4[24m400
+## [90m# … with 204 more rows, and 2 more variables: sex [3m[90m&lt;chr&gt;[90m[23m, year [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 </div>
-<div id="python-5" class="section level3 right">
-<h3>Python</h3>
+<div class="right">
+<h3 id="python-5">Python</h3>
 <pre class="python"><code>## Using loc
 data.loc[(data.species == &quot;Adelie&quot;) &amp; (data.bill_depth_mm &gt; 21)]
 ##
 ##
 ##</code></pre>
-<pre><code>##    species     island  bill_length_mm  ...  body_mass_g   sex  year
-## 8   Adelie  Torgersen            38.6  ...         3800  male  2007
-## 9   Adelie  Torgersen            34.6  ...         4400  male  2007
-## 14  Adelie  Torgersen            46.0  ...         4200  male  2007
-## 30  Adelie      Dream            39.2  ...         4150  male  2007
-## 43  Adelie      Dream            42.3  ...         4150  male  2007
-## 55  Adelie     Biscoe            41.3  ...         4400  male  2008
-## 
-## [6 rows x 8 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>38.6</td>
+      <td>21.2</td>
+      <td>191</td>
+      <td>3800</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>34.6</td>
+      <td>21.1</td>
+      <td>198</td>
+      <td>4400</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>46.0</td>
+      <td>21.5</td>
+      <td>194</td>
+      <td>4200</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>39.2</td>
+      <td>21.1</td>
+      <td>196</td>
+      <td>4150</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>42.3</td>
+      <td>21.2</td>
+      <td>191</td>
+      <td>4150</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>41.3</td>
+      <td>21.1</td>
+      <td>195</td>
+      <td>4400</td>
+      <td>male</td>
+      <td>2008</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <pre class="python"><code>substypes = [&quot;Adelie&quot;, &quot;Chinstrap&quot;]
 data.loc[(data.species.isin(substypes))]</code></pre>
-<pre><code>##        species     island  bill_length_mm  ...  body_mass_g     sex  year
-## 0       Adelie  Torgersen            39.1  ...         3750    male  2007
-## 1       Adelie  Torgersen            39.5  ...         3800  female  2007
-## 2       Adelie  Torgersen            40.3  ...         3250  female  2007
-## 3       Adelie  Torgersen            36.7  ...         3450  female  2007
-## 4       Adelie  Torgersen            39.3  ...         3650    male  2007
-## ..         ...        ...             ...  ...          ...     ...   ...
-## 209  Chinstrap      Dream            55.8  ...         4000    male  2009
-## 210  Chinstrap      Dream            43.5  ...         3400  female  2009
-## 211  Chinstrap      Dream            49.6  ...         3775    male  2009
-## 212  Chinstrap      Dream            50.8  ...         4100    male  2009
-## 213  Chinstrap      Dream            50.2  ...         3775  female  2009
-## 
-## [214 rows x 8 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181</td>
+      <td>3750</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186</td>
+      <td>3800</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195</td>
+      <td>3250</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193</td>
+      <td>3450</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.3</td>
+      <td>20.6</td>
+      <td>190</td>
+      <td>3650</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>55.8</td>
+      <td>19.8</td>
+      <td>207</td>
+      <td>4000</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>43.5</td>
+      <td>18.1</td>
+      <td>202</td>
+      <td>3400</td>
+      <td>female</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>49.6</td>
+      <td>18.2</td>
+      <td>193</td>
+      <td>3775</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>50.8</td>
+      <td>19.0</td>
+      <td>210</td>
+      <td>4100</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>50.2</td>
+      <td>18.7</td>
+      <td>198</td>
+      <td>3775</td>
+      <td>female</td>
+      <td>2009</td>
+    </tr>
+  </tbody>
+</table>
+<p>214 rows × 8 columns</p>
+</div>
 <pre class="python"><code>##
 ##
 ## Using query()
@@ -616,30 +885,259 @@ data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#3
 ##
 ##
 ##</code></pre>
-<pre><code>##    species     island  bill_length_mm  ...  body_mass_g   sex  year
-## 8   Adelie  Torgersen            38.6  ...         3800  male  2007
-## 9   Adelie  Torgersen            34.6  ...         4400  male  2007
-## 14  Adelie  Torgersen            46.0  ...         4200  male  2007
-## 30  Adelie      Dream            39.2  ...         4150  male  2007
-## 43  Adelie      Dream            42.3  ...         4150  male  2007
-## 55  Adelie     Biscoe            41.3  ...         4400  male  2008
-## 
-## [6 rows x 8 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>38.6</td>
+      <td>21.2</td>
+      <td>191</td>
+      <td>3800</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>34.6</td>
+      <td>21.1</td>
+      <td>198</td>
+      <td>4400</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>46.0</td>
+      <td>21.5</td>
+      <td>194</td>
+      <td>4200</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>39.2</td>
+      <td>21.1</td>
+      <td>196</td>
+      <td>4150</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>42.3</td>
+      <td>21.2</td>
+      <td>191</td>
+      <td>4150</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>41.3</td>
+      <td>21.1</td>
+      <td>195</td>
+      <td>4400</td>
+      <td>male</td>
+      <td>2008</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <pre class="python"><code>data.query(&#39;species == @substypes&#39;)</code></pre>
-<pre><code>##        species     island  bill_length_mm  ...  body_mass_g     sex  year
-## 0       Adelie  Torgersen            39.1  ...         3750    male  2007
-## 1       Adelie  Torgersen            39.5  ...         3800  female  2007
-## 2       Adelie  Torgersen            40.3  ...         3250  female  2007
-## 3       Adelie  Torgersen            36.7  ...         3450  female  2007
-## 4       Adelie  Torgersen            39.3  ...         3650    male  2007
-## ..         ...        ...             ...  ...          ...     ...   ...
-## 209  Chinstrap      Dream            55.8  ...         4000    male  2009
-## 210  Chinstrap      Dream            43.5  ...         3400  female  2009
-## 211  Chinstrap      Dream            49.6  ...         3775    male  2009
-## 212  Chinstrap      Dream            50.8  ...         4100    male  2009
-## 213  Chinstrap      Dream            50.2  ...         3775  female  2009
-## 
-## [214 rows x 8 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181</td>
+      <td>3750</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186</td>
+      <td>3800</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195</td>
+      <td>3250</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193</td>
+      <td>3450</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.3</td>
+      <td>20.6</td>
+      <td>190</td>
+      <td>3650</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>55.8</td>
+      <td>19.8</td>
+      <td>207</td>
+      <td>4000</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>43.5</td>
+      <td>18.1</td>
+      <td>202</td>
+      <td>3400</td>
+      <td>female</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>49.6</td>
+      <td>18.2</td>
+      <td>193</td>
+      <td>3775</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>50.8</td>
+      <td>19.0</td>
+      <td>210</td>
+      <td>4100</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>50.2</td>
+      <td>18.7</td>
+      <td>198</td>
+      <td>3775</td>
+      <td>female</td>
+      <td>2009</td>
+    </tr>
+  </tbody>
+</table>
+<p>214 rows × 8 columns</p>
+</div>
 </div>
 <div style="margin-bottom:2700px;">
 
@@ -648,47 +1146,199 @@ data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#3
 </div>
 <div id="adding-new-columns" class="section level1">
 <h1>Adding new columns</h1>
-<div id="r-6" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-6">R</h2>
 <pre class="r"><code>data[&quot;body_mass_kg&quot;] = data$body_mass_g/1000
 
 ## dplyr solution
 data %&gt;% mutate(body_mass_kg = body_mass_g/1000)</code></pre>
-<pre><code>## # A tibble: 214 x 9
+<pre><code>## [90m# A tibble: 214 x 9[39m
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…           36.7          19.3              193        3450
-##  5 Adelie  Torge…           39.3          20.6              190        3650
-##  6 Adelie  Torge…           38.9          17.8              181        3625
-##  7 Adelie  Torge…           39.2          19.6              195        4675
-##  8 Adelie  Torge…           41.1          17.6              182        3200
-##  9 Adelie  Torge…           38.6          21.2              191        3800
-## 10 Adelie  Torge…           34.6          21.1              198        4400
-## # … with 204 more rows, and 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;,
-## #   body_mass_kg &lt;dbl&gt;</code></pre>
+##    [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m
+## [90m 1[39m Adelie  Torge…           39.1          18.7              181        [4m3[24m750
+## [90m 2[39m Adelie  Torge…           39.5          17.4              186        [4m3[24m800
+## [90m 3[39m Adelie  Torge…           40.3          18                195        [4m3[24m250
+## [90m 4[39m Adelie  Torge…           36.7          19.3              193        [4m3[24m450
+## [90m 5[39m Adelie  Torge…           39.3          20.6              190        [4m3[24m650
+## [90m 6[39m Adelie  Torge…           38.9          17.8              181        [4m3[24m625
+## [90m 7[39m Adelie  Torge…           39.2          19.6              195        [4m4[24m675
+## [90m 8[39m Adelie  Torge…           41.1          17.6              182        [4m3[24m200
+## [90m 9[39m Adelie  Torge…           38.6          21.2              191        [4m3[24m800
+## [90m10[39m Adelie  Torge…           34.6          21.1              198        [4m4[24m400
+## [90m# … with 204 more rows, and 3 more variables: sex [3m[90m&lt;chr&gt;[90m[23m, year [3m[90m&lt;dbl&gt;[90m[23m,[39m
+## [90m#   body_mass_kg [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 </div>
-<div id="python-6" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-6">Python</h2>
 <pre class="python"><code>data[&quot;body_mass_kg&quot;] = data.body_mass_g/1000
 
 data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
-<pre><code>##        species     island  bill_length_mm  ...     sex  year  body_mass_kg
-## 0       Adelie  Torgersen            39.1  ...    male  2007         3.750
-## 1       Adelie  Torgersen            39.5  ...  female  2007         3.800
-## 2       Adelie  Torgersen            40.3  ...  female  2007         3.250
-## 3       Adelie  Torgersen            36.7  ...  female  2007         3.450
-## 4       Adelie  Torgersen            39.3  ...    male  2007         3.650
-## ..         ...        ...             ...  ...     ...   ...           ...
-## 209  Chinstrap      Dream            55.8  ...    male  2009         4.000
-## 210  Chinstrap      Dream            43.5  ...  female  2009         3.400
-## 211  Chinstrap      Dream            49.6  ...    male  2009         3.775
-## 212  Chinstrap      Dream            50.8  ...    male  2009         4.100
-## 213  Chinstrap      Dream            50.2  ...  female  2009         3.775
-## 
-## [214 rows x 9 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+      <th>body_mass_kg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181</td>
+      <td>3750</td>
+      <td>male</td>
+      <td>2007</td>
+      <td>3.750</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186</td>
+      <td>3800</td>
+      <td>female</td>
+      <td>2007</td>
+      <td>3.800</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195</td>
+      <td>3250</td>
+      <td>female</td>
+      <td>2007</td>
+      <td>3.250</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193</td>
+      <td>3450</td>
+      <td>female</td>
+      <td>2007</td>
+      <td>3.450</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.3</td>
+      <td>20.6</td>
+      <td>190</td>
+      <td>3650</td>
+      <td>male</td>
+      <td>2007</td>
+      <td>3.650</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>55.8</td>
+      <td>19.8</td>
+      <td>207</td>
+      <td>4000</td>
+      <td>male</td>
+      <td>2009</td>
+      <td>4.000</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>43.5</td>
+      <td>18.1</td>
+      <td>202</td>
+      <td>3400</td>
+      <td>female</td>
+      <td>2009</td>
+      <td>3.400</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>49.6</td>
+      <td>18.2</td>
+      <td>193</td>
+      <td>3775</td>
+      <td>male</td>
+      <td>2009</td>
+      <td>3.775</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>50.8</td>
+      <td>19.0</td>
+      <td>210</td>
+      <td>4100</td>
+      <td>male</td>
+      <td>2009</td>
+      <td>4.100</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>50.2</td>
+      <td>18.7</td>
+      <td>198</td>
+      <td>3775</td>
+      <td>female</td>
+      <td>2009</td>
+      <td>3.775</td>
+    </tr>
+  </tbody>
+</table>
+<p>214 rows × 9 columns</p>
+</div>
 </div>
 <div style="margin-bottom:1000px;">
 
@@ -696,19 +1346,19 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 </div>
 <div id="previewing-and-describing-data" class="section level1">
 <h1>Previewing and describing data</h1>
-<div id="r-7" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-7">R</h2>
 <pre class="r"><code>head(data)</code></pre>
-<pre><code>## # A tibble: 6 x 9
+<pre><code>## [90m# A tibble: 6 x 9[39m
 ##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
-##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1 Adelie  Torge…           39.1          18.7              181        3750 male 
-## 2 Adelie  Torge…           39.5          17.4              186        3800 fema…
-## 3 Adelie  Torge…           40.3          18                195        3250 fema…
-## 4 Adelie  Torge…           36.7          19.3              193        3450 fema…
-## 5 Adelie  Torge…           39.3          20.6              190        3650 male 
-## 6 Adelie  Torge…           38.9          17.8              181        3625 fema…
-## # … with 2 more variables: year &lt;dbl&gt;, body_mass_kg &lt;dbl&gt;</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m
+## [90m1[39m Adelie  Torge…           39.1          18.7              181        [4m3[24m750 male 
+## [90m2[39m Adelie  Torge…           39.5          17.4              186        [4m3[24m800 fema…
+## [90m3[39m Adelie  Torge…           40.3          18                195        [4m3[24m250 fema…
+## [90m4[39m Adelie  Torge…           36.7          19.3              193        [4m3[24m450 fema…
+## [90m5[39m Adelie  Torge…           39.3          20.6              190        [4m3[24m650 male 
+## [90m6[39m Adelie  Torge…           38.9          17.8              181        [4m3[24m625 fema…
+## [90m# … with 2 more variables: year [3m[90m&lt;dbl&gt;[90m[23m, body_mass_kg [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 <pre class="r"><code>summary(data)</code></pre>
 <pre><code>##    species             island          bill_length_mm bill_depth_mm  
 ##  Length:214         Length:214         Min.   :32.1   Min.   :15.50  
@@ -734,15 +1384,15 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 <pre class="r"><code>glimpse(data)</code></pre>
 <pre><code>## Rows: 214
 ## Columns: 9
-## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;…
-## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;,…
-## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.…
-## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.…
-## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 1…
-## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 380…
-## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;fema…
-## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 200…
-## $ body_mass_kg      &lt;dbl&gt; 3.750, 3.800, 3.250, 3.450, 3.650, 3.625, 4.675, 3.…</code></pre>
+## $ species           [3m[90m&lt;chr&gt;[39m[23m &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;…
+## $ island            [3m[90m&lt;chr&gt;[39m[23m &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;,…
+## $ bill_length_mm    [3m[90m&lt;dbl&gt;[39m[23m 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.…
+## $ bill_depth_mm     [3m[90m&lt;dbl&gt;[39m[23m 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.…
+## $ flipper_length_mm [3m[90m&lt;dbl&gt;[39m[23m 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 1…
+## $ body_mass_g       [3m[90m&lt;dbl&gt;[39m[23m 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 380…
+## $ sex               [3m[90m&lt;chr&gt;[39m[23m &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;fema…
+## $ year              [3m[90m&lt;dbl&gt;[39m[23m 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 200…
+## $ body_mass_kg      [3m[90m&lt;dbl&gt;[39m[23m 3.750, 3.800, 3.250, 3.450, 3.650, 3.625, 4.675, 3.…</code></pre>
 <pre class="r"><code>dim(data)</code></pre>
 <pre><code>## [1] 214   9</code></pre>
 <pre class="r"><code>unique(data$species)</code></pre>
@@ -753,8 +1403,8 @@ table(data$species)</code></pre>
 ##    Adelie Chinstrap 
 ##       146        68</code></pre>
 </div>
-<div id="python-7" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-7">Python</h2>
 <pre class="python"><code>data.head()
 ##
 ##
@@ -762,14 +1412,99 @@ table(data$species)</code></pre>
 ##
 ##
 ##</code></pre>
-<pre><code>##   species     island  bill_length_mm  ...     sex  year  body_mass_kg
-## 0  Adelie  Torgersen            39.1  ...    male  2007          3.75
-## 1  Adelie  Torgersen            39.5  ...  female  2007          3.80
-## 2  Adelie  Torgersen            40.3  ...  female  2007          3.25
-## 3  Adelie  Torgersen            36.7  ...  female  2007          3.45
-## 4  Adelie  Torgersen            39.3  ...    male  2007          3.65
-## 
-## [5 rows x 9 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+      <th>body_mass_kg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181</td>
+      <td>3750</td>
+      <td>male</td>
+      <td>2007</td>
+      <td>3.75</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186</td>
+      <td>3800</td>
+      <td>female</td>
+      <td>2007</td>
+      <td>3.80</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195</td>
+      <td>3250</td>
+      <td>female</td>
+      <td>2007</td>
+      <td>3.25</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193</td>
+      <td>3450</td>
+      <td>female</td>
+      <td>2007</td>
+      <td>3.45</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.3</td>
+      <td>20.6</td>
+      <td>190</td>
+      <td>3650</td>
+      <td>male</td>
+      <td>2007</td>
+      <td>3.65</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <pre class="python"><code>data.describe()
 ##
 ##
@@ -786,17 +1521,108 @@ table(data$species)</code></pre>
 ##
 ##
 ##</code></pre>
-<pre><code>##        bill_length_mm  bill_depth_mm  ...         year  body_mass_kg
-## count      214.000000     214.000000  ...   214.000000    214.000000
-## mean        42.004673      18.370561  ...  2008.028037      3.714720
-## std          5.491545       1.191134  ...     0.827440      0.435667
-## min         32.100000      15.500000  ...  2007.000000      2.700000
-## 25%         37.800000      17.500000  ...  2007.000000      3.400000
-## 50%         40.600000      18.400000  ...  2008.000000      3.700000
-## 75%         46.000000      19.100000  ...  2009.000000      3.993750
-## max         58.000000      21.500000  ...  2009.000000      4.800000
-## 
-## [8 rows x 6 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>year</th>
+      <th>body_mass_kg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>214.000000</td>
+      <td>214.000000</td>
+      <td>214.000000</td>
+      <td>214.000000</td>
+      <td>214.000000</td>
+      <td>214.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>42.004673</td>
+      <td>18.370561</td>
+      <td>191.920561</td>
+      <td>3714.719626</td>
+      <td>2008.028037</td>
+      <td>3.714720</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>5.491545</td>
+      <td>1.191134</td>
+      <td>7.216846</td>
+      <td>435.667063</td>
+      <td>0.827440</td>
+      <td>0.435667</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>32.100000</td>
+      <td>15.500000</td>
+      <td>172.000000</td>
+      <td>2700.000000</td>
+      <td>2007.000000</td>
+      <td>2.700000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>37.800000</td>
+      <td>17.500000</td>
+      <td>187.000000</td>
+      <td>3400.000000</td>
+      <td>2007.000000</td>
+      <td>3.400000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>40.600000</td>
+      <td>18.400000</td>
+      <td>191.000000</td>
+      <td>3700.000000</td>
+      <td>2008.000000</td>
+      <td>3.700000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>46.000000</td>
+      <td>19.100000</td>
+      <td>196.000000</td>
+      <td>3993.750000</td>
+      <td>2009.000000</td>
+      <td>3.993750</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>58.000000</td>
+      <td>21.500000</td>
+      <td>212.000000</td>
+      <td>4800.000000</td>
+      <td>2009.000000</td>
+      <td>4.800000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <pre class="python"><code>data.info()
 ##
 ##
@@ -808,15 +1634,17 @@ table(data$species)</code></pre>
 <pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 ## RangeIndex: 214 entries, 0 to 213
 ## Data columns (total 9 columns):
-## species              214 non-null object
-## island               214 non-null object
-## bill_length_mm       214 non-null float64
-## bill_depth_mm        214 non-null float64
-## flipper_length_mm    214 non-null int64
-## body_mass_g          214 non-null int64
-## sex                  214 non-null object
-## year                 214 non-null int64
-## body_mass_kg         214 non-null float64
+##  #   Column             Non-Null Count  Dtype  
+## ---  ------             --------------  -----  
+##  0   species            214 non-null    object 
+##  1   island             214 non-null    object 
+##  2   bill_length_mm     214 non-null    float64
+##  3   bill_depth_mm      214 non-null    float64
+##  4   flipper_length_mm  214 non-null    int64  
+##  5   body_mass_g        214 non-null    int64  
+##  6   sex                214 non-null    object 
+##  7   year               214 non-null    int64  
+##  8   body_mass_kg       214 non-null    float64
 ## dtypes: float64(3), int64(3), object(3)
 ## memory usage: 15.2+ KB</code></pre>
 <pre class="python"><code>data.shape</code></pre>
@@ -836,65 +1664,65 @@ table(data$species)</code></pre>
 <h1>Grouped operations</h1>
 <p>The <code>dplyr</code> package (a part of the <code>tidyverse</code>) contains important functions that makes the manipulation of data.frame very easy. A very important part of the dplyr package is the use of the pipe operator, <code>%&gt;%</code>. Together with the use of spaces and line breaks, this often makes the <code>R</code> code more readable, so that one can read the code from top to bottom and left to right, i.e. consistent with how we would structure an English sentence. This design framework to make readable codes is a very important reason of why <code>R</code> has gained a renewed popularity in data science.</p>
 <p>In comparison, <code>Python</code> (<code>pandas</code>) also adopts similar principle, but the structuring of the codes is not as consistent.</p>
-<div id="r-8" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-8">R</h2>
 <pre class="r"><code>library(dplyr)
 data %&gt;% 
   group_by(species) %&gt;% 
   tally()</code></pre>
-<pre><code>## # A tibble: 2 x 2
+<pre><code>## [90m# A tibble: 2 x 2[39m
 ##   species       n
-##   &lt;chr&gt;     &lt;int&gt;
-## 1 Adelie      146
-## 2 Chinstrap    68</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m     [3m[90m&lt;int&gt;[39m[23m
+## [90m1[39m Adelie      146
+## [90m2[39m Chinstrap    68</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
   summarise(mean_bill_length = mean(bill_length_mm))</code></pre>
-<pre><code>## # A tibble: 2 x 2
+<pre><code>## [90m# A tibble: 2 x 2[39m
 ##   species   mean_bill_length
-##   &lt;chr&gt;                &lt;dbl&gt;
-## 1 Adelie                38.8
-## 2 Chinstrap             48.8</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m                [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Adelie                38.8
+## [90m2[39m Chinstrap             48.8</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
   summarise_if(.predicate = is.numeric, .funs = mean)</code></pre>
-<pre><code>## # A tibble: 2 x 7
+<pre><code>## [90m# A tibble: 2 x 7[39m
 ##   species bill_length_mm bill_depth_mm flipper_length_… body_mass_g  year
-##   &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
-## 1 Adelie            38.8          18.3             190.       3706. 2008.
-## 2 Chinst…           48.8          18.4             196.       3733. 2008.
-## # … with 1 more variable: body_mass_kg &lt;dbl&gt;</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Adelie            38.8          18.3             190.       [4m3[24m706. [4m2[24m008.
+## [90m2[39m Chinst…           48.8          18.4             196.       [4m3[24m733. [4m2[24m008.
+## [90m# … with 1 more variable: body_mass_kg [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
   summarise(mean_bill_length_top1 = bill_length_mm[1])</code></pre>
-<pre><code>## # A tibble: 2 x 2
+<pre><code>## [90m# A tibble: 2 x 2[39m
 ##   species   mean_bill_length_top1
-##   &lt;chr&gt;                     &lt;dbl&gt;
-## 1 Adelie                     39.1
-## 2 Chinstrap                  46.5</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m                     [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Adelie                     39.1
+## [90m2[39m Chinstrap                  46.5</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species, sex) %&gt;% 
   summarise(longest = bill_length_mm[bill_length_mm == max(bill_length_mm)])</code></pre>
-<pre><code>## # A tibble: 4 x 3
-## # Groups:   species [2]
+<pre><code>## [90m# A tibble: 4 x 3[39m
+## [90m# Groups:   species [2][39m
 ##   species   sex    longest
-##   &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;
-## 1 Adelie    female    42.2
-## 2 Adelie    male      46  
-## 3 Chinstrap female    58  
-## 4 Chinstrap male      55.8</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m     [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Adelie    female    42.2
+## [90m2[39m Adelie    male      46  
+## [90m3[39m Chinstrap female    58  
+## [90m4[39m Chinstrap male      55.8</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
   summarise_at(.vars = vars(bill_length_mm),
                .funs = lst(min, max, mean, length))</code></pre>
-<pre><code>## # A tibble: 2 x 5
+<pre><code>## [90m# A tibble: 2 x 5[39m
 ##   species     min   max  mean length
-##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt;
-## 1 Adelie     32.1    46  38.8    146
-## 2 Chinstrap  40.9    58  48.8     68</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m  [3m[90m&lt;int&gt;[39m[23m
+## [90m1[39m Adelie     32.1    46  38.8    146
+## [90m2[39m Chinstrap  40.9    58  48.8     68</code></pre>
 </div>
-<div id="python-8" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-8">Python</h2>
 <pre class="python"><code>data.groupby(&quot;species&quot;).species.count()
 ##
 ##
@@ -915,12 +1743,63 @@ data %&gt;%
 ##
 ##
 ##</code></pre>
-<pre><code>##            bill_length_mm  bill_depth_mm  ...         year  body_mass_kg
-## species                                   ...                           
-## Adelie          38.823973      18.347260  ...  2008.054795      3.706164
-## Chinstrap       48.833824      18.420588  ...  2007.970588      3.733088
-## 
-## [2 rows x 6 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>year</th>
+      <th>body_mass_kg</th>
+    </tr>
+    <tr>
+      <th>species</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Adelie</th>
+      <td>38.823973</td>
+      <td>18.347260</td>
+      <td>190.102740</td>
+      <td>3706.164384</td>
+      <td>2008.054795</td>
+      <td>3.706164</td>
+    </tr>
+    <tr>
+      <th>Chinstrap</th>
+      <td>48.833824</td>
+      <td>18.420588</td>
+      <td>195.823529</td>
+      <td>3733.088235</td>
+      <td>2007.970588</td>
+      <td>3.733088</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <pre class="python"><code>data.groupby(&quot;species&quot;).apply(lambda x: x.bill_length_mm.iloc[0])
 ##
 ##
@@ -940,10 +1819,55 @@ data %&gt;%
 ##            male      55.8
 ## dtype: float64</code></pre>
 <pre class="python"><code>data.groupby(&quot;species&quot;).bill_length_mm.agg([min, max, &quot;mean&quot;, &quot;size&quot;])</code></pre>
-<pre><code>##             min   max       mean  size
-## species                               
-## Adelie     32.1  46.0  38.823973   146
-## Chinstrap  40.9  58.0  48.833824    68</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>min</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>size</th>
+    </tr>
+    <tr>
+      <th>species</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Adelie</th>
+      <td>32.1</td>
+      <td>46.0</td>
+      <td>38.823973</td>
+      <td>146</td>
+    </tr>
+    <tr>
+      <th>Chinstrap</th>
+      <td>40.9</td>
+      <td>58.0</td>
+      <td>48.833824</td>
+      <td>68</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 <div style="margin-bottom:2000px;">
 
@@ -951,37 +1875,37 @@ data %&gt;%
 </div>
 <div id="handling-of-missing-values" class="section level1">
 <h1>Handling of missing values</h1>
-<div id="r-9" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-9">R</h2>
 <pre class="r"><code>library(dplyr)
 missing_data = readr::read_csv(&quot;data/penguins.csv&quot;)
 missing_data %&gt;% 
   filter(is.na(bill_length_mm))</code></pre>
-<pre><code>## # A tibble: 2 x 8
+<pre><code>## [90m# A tibble: 2 x 8[39m
 ##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
-##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1 Adelie  Torge…             NA            NA               NA          NA &lt;NA&gt; 
-## 2 Gentoo  Biscoe             NA            NA               NA          NA &lt;NA&gt; 
-## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m
+## [90m1[39m Adelie  Torge…             [31mNA[39m            [31mNA[39m               [31mNA[39m          [31mNA[39m [31mNA[39m   
+## [90m2[39m Gentoo  Biscoe             [31mNA[39m            [31mNA[39m               [31mNA[39m          [31mNA[39m [31mNA[39m   
+## [90m# … with 1 more variable: year [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 <pre class="r"><code>missing_data %&gt;% 
   dplyr::mutate(bill_length_mm = coalesce(bill_length_mm, 0))</code></pre>
-<pre><code>## # A tibble: 344 x 8
+<pre><code>## [90m# A tibble: 344 x 8[39m
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…            0            NA                 NA          NA
-##  5 Adelie  Torge…           36.7          19.3              193        3450
-##  6 Adelie  Torge…           39.3          20.6              190        3650
-##  7 Adelie  Torge…           38.9          17.8              181        3625
-##  8 Adelie  Torge…           39.2          19.6              195        4675
-##  9 Adelie  Torge…           34.1          18.1              193        3475
-## 10 Adelie  Torge…           42            20.2              190        4250
-## # … with 334 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+##    [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m
+## [90m 1[39m Adelie  Torge…           39.1          18.7              181        [4m3[24m750
+## [90m 2[39m Adelie  Torge…           39.5          17.4              186        [4m3[24m800
+## [90m 3[39m Adelie  Torge…           40.3          18                195        [4m3[24m250
+## [90m 4[39m Adelie  Torge…            0            [31mNA[39m                 [31mNA[39m          [31mNA[39m
+## [90m 5[39m Adelie  Torge…           36.7          19.3              193        [4m3[24m450
+## [90m 6[39m Adelie  Torge…           39.3          20.6              190        [4m3[24m650
+## [90m 7[39m Adelie  Torge…           38.9          17.8              181        [4m3[24m625
+## [90m 8[39m Adelie  Torge…           39.2          19.6              195        [4m4[24m675
+## [90m 9[39m Adelie  Torge…           34.1          18.1              193        [4m3[24m475
+## [90m10[39m Adelie  Torge…           42            20.2              190        [4m4[24m250
+## [90m# … with 334 more rows, and 2 more variables: sex [3m[90m&lt;chr&gt;[90m[23m, year [3m[90m&lt;dbl&gt;[90m[23m[39m</code></pre>
 </div>
-<div id="python-9" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-9">Python</h2>
 <pre class="python"><code>missing_data = pd.read_csv(&quot;data/penguins.csv&quot;)
 ##
 ##
@@ -989,11 +1913,60 @@ missing_data %&gt;%
 ##
 ##
 missing_data[pd.isnull(missing_data.bill_length_mm)]</code></pre>
-<pre><code>##     species     island  bill_length_mm  ...  body_mass_g  sex  year
-## 3    Adelie  Torgersen             NaN  ...          NaN  NaN  2007
-## 271  Gentoo     Biscoe             NaN  ...          NaN  NaN  2009
-## 
-## [2 rows x 8 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2009</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <pre class="python"><code>missing_data.bill_length_mm.fillna(0)</code></pre>
 <pre><code>## 0      39.1
 ## 1      39.5

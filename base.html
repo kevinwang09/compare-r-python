@@ -13,7 +13,6 @@
 
 <title>Compare R and Python: basic objects</title>
 
-<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -371,8 +370,8 @@ $(document).ready(function () {
 <p>In this section, we explore some basic objects in both languages. Some of the objects are comparable with each other while some are unique to a language.</p>
 <div id="vectors" class="section level1">
 <h1>Vectors</h1>
-<div id="r" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r">R</h2>
 <p><code>R</code> comes with a <code>vector</code> (including both <code>numeric</code> and <code>character</code>) class. The definition of a vector is using the <code>c()</code> function.</p>
 <pre class="r"><code>x = c(1, 3, 5)
 class(x)</code></pre>
@@ -385,8 +384,8 @@ class(y)</code></pre>
 <pre class="r"><code>print(y)</code></pre>
 <pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
 </div>
-<div id="python" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python">Python</h2>
 <p>The definition of numeric and character vectors is through <code>[...]</code>, a <code>list</code> object.</p>
 <pre class="python"><code>x = [1, 3, 5]
 type(x)</code></pre>
@@ -413,8 +412,8 @@ type(y)</code></pre>
 <li>when subsetting from the beginning of a list, Python doesn’t have to specify the first index. <code>x[0:3]</code> can be written as <code>x[:3]</code>. One can think of this as “getting 3 elements from the vector”.</li>
 </ul>
 <p>Interestingly, <code>Python</code> does not operate on vectors element-wise as you would expect in <code>R</code>. To me, this makes <code>Python</code> slower to write when one needs to write codes for data analytics.</p>
-<div id="r-1" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-1">R</h2>
 <pre class="r"><code>x = c(1, 2, 3, 4, 5)
 x[1]</code></pre>
 <pre><code>## [1] 1</code></pre>
@@ -428,8 +427,7 @@ x[1]</code></pre>
 ##
 ##
 ##</code></pre>
-<div id="extracting-multiple-elements" class="section level3">
-<h3>Extracting multiple elements</h3>
+<h3 id="extracting-multiple-elements">Extracting multiple elements</h3>
 <pre class="r"><code>x[c(1, 3, 5)]</code></pre>
 <pre><code>## [1] 1 3 5</code></pre>
 <pre class="r"><code>##
@@ -441,15 +439,12 @@ x[1]</code></pre>
 ##
 ##
 ##</code></pre>
-</div>
-<div id="filtering-using-logical" class="section level3">
-<h3>Filtering using logical</h3>
+<h3 id="filtering-using-logical">Filtering using logical</h3>
 <pre class="r"><code>x[x &gt; 3]</code></pre>
 <pre><code>## [1] 4 5</code></pre>
 </div>
-</div>
-<div id="python-1" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-1">Python</h2>
 <pre class="python"><code>x = [1, 2, 3, 4, 5]
 x[0]</code></pre>
 <pre><code>## 1</code></pre>
@@ -461,8 +456,7 @@ x[0]</code></pre>
 <pre><code>## [1, 2, 3]</code></pre>
 <pre class="python"><code>x[:3] ## Equivalent to x[0:3]</code></pre>
 <pre><code>## [1, 2, 3]</code></pre>
-<div id="extracting-multiple-elements-1" class="section level3">
-<h3>Extracting multiple elements</h3>
+<h3 id="extracting-multiple-elements-1">Extracting multiple elements</h3>
 <pre class="python"><code>b = [0, 2, 4]
 
 ## Using list comprehension 
@@ -473,12 +467,9 @@ x[0]</code></pre>
 <pre class="python"><code>import pandas as pd
 list(pd.Series(x)[b])</code></pre>
 <pre><code>## [1, 3, 5]</code></pre>
-</div>
-<div id="filtering-using-logical-1" class="section level3">
-<h3>Filtering using logical</h3>
+<h3 id="filtering-using-logical-1">Filtering using logical</h3>
 <pre class="python"><code>print(list(filter(lambda y: y &gt; 3, x)))</code></pre>
 <pre><code>## [4, 5]</code></pre>
-</div>
 </div>
 <div style="margin-bottom:900px;">
 
@@ -490,15 +481,15 @@ list(pd.Series(x)[b])</code></pre>
 <li><p>negative indices carry very different meaning between the two languages. In <code>R</code>, the element with the negation will be deleted and in <code>Python</code>, the element counting from the end of the vector will be extracted.</p></li>
 <li><p>extracting elements from the end of a vector/list is easier in <code>Python</code> than <code>R</code> because of this behaviour.</p></li>
 </ul>
-<div id="r-2" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-2">R</h2>
 <pre class="r"><code>x[-3] ## Deleting the third element </code></pre>
 <pre><code>## [1] 1 2 4 5</code></pre>
 <pre class="r"><code>x[(length(x) - 1):length(x)]</code></pre>
 <pre><code>## [1] 4 5</code></pre>
 </div>
-<div id="python-2" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-2">Python</h2>
 <pre class="python"><code>del x[2]
 print(x)</code></pre>
 <pre><code>## [1, 2, 4, 5]</code></pre>
@@ -511,8 +502,8 @@ print(x)</code></pre>
 </div>
 <div id="rlist" class="section level1">
 <h1>List and tuples</h1>
-<div id="r-3" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-3">R</h2>
 <p><code>list</code> in <code>R</code> can very powerful. Each element of a <code>list</code> can be literally any object of any class.</p>
 <pre class="r"><code>x = list(
   numeric = 1,
@@ -544,8 +535,8 @@ print(x)</code></pre>
 ## $data_frame
 ## [1] &quot;data.frame&quot;</code></pre>
 </div>
-<div id="python-3" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-3">Python</h2>
 <p>As we have seen above, <code>list</code> in <code>Python</code> behaves more or less like a vector.</p>
 <pre class="python"><code>x = [1, &quot;cats&quot;]
 
@@ -564,7 +555,7 @@ print(x)</code></pre>
 <pre class="python"><code>y[0] = 10</code></pre>
 <pre><code>## Error in py_call_impl(callable, dots$args, dots$keywords): TypeError: &#39;tuple&#39; object does not support item assignment
 ## 
-## Detailed traceback: 
+## Detailed traceback:
 ##   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <pre class="python"><code>print(y)</code></pre>
 <pre><code>## (1, &#39;cats&#39;)</code></pre>
@@ -573,13 +564,13 @@ print(x)</code></pre>
 <div id="consecutive-numbers" class="section level1">
 <h1>Consecutive numbers</h1>
 <p>Again, due to the indexing, Python will require an offset.</p>
-<div id="r-4" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-4">R</h2>
 <pre class="r"><code>1:8</code></pre>
 <pre><code>## [1] 1 2 3 4 5 6 7 8</code></pre>
 </div>
-<div id="python-4" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-4">Python</h2>
 <pre class="python"><code>list(range(1, 9))</code></pre>
 <pre><code>## [1, 2, 3, 4, 5, 6, 7, 8]</code></pre>
 </div>
@@ -587,8 +578,8 @@ print(x)</code></pre>
 <div id="variable-assignment" class="section level1">
 <h1>Variable assignment</h1>
 <p>It is very important to note that in Python, the <code>=</code> assignment only allows one to make another reference to the same variable. Whereas in R, performing this assignment will overwrite the original object.</p>
-<div id="r-5" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-5">R</h2>
 <pre class="r"><code>x = 1
 y = x
 print(y)</code></pre>
@@ -597,8 +588,8 @@ print(y)</code></pre>
 print(y)</code></pre>
 <pre><code>## [1] 2</code></pre>
 </div>
-<div id="python-5" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-5">Python</h2>
 <pre class="python"><code>x = 1
 y = x
 print(y)</code></pre>
@@ -610,8 +601,8 @@ print(y)</code></pre>
 </div>
 <div id="conversion-functions" class="section level1">
 <h1>Conversion functions</h1>
-<div id="r-6" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-6">R</h2>
 <p>In <code>R</code>, the <code>class</code> function shows the class of the object. And almost all functions that converts an object of one class to another is in the form of <code>as.xyz</code>.</p>
 <pre class="r"><code>x = 1
 print(x)</code></pre>
@@ -629,8 +620,8 @@ print(x_int)</code></pre>
 <pre class="r"><code>class(x_int)</code></pre>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
 </div>
-<div id="python-6" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-6">Python</h2>
 <p>In <code>python</code>, the <code>type</code> function shows the class of the object. The conversion between different classes has a specialised function.</p>
 <pre class="python"><code>x = 1
 print(x)</code></pre>
@@ -652,8 +643,8 @@ print(x_int)</code></pre>
 <div id="named-vector-and-dictionary" class="section level1">
 <h1>Named vector and dictionary</h1>
 <p>Suppose we have a matching pair of information in the form of two vectors, and we wish to extract elements of a vector based on another vector. This can of course be done through the usual manipulations on vectors/for loops etc. However, both <code>R</code> and <code>Python</code> provide different solutions to this seemingly simple task.</p>
-<div id="r-7" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-7">R</h2>
 <p>In <code>R</code>, no additional class of object is needed. A <code>vector</code> can be given a vector of names, and the subsetting can be done using the names themselves.</p>
 <pre class="r"><code>x = c(&quot;alpha&quot;, &quot;bravo&quot;, &quot;charlie&quot;)
 names(x) = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
@@ -661,8 +652,8 @@ x[c(&quot;a&quot;, &quot;c&quot;)]</code></pre>
 <pre><code>##         a         c 
 ##   &quot;alpha&quot; &quot;charlie&quot;</code></pre>
 </div>
-<div id="python-7" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-7">Python</h2>
 <p>In <code>Python</code>, a very interesting object class is <code>dict</code> (dictionary). A dictionary has two properties, a key and a value. The key behaves much like the <code>names()</code> of a vector in <code>R</code>.</p>
 <pre class="python"><code>d = {
 &quot;a&quot;: &quot;alpha&quot;,
@@ -687,36 +678,39 @@ d[&quot;a&quot;]</code></pre>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
 <pre><code>## R version 4.0.3 (2020-10-10)
-## Platform: x86_64-apple-darwin17.0 (64-bit)
-## Running under: macOS Mojave 10.14.6
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 20.04.1 LTS
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0
+## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0
 ## 
 ## locale:
-## [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] reticulate_1.18
+## [1] reticulate_1.18-9006
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.6      lattice_0.20-41 digest_0.6.27   grid_4.0.3     
 ##  [5] jsonlite_1.7.2  magrittr_2.0.1  evaluate_0.14   rlang_0.4.10   
-##  [9] stringi_1.5.3   Matrix_1.3-0    rmarkdown_2.6.4 tools_4.0.3    
-## [13] stringr_1.4.0   xfun_0.20       yaml_2.2.1      compiler_4.0.3 
-## [17] htmltools_0.5.1 knitr_1.30</code></pre>
-<pre><code>## python:         /usr/local/bin/python3
-## libpython:      /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin/libpython3.7.dylib
-## pythonhome:     /usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7:/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7
-## version:        3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
-## numpy:          /usr/local/lib/python3.7/site-packages/numpy
-## numpy_version:  1.17.0
+##  [9] stringi_1.5.3   Matrix_1.2-18   rmarkdown_2.6   tools_4.0.3    
+## [13] stringr_1.4.0   xfun_0.19       yaml_2.2.1      compiler_4.0.3 
+## [17] htmltools_0.5.0 knitr_1.30</code></pre>
+<pre><code>## python:         /home/runner/.virtualenvs/r-reticulate/bin/python
+## libpython:      /home/runner/.local/share/r-miniconda/envs/r-reticulate/lib/libpython3.6m.so
+## pythonhome:     /home/runner/.virtualenvs/r-reticulate:/home/runner/.virtualenvs/r-reticulate
+## version:        3.6.12 | packaged by conda-forge | (default, Dec  9 2020, 00:36:02)  [GCC 9.3.0]
+## numpy:          /home/runner/.virtualenvs/r-reticulate/lib/python3.6/site-packages/numpy
+## numpy_version:  1.19.5
 ## 
-## NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
+## NOTE: Python version was forced by use_python function</code></pre>
 </div>
 
 

@@ -13,7 +13,6 @@
 
 <title>Compare R and Python: model tuning</title>
 
-<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -371,8 +370,8 @@ penguins %&gt;%
   readr::write_csv(path = &quot;data/penguins_complete.csv&quot;)</code></pre>
 <div id="importing-data-and-getting-a-summary" class="section level1">
 <h1>Importing data and getting a summary</h1>
-<div id="r-tidyverse" class="section level2 left">
-<h2><code>R</code>: <code>tidyverse</code></h2>
+<div class="left">
+<h2 id="r-tidyverse"><code>R</code>: <code>tidyverse</code></h2>
 <pre class="r"><code>library(tidyverse)
 penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
 penguins %&gt;% colnames()</code></pre>
@@ -380,8 +379,8 @@ penguins %&gt;% colnames()</code></pre>
 ## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
 ## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
 </div>
-<div id="python-pandas" class="section level2 right">
-<h2><code>Python</code>: <code>pandas</code></h2>
+<div class="right">
+<h2 id="python-pandas"><code>Python</code>: <code>pandas</code></h2>
 <pre class="python"><code>import pandas as pd
 penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
 penguins.columns</code></pre>
@@ -398,11 +397,11 @@ y = penguins.species</code></pre>
 </div>
 <div id="grid-search" class="section level1">
 <h1>Grid search</h1>
-<div id="r" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r">R</h2>
 </div>
-<div id="python" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python">Python</h2>
 <pre class="python"><code>from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 import numpy as np
@@ -411,22 +410,8 @@ param_grid = {&#39;max_depth&#39;: np.arange(1, 10)}
 dtc_model = DecisionTreeClassifier(random_state = 0)
 dtc_cv = GridSearchCV(dtc_model, param_grid, cv = 5) 
 dtc_cv.fit(X, y)</code></pre>
-<pre><code>## GridSearchCV(cv=5, error_score=nan,
-##              estimator=DecisionTreeClassifier(ccp_alpha=0.0, class_weight=None,
-##                                               criterion=&#39;gini&#39;, max_depth=None,
-##                                               max_features=None,
-##                                               max_leaf_nodes=None,
-##                                               min_impurity_decrease=0.0,
-##                                               min_impurity_split=None,
-##                                               min_samples_leaf=1,
-##                                               min_samples_split=2,
-##                                               min_weight_fraction_leaf=0.0,
-##                                               presort=&#39;deprecated&#39;,
-##                                               random_state=0, splitter=&#39;best&#39;),
-##              iid=&#39;deprecated&#39;, n_jobs=None,
-##              param_grid={&#39;max_depth&#39;: array([1, 2, 3, 4, 5, 6, 7, 8, 9])},
-##              pre_dispatch=&#39;2*n_jobs&#39;, refit=True, return_train_score=False,
-##              scoring=None, verbose=0)</code></pre>
+<pre><code>## GridSearchCV(cv=5, estimator=DecisionTreeClassifier(random_state=0),
+##              param_grid={&#39;max_depth&#39;: array([1, 2, 3, 4, 5, 6, 7, 8, 9])})</code></pre>
 <pre class="python"><code>dtc_cv.best_params_</code></pre>
 <pre><code>## {&#39;max_depth&#39;: 3}</code></pre>
 </div>

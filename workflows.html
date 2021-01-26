@@ -13,7 +13,6 @@
 
 <title>Compare R and Python: workflows</title>
 
-<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -369,20 +368,20 @@ $(document).ready(function () {
 <pre class="r"><code>library(palmerpenguins)
 library(tidyverse)
 readr::write_csv(penguins %&gt;% na.omit, path = &quot;data/penguins_complete.csv&quot;)</code></pre>
-<pre><code>## python:         /usr/local/bin/python3
-## libpython:      /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin/libpython3.7.dylib
-## pythonhome:     /usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7:/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7
-## version:        3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
-## numpy:          /usr/local/lib/python3.7/site-packages/numpy
-## numpy_version:  1.17.0
+<pre><code>## python:         /home/runner/.virtualenvs/r-reticulate/bin/python
+## libpython:      /home/runner/.local/share/r-miniconda/envs/r-reticulate/lib/libpython3.6m.so
+## pythonhome:     /home/runner/.virtualenvs/r-reticulate:/home/runner/.virtualenvs/r-reticulate
+## version:        3.6.12 | packaged by conda-forge | (default, Dec  9 2020, 00:36:02)  [GCC 9.3.0]
+## numpy:          /home/runner/.virtualenvs/r-reticulate/lib/python3.6/site-packages/numpy
+## numpy_version:  1.19.5
 ## 
-## NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
+## NOTE: Python version was forced by use_python function</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre><code>## [1] FALSE</code></pre>
 <div id="importing-data-and-getting-a-summary" class="section level1">
 <h1>Importing data and getting a summary</h1>
-<div id="r-tidyverse" class="section level2 left">
-<h2><code>R</code>: <code>tidyverse</code></h2>
+<div class="left">
+<h2 id="r-tidyverse"><code>R</code>: <code>tidyverse</code></h2>
 <p>It is hard for me to remember how to use <code>R</code> without <code>tidyverse</code>. And by <code>tidyverse</code>, I am referring to both the package and the whole framework that it has established and keeps proliferating through many community-built <code>R</code> packages.</p>
 <p>Here, we will use the <code>readr</code> and <code>dplyr</code> packages to import the data and quickly get a summary of the data.</p>
 <pre class="r"><code>library(tidyverse)
@@ -390,45 +389,129 @@ penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
 penguins %&gt;% glimpse()</code></pre>
 <pre><code>## Rows: 214
 ## Columns: 8
-## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;…
-## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;,…
-## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.…
-## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.…
-## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 1…
-## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 380…
-## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;fema…
-## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 200…</code></pre>
+## $ species           [3m[90m&lt;chr&gt;[39m[23m &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;…
+## $ island            [3m[90m&lt;chr&gt;[39m[23m &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;,…
+## $ bill_length_mm    [3m[90m&lt;dbl&gt;[39m[23m 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.…
+## $ bill_depth_mm     [3m[90m&lt;dbl&gt;[39m[23m 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.…
+## $ flipper_length_mm [3m[90m&lt;dbl&gt;[39m[23m 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 1…
+## $ body_mass_g       [3m[90m&lt;dbl&gt;[39m[23m 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 380…
+## $ sex               [3m[90m&lt;chr&gt;[39m[23m &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;fema…
+## $ year              [3m[90m&lt;dbl&gt;[39m[23m 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 200…</code></pre>
 </div>
-<div id="python-pandas" class="section level2 right">
-<h2><code>Python</code>: <code>pandas</code></h2>
+<div class="right">
+<h2 id="python-pandas"><code>Python</code>: <code>pandas</code></h2>
 <pre class="python"><code>import pandas as pd
 penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
 penguins.info()</code></pre>
 <pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 ## RangeIndex: 214 entries, 0 to 213
 ## Data columns (total 8 columns):
-## species              214 non-null object
-## island               214 non-null object
-## bill_length_mm       214 non-null float64
-## bill_depth_mm        214 non-null float64
-## flipper_length_mm    214 non-null int64
-## body_mass_g          214 non-null int64
-## sex                  214 non-null object
-## year                 214 non-null int64
+##  #   Column             Non-Null Count  Dtype  
+## ---  ------             --------------  -----  
+##  0   species            214 non-null    object 
+##  1   island             214 non-null    object 
+##  2   bill_length_mm     214 non-null    float64
+##  3   bill_depth_mm      214 non-null    float64
+##  4   flipper_length_mm  214 non-null    int64  
+##  5   body_mass_g        214 non-null    int64  
+##  6   sex                214 non-null    object 
+##  7   year               214 non-null    int64  
 ## dtypes: float64(2), int64(3), object(3)
 ## memory usage: 13.5+ KB</code></pre>
 <pre class="python"><code>penguins.describe()</code></pre>
-<pre><code>##        bill_length_mm  bill_depth_mm  ...  body_mass_g         year
-## count      214.000000     214.000000  ...   214.000000   214.000000
-## mean        42.004673      18.370561  ...  3714.719626  2008.028037
-## std          5.491545       1.191134  ...   435.667063     0.827440
-## min         32.100000      15.500000  ...  2700.000000  2007.000000
-## 25%         37.800000      17.500000  ...  3400.000000  2007.000000
-## 50%         40.600000      18.400000  ...  3700.000000  2008.000000
-## 75%         46.000000      19.100000  ...  3993.750000  2009.000000
-## max         58.000000      21.500000  ...  4800.000000  2009.000000
-## 
-## [8 rows x 5 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>214.000000</td>
+      <td>214.000000</td>
+      <td>214.000000</td>
+      <td>214.000000</td>
+      <td>214.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>42.004673</td>
+      <td>18.370561</td>
+      <td>191.920561</td>
+      <td>3714.719626</td>
+      <td>2008.028037</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>5.491545</td>
+      <td>1.191134</td>
+      <td>7.216846</td>
+      <td>435.667063</td>
+      <td>0.827440</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>32.100000</td>
+      <td>15.500000</td>
+      <td>172.000000</td>
+      <td>2700.000000</td>
+      <td>2007.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>37.800000</td>
+      <td>17.500000</td>
+      <td>187.000000</td>
+      <td>3400.000000</td>
+      <td>2007.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>40.600000</td>
+      <td>18.400000</td>
+      <td>191.000000</td>
+      <td>3700.000000</td>
+      <td>2008.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>46.000000</td>
+      <td>19.100000</td>
+      <td>196.000000</td>
+      <td>3993.750000</td>
+      <td>2009.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>58.000000</td>
+      <td>21.500000</td>
+      <td>212.000000</td>
+      <td>4800.000000</td>
+      <td>2009.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 <div style="margin-bottom:1000px;">
 
@@ -436,14 +519,14 @@ penguins.info()</code></pre>
 </div>
 <div id="splitting-data-into-train-test-set" class="section level1">
 <h1>Splitting data into train-test set</h1>
-<div id="r-rsample" class="section level2 left">
-<h2><code>R</code>: <code>rsample</code></h2>
+<div class="left">
+<h2 id="r-rsample"><code>R</code>: <code>rsample</code></h2>
 <pre class="r"><code>library(tidymodels)
 set.seed(2020)
 penguins = penguins %&gt;% 
   dplyr::mutate(across(.cols = is.character, .fns = as.factor))</code></pre>
 <pre><code>## Warning: Problem with `mutate()` input `..1`.
-## ℹ Predicate functions must be wrapped in `where()`.
+## [34mℹ[39m Predicate functions must be wrapped in `where()`.
 ## 
 ##   # Bad
 ##   data %&gt;% select(is.character)
@@ -451,9 +534,9 @@ penguins = penguins %&gt;%
 ##   # Good
 ##   data %&gt;% select(where(is.character))
 ## 
-## ℹ Please update your code.
-## This message is displayed once per session.
-## ℹ Input `..1` is `across(.cols = is.character, .fns = as.factor)`.</code></pre>
+## [34mℹ[39m Please update your code.
+## [90mThis message is displayed once per session.[39m
+## [34mℹ[39m Input `..1` is `across(.cols = is.character, .fns = as.factor)`.</code></pre>
 <pre><code>## Warning: Predicate functions must be wrapped in `where()`.
 ## 
 ##   # Bad
@@ -462,8 +545,8 @@ penguins = penguins %&gt;%
 ##   # Good
 ##   data %&gt;% select(where(is.character))
 ## 
-## ℹ Please update your code.
-## This message is displayed once per session.</code></pre>
+## [34mℹ[39m Please update your code.
+## [90mThis message is displayed once per session.[39m</code></pre>
 <pre class="r"><code>penguins_split = rsample::initial_split(data = penguins, prop = 0.1)
 penguins_split</code></pre>
 <pre><code>## &lt;Analysis/Assess/Total&gt;
@@ -471,8 +554,8 @@ penguins_split</code></pre>
 <pre class="r"><code>penguins_train = penguins_split %&gt;% training()
 penguins_test = penguins_split %&gt;% testing()</code></pre>
 </div>
-<div id="python-train_test_split-from-sklearn.model_selection" class="section level2 right">
-<h2><code>Python</code>: <code>train_test_split</code> from <code>sklearn.model_selection</code></h2>
+<div class="right">
+<h2 id="python-train_test_split-from-sklearn.model_selection"><code>Python</code>: <code>train_test_split</code> from <code>sklearn.model_selection</code></h2>
 <pre class="python"><code>from sklearn.model_selection import train_test_split
 from pandas import get_dummies
 
@@ -488,8 +571,8 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = 0.1, rand
 </div>
 <div id="setting-up-a-recipe" class="section level1">
 <h1>Setting up a recipe</h1>
-<div id="r-recipes" class="section level2 left">
-<h2><code>R</code>: <code>recipes</code></h2>
+<div class="left">
+<h2 id="r-recipes"><code>R</code>: <code>recipes</code></h2>
 <pre class="r"><code>penguins_recipe = recipes::recipe(species ~ ., data = penguins_train) %&gt;% 
   step_knnimpute(all_predictors()) %&gt;% 
   prep()
@@ -509,8 +592,8 @@ penguins_recipe</code></pre>
 ## 
 ## K-nearest neighbor imputation for bill_length_mm, ... [trained]</code></pre>
 </div>
-<div id="python-none" class="section level2 right">
-<h2><code>Python</code>: None</h2>
+<div class="right">
+<h2 id="python-none"><code>Python</code>: None</h2>
 </div>
 <div style="margin-bottom:800px;">
 
@@ -518,15 +601,15 @@ penguins_recipe</code></pre>
 </div>
 <div id="defining-a-random-forest-model" class="section level1">
 <h1>Defining a (random forest) model</h1>
-<div id="r-parsnip" class="section level2 left">
-<h2><code>R</code>: <code>parsnip</code></h2>
+<div class="left">
+<h2 id="r-parsnip"><code>R</code>: <code>parsnip</code></h2>
 <pre class="r"><code>rf_model = rand_forest() %&gt;%
   set_args(trees = 100) %&gt;% 
   set_engine(&quot;randomForest&quot;) %&gt;% 
   set_mode(&quot;classification&quot;)</code></pre>
 </div>
-<div id="python-sklearn.ensemble" class="section level2 right">
-<h2><code>Python</code>: <code>sklearn.ensemble</code></h2>
+<div class="right">
+<h2 id="python-sklearn.ensemble"><code>Python</code>: <code>sklearn.ensemble</code></h2>
 <pre class="python"><code>from sklearn.ensemble import RandomForestClassifier
 
 steps = [(&#39;rf&#39;, RandomForestClassifier(n_estimators = 100))]</code></pre>
@@ -537,8 +620,8 @@ steps = [(&#39;rf&#39;, RandomForestClassifier(n_estimators = 100))]</code></pre
 </div>
 <div id="setting-up-a-workflowpipeline" class="section level1">
 <h1>Setting up a workflow/pipeline</h1>
-<div id="r-workflowr" class="section level2 left">
-<h2><code>R</code>: <code>workflowr</code></h2>
+<div class="left">
+<h2 id="r-workflowr"><code>R</code>: <code>workflowr</code></h2>
 <pre class="r"><code>rf_workflow = workflow() %&gt;% 
   add_recipe(penguins_recipe) %&gt;% 
   add_model(rf_model)
@@ -550,23 +633,23 @@ rf_pred_tbl = rf_pred_tbl %&gt;%
   dplyr::mutate(true = penguins_test$species %&gt;% factor)
 
 rf_pred_tbl</code></pre>
-<pre><code>## # A tibble: 192 x 2
+<pre><code>## [90m# A tibble: 192 x 2[39m
 ##    .pred_class true  
-##    &lt;fct&gt;       &lt;fct&gt; 
-##  1 Adelie      Adelie
-##  2 Adelie      Adelie
-##  3 Adelie      Adelie
-##  4 Adelie      Adelie
-##  5 Adelie      Adelie
-##  6 Adelie      Adelie
-##  7 Adelie      Adelie
-##  8 Adelie      Adelie
-##  9 Adelie      Adelie
-## 10 Adelie      Adelie
-## # … with 182 more rows</code></pre>
+##    [3m[90m&lt;fct&gt;[39m[23m       [3m[90m&lt;fct&gt;[39m[23m 
+## [90m 1[39m Adelie      Adelie
+## [90m 2[39m Adelie      Adelie
+## [90m 3[39m Adelie      Adelie
+## [90m 4[39m Adelie      Adelie
+## [90m 5[39m Adelie      Adelie
+## [90m 6[39m Adelie      Adelie
+## [90m 7[39m Adelie      Adelie
+## [90m 8[39m Adelie      Adelie
+## [90m 9[39m Adelie      Adelie
+## [90m10[39m Adelie      Adelie
+## [90m# … with 182 more rows[39m</code></pre>
 </div>
-<div id="python-pipeline-from-sklearn.pipeline" class="section level2 right">
-<h2><code>Python</code>: <code>Pipeline</code> from <code>sklearn.pipeline</code></h2>
+<div class="right">
+<h2 id="python-pipeline-from-sklearn.pipeline"><code>Python</code>: <code>Pipeline</code> from <code>sklearn.pipeline</code></h2>
 <pre class="python"><code>from sklearn.pipeline import Pipeline
 pipeline = Pipeline(steps = steps)
 
@@ -577,20 +660,88 @@ rf_pred_tbl = pd.DataFrame(
 &quot;pred&quot;: rf_pipeline_model.predict(x_test)})
 
 rf_pred_tbl</code></pre>
-<pre><code>##           true       pred
-## 0    Chinstrap     Adelie
-## 1    Chinstrap  Chinstrap
-## 2       Adelie     Adelie
-## 3       Adelie     Adelie
-## 4       Adelie     Adelie
-## ..         ...        ...
-## 188     Adelie     Adelie
-## 189     Adelie     Adelie
-## 190     Adelie     Adelie
-## 191     Adelie     Adelie
-## 192  Chinstrap  Chinstrap
-## 
-## [193 rows x 2 columns]</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>true</th>
+      <th>pred</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Chinstrap</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Chinstrap</td>
+      <td>Chinstrap</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>Adelie</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>189</th>
+      <td>Adelie</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>190</th>
+      <td>Adelie</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>191</th>
+      <td>Adelie</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>192</th>
+      <td>Chinstrap</td>
+      <td>Chinstrap</td>
+    </tr>
+  </tbody>
+</table>
+<p>193 rows × 2 columns</p>
+</div>
 </div>
 <div style="margin-bottom:800px;">
 
@@ -598,20 +749,20 @@ rf_pred_tbl</code></pre>
 </div>
 <div id="evaluation" class="section level1">
 <h1>Evaluation</h1>
-<div id="r-yardstick" class="section level2 left">
-<h2><code>R</code>: <code>yardstick</code></h2>
+<div class="left">
+<h2 id="r-yardstick"><code>R</code>: <code>yardstick</code></h2>
 <pre class="r"><code>multi_metric = metric_set(accuracy, precision, recall, f_meas)
 multi_metric(data = rf_pred_tbl, truth = true, estimate = &quot;.pred_class&quot;)</code></pre>
-<pre><code>## # A tibble: 4 x 3
+<pre><code>## [90m# A tibble: 4 x 3[39m
 ##   .metric   .estimator .estimate
-##   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;
-## 1 accuracy  binary         0.958
-## 2 precision binary         0.956
-## 3 recall    binary         0.985
-## 4 f_meas    binary         0.970</code></pre>
+##   [3m[90m&lt;chr&gt;[39m[23m     [3m[90m&lt;chr&gt;[39m[23m          [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m accuracy  binary         0.958
+## [90m2[39m precision binary         0.956
+## [90m3[39m recall    binary         0.985
+## [90m4[39m f_meas    binary         0.970</code></pre>
 </div>
-<div id="python-sklearn.metrics" class="section level2 right">
-<h2><code>Python</code>: <code>sklearn.metrics</code></h2>
+<div class="right">
+<h2 id="python-sklearn.metrics"><code>Python</code>: <code>sklearn.metrics</code></h2>
 <pre class="python"><code>from sklearn.metrics import classification_report
 
 cr = classification_report(
@@ -621,12 +772,12 @@ y_pred = rf_pred_tbl.pred)
 print(cr)</code></pre>
 <pre><code>##               precision    recall  f1-score   support
 ## 
-##       Adelie       0.96      0.98      0.97       130
-##    Chinstrap       0.97      0.90      0.93        63
+##       Adelie       0.96      1.00      0.98       130
+##    Chinstrap       1.00      0.90      0.95        63
 ## 
-##     accuracy                           0.96       193
-##    macro avg       0.96      0.94      0.95       193
-## weighted avg       0.96      0.96      0.96       193</code></pre>
+##     accuracy                           0.97       193
+##    macro avg       0.98      0.95      0.96       193
+## weighted avg       0.97      0.97      0.97       193</code></pre>
 </div>
 </div>
 
