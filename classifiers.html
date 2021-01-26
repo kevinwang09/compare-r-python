@@ -360,6 +360,7 @@ $(document).ready(function () {
 <li><a href="#splitting-data-into-train-test-sets">Splitting data into train-test sets</a></li>
 <li><a href="#roc-curve">ROC curve</a></li>
 <li><a href="#k-fold-cross-validation">k-fold cross-validation</a></li>
+<li><a href="#imputation">Imputation</a></li>
 </ul>
 </div>
 
@@ -398,8 +399,8 @@ penguins.columns</code></pre>
 </div>
 <div id="decision-tree-classification" class="section level1">
 <h1>Decision tree classification</h1>
-<div id="r-rpart" class="section level2 left">
-<h2><code>R</code>: <code>rpart</code></h2>
+<div id="r" class="section level2 left">
+<h2><code>R</code></h2>
 <pre class="r"><code>##
 ##
 ##
@@ -424,8 +425,8 @@ table(sub_penguins$species,
 <pre class="r"><code>rpart.plot(dtc_model)</code></pre>
 <p><img src="classifiers_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="python-pandas-1" class="section level2 right">
-<h2><code>Python</code>: <code>pandas</code></h2>
+<div id="python" class="section level2 right">
+<h2><code>Python</code></h2>
 <pre class="python"><code>from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 import matplotlib as plt
@@ -471,14 +472,70 @@ heat_tree(sub_penguins, target_lab = &#39;species&#39;)</code></pre>
 </div>
 <div id="splitting-data-into-train-test-sets" class="section level1">
 <h1>Splitting data into train-test sets</h1>
-<div id="r-rpart-1" class="section level2 left">
-<h2><code>R</code>: <code>rpart</code></h2>
+<p>While the previous code chunks use the entire data to fit a single tree model in each of the languages, this is obviously not the preferred practice for machine learning.</p>
+<p>We will use <code>tidymodels</code> for <code>R</code> from this point forward.</p>
+<div id="r-1" class="section level2 left">
+<h2><code>R</code></h2>
+<pre class="r"><code>library(tidymodels)</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────── tidymodels 0.1.2 ──</code></pre>
+<pre><code>## ✓ broom     0.7.3          ✓ recipes   0.1.15    
+## ✓ dials     0.0.9          ✓ rsample   0.0.8     
+## ✓ infer     0.5.3          ✓ tune      0.1.2     
+## ✓ modeldata 0.1.0          ✓ workflows 0.2.1     
+## ✓ parsnip   0.1.4          ✓ yardstick 0.0.7.9000</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+## x scales::discard() masks purrr::discard()
+## x dplyr::filter()   masks stats::filter()
+## x recipes::fixed()  masks stringr::fixed()
+## x dplyr::lag()      masks stats::lag()
+## x dials::prune()    masks rpart::prune()
+## x yardstick::spec() masks readr::spec()
+## x recipes::step()   masks stats::step()</code></pre>
+<pre class="r"><code>penguins = penguins %&gt;% dplyr::mutate(species = as.factor(species)) 
+splitting = rsample::initial_split(data = penguins, prop = 0.75)
+
+dtc_train_model = decision_tree() %&gt;% 
+  set_engine(&quot;rpart&quot;) %&gt;% 
+  set_mode(&quot;classification&quot;) %&gt;% 
+  fit(species ~ ., data = training(splitting))
+
+dtc_predictions_tbl = bind_cols(
+  pred_class = dtc_train_model %&gt;% 
+    predict(new_data = testing(splitting), type = &quot;class&quot;),
+  pred_prob = dtc_train_model %&gt;% 
+    predict(new_data = testing(splitting), type = &quot;prob&quot;))</code></pre>
+<pre class="r"><code>dtc_predictions_tbl2 = bind_cols(testing(splitting), dtc_predictions_tbl)
+
+cm = conf_mat(data = dtc_predictions_tbl2, truth = &quot;species&quot;, estimate = &quot;.pred_class&quot;)
+
+cm</code></pre>
+<pre><code>##            Truth
+## Prediction  Adelie Chinstrap
+##   Adelie        38         1
+##   Chinstrap      0        14</code></pre>
+<pre class="r"><code>summary(cm)</code></pre>
+<pre><code>## # A tibble: 13 x 3
+##    .metric              .estimator .estimate
+##    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
+##  1 accuracy             binary         0.981
+##  2 kap                  binary         0.953
+##  3 sens                 binary         1    
+##  4 spec                 binary         0.933
+##  5 ppv                  binary         0.974
+##  6 npv                  binary         1    
+##  7 mcc                  binary         0.954
+##  8 j_index              binary         0.933
+##  9 bal_accuracy         binary         0.967
+## 10 detection_prevalence binary         0.736
+## 11 precision            binary         0.974
+## 12 recall               binary         1    
+## 13 f_meas               binary         0.987</code></pre>
 </div>
-<div id="python" class="section level2 right">
+<div id="python-1" class="section level2 right">
 <h2><code>Python</code></h2>
 <pre class="python"><code>from sklearn.model_selection import train_test_split
 
-train_X, test_X, train_y, test_y = train_test_split(X, y, random_state = 0)
+train_X, test_X, train_y, test_y = train_test_split(X, y, random_state = 0, train_size = 0.75)
 
 dtc_train_model = DecisionTreeClassifier(random_state = 1, max_depth = 2)
 dtc_train_model = dtc_train_model.fit(train_X, train_y)
@@ -502,10 +559,16 @@ print(cr)</code></pre>
 </div>
 <div id="roc-curve" class="section level1">
 <h1>ROC curve</h1>
-<div id="r-rpart-2" class="section level2 left">
-<h2><code>R</code>: <code>rpart</code></h2>
+<div id="r-2" class="section level2 left">
+<h2><code>R</code></h2>
+<pre class="r"><code>roc_curve(dtc_predictions_tbl2, truth = &quot;species&quot;, estimate = &quot;.pred_Adelie&quot;) %&gt;% 
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_path() +
+  geom_abline() +
+  theme_bw()</code></pre>
+<p><img src="classifiers_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
-<div id="python-1" class="section level2 right">
+<div id="python-2" class="section level2 right">
 <h2><code>Python</code></h2>
 <pre class="python"><code>from sklearn.metrics import roc_curve
 y_pred_prob = dtc_train_model.predict_proba(test_X)[:,1]
@@ -519,12 +582,12 @@ pltpyplot.xlabel(&#39;False Positive Rate&#39;)
 pltpyplot.ylabel(&#39;True Positive Rate&#39;)
 pltpyplot.title(&#39;ROC Curve&#39;)
 pltpyplot.show()</code></pre>
-<p><img src="classifiers_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="classifiers_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 </div>
 <div id="k-fold-cross-validation" class="section level1">
 <h1>k-fold cross-validation</h1>
-<div id="python-2" class="section level2">
+<div id="python-3" class="section level2">
 <h2>Python</h2>
 <div class="right">
 <pre class="python"><code>from sklearn.model_selection import RepeatedKFold
@@ -540,6 +603,87 @@ scores = cross_val_score(estimator = dtc_train_model, X = train_X, y = train_y, 
 
 print(&quot;F1 statistics, mean (sd): &quot; + str(np.round(np.mean(scores), 4)) + &quot;(&quot; + str(np.round(np.std(scores), 4)) + &quot;)&quot;)</code></pre>
 <pre><code>## F1 statistics, mean (sd): 0.9474(0.0281)</code></pre>
+</div>
+</div>
+</div>
+<div id="imputation" class="section level1">
+<h1>Imputation</h1>
+<div id="removing-rows-with-missing-values" class="section level2">
+<h2>Removing rows with missing values</h2>
+</div>
+<div id="r-3" class="section level2 left">
+<h2><code>R</code></h2>
+<pre class="r"><code>missing_penguins = readr::read_csv(&quot;data/penguins.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   species = col_character(),
+##   island = col_character(),
+##   bill_length_mm = col_double(),
+##   bill_depth_mm = col_double(),
+##   flipper_length_mm = col_double(),
+##   body_mass_g = col_double(),
+##   sex = col_character(),
+##   year = col_double()
+## )</code></pre>
+<pre class="r"><code>feature_set = c(&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;)
+X = missing_penguins[,c(&#39;species&#39;, feature_set)]
+X_dropped = na.omit(X)</code></pre>
+</div>
+<div id="python-4" class="section level2 right">
+<h2><code>Python</code></h2>
+<pre class="python"><code>missing_penguins = pd.read_csv(&quot;data/penguins.csv&quot;)
+missing_penguins.isnull().any()</code></pre>
+<pre><code>## species              False
+## island               False
+## bill_length_mm        True
+## bill_depth_mm         True
+## flipper_length_mm     True
+## body_mass_g           True
+## sex                   True
+## year                 False
+## dtype: bool</code></pre>
+<pre class="python"><code>missing_penguins.isnull().sum()</code></pre>
+<pre><code>## species               0
+## island                0
+## bill_length_mm        2
+## bill_depth_mm         2
+## flipper_length_mm     2
+## body_mass_g           2
+## sex                  11
+## year                  0
+## dtype: int64</code></pre>
+<pre class="python"><code>feature_set = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+X = missing_penguins[feature_set]
+
+# rows_with_missing_values = [row for row in X.index if X.iloc[row,:].isnull().any()]
+
+X_dropped = X.dropna(axis = &quot;index&quot;)</code></pre>
+</div>
+<div id="median-imputation" class="section level2">
+<h2>Median imputation</h2>
+<div id="r-4" class="section level3 left">
+<h3><code>R</code></h3>
+<pre class="r"><code>library(imputeMissings)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;imputeMissings&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     compute</code></pre>
+<pre class="r"><code>imputed_X = impute(data = X, method = &quot;median/mode&quot;)</code></pre>
+</div>
+<div id="python-5" class="section level3 right">
+<h3><code>Python</code></h3>
+<pre class="python"><code>from sklearn.impute import SimpleImputer
+
+median_imputer = SimpleImputer(strategy = &quot;median&quot;)
+imputed_X = pd.DataFrame(median_imputer.fit_transform(X),columns=feature_set)
+imputed_X.isnull().any()</code></pre>
+<pre><code>## bill_length_mm       False
+## bill_depth_mm        False
+## flipper_length_mm    False
+## body_mass_g          False
+## dtype: bool</code></pre>
 </div>
 </div>
 </div>

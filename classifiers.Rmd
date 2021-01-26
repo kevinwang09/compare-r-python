@@ -49,7 +49,7 @@ penguins.columns
 # Decision tree classification
 
 ::: {.left}
-## `R`: `rpart`
+## `R`
 
 ```{r, message = FALSE}
 ##
@@ -75,7 +75,7 @@ rpart.plot(dtc_model)
 :::
 
 ::: {.right}
-## `Python`: `pandas`
+## `Python`
 
 ```{python}
 from sklearn.tree import DecisionTreeClassifier
@@ -121,8 +121,39 @@ heat_tree(sub_penguins, target_lab = 'species')
 
 # Splitting data into train-test sets
 
+While the previous code chunks use the entire data to fit a single tree model in each of the languages, this is obviously not the preferred practice for machine learning. 
+
+We will use `tidymodels` for `R` from this point forward. 
+
 ::: {.left}
-## `R`: `rpart`
+## `R`
+
+```{r}
+library(tidymodels)
+penguins = penguins %>% dplyr::mutate(species = as.factor(species)) 
+splitting = rsample::initial_split(data = penguins, prop = 0.75)
+
+dtc_train_model = decision_tree() %>% 
+  set_engine("rpart") %>% 
+  set_mode("classification") %>% 
+  fit(species ~ ., data = training(splitting))
+
+dtc_predictions_tbl = bind_cols(
+  pred_class = dtc_train_model %>% 
+    predict(new_data = testing(splitting), type = "class"),
+  pred_prob = dtc_train_model %>% 
+    predict(new_data = testing(splitting), type = "prob"))
+```
+
+```{r}
+dtc_predictions_tbl2 = bind_cols(testing(splitting), dtc_predictions_tbl)
+
+cm = conf_mat(data = dtc_predictions_tbl2, truth = "species", estimate = ".pred_class")
+
+cm
+summary(cm)
+```
+
 :::
 
 ::: {.right}
@@ -131,7 +162,7 @@ heat_tree(sub_penguins, target_lab = 'species')
 ```{python}
 from sklearn.model_selection import train_test_split
 
-train_X, test_X, train_y, test_y = train_test_split(X, y, random_state = 0)
+train_X, test_X, train_y, test_y = train_test_split(X, y, random_state = 0, train_size = 0.75)
 
 dtc_train_model = DecisionTreeClassifier(random_state = 1, max_depth = 2)
 dtc_train_model = dtc_train_model.fit(train_X, train_y)
@@ -152,7 +183,16 @@ print(cr)
 # ROC curve
 
 ::: {.left}
-## `R`: `rpart`
+## `R`
+
+```{r}
+roc_curve(dtc_predictions_tbl2, truth = "species", estimate = ".pred_Adelie") %>% 
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_path() +
+  geom_abline() +
+  theme_bw()
+```
+
 :::
 
 ::: {.right}
@@ -192,5 +232,60 @@ scorer = make_scorer(f1_score, pos_label = 'Adelie')
 scores = cross_val_score(estimator = dtc_train_model, X = train_X, y = train_y, scoring = scorer, cv = cv) ## n_jobs = -1 can be used for parallelisation
 
 print("F1 statistics, mean (sd): " + str(np.round(np.mean(scores), 4)) + "(" + str(np.round(np.std(scores), 4)) + ")")
+```
+:::
+
+# Imputation
+
+## Removing rows with missing values
+
+::: {.left}
+## `R`
+```{r}
+missing_penguins = readr::read_csv("data/penguins.csv")
+feature_set = c('bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g')
+X = missing_penguins[,c('species', feature_set)]
+X_dropped = na.omit(X)
+```
+
+:::
+
+::: {.right}
+## `Python`
+
+```{python}
+missing_penguins = pd.read_csv("data/penguins.csv")
+missing_penguins.isnull().any()
+missing_penguins.isnull().sum()
+
+feature_set = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
+X = missing_penguins[feature_set]
+
+# rows_with_missing_values = [row for row in X.index if X.iloc[row,:].isnull().any()]
+
+X_dropped = X.dropna(axis = "index")
+```
+:::
+
+
+## Median imputation 
+
+::: {.left}
+### `R`
+```{r}
+library(imputeMissings)
+imputed_X = impute(data = X, method = "median/mode")
+```
+
+:::
+
+::: {.right}
+### `Python`
+```{python}
+from sklearn.impute import SimpleImputer
+
+median_imputer = SimpleImputer(strategy = "median")
+imputed_X = pd.DataFrame(median_imputer.fit_transform(X),columns=feature_set)
+imputed_X.isnull().any()
 ```
 :::
