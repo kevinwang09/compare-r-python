@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Kevin Wang" />
 
 
-<title>Compare R and Python: model tuning</title>
+<title>Miscellaneous</title>
 
 <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -308,72 +309,20 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Compare R and Python: model tuning</h1>
+<h1 class="title toc-ignore">Miscellaneous</h1>
+<h4 class="author">Kevin Wang</h4>
+<h4 class="date">15/02/2021</h4>
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#importing-data-and-getting-a-summary">Importing data and getting a summary</a></li>
-<li><a href="#grid-search">Grid search</a></li>
-</ul>
-</div>
 
-<p>For this comparison, I will compare the <code>scikit-learn</code> library in <code>Python</code> and the newly developed <code>tidymodels</code> meta-package in <code>R</code>. The main reason that I have chosen these two is because they share a lot of similarities and imposed strict frameworks in data pre-processing, modelling and evaluations.</p>
-<p>The data that I will use is the <code>penguins</code> data from the <code>R</code> package <code>palmerpenguins</code>, which you can learn more about <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html">here</a>. The response variable is a <code>factor</code> variable, <code>species</code>, indicating the species of a penguin. The other predictor variables are a mix of both numeric and factor variables. For convenience, I have reduced the number of species to two and extracted the data below in a CSV format so that Python can also use this data through <code>pd.read_csv</code>.</p>
-<pre class="r"><code>library(palmerpenguins)
-library(tidyverse)
-
-penguins %&gt;% 
-  na.omit %&gt;% 
-  dplyr::filter(species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;)) %&gt;% 
-  readr::write_csv(path = &quot;data/penguins_complete.csv&quot;)</code></pre>
-<div id="importing-data-and-getting-a-summary" class="section level1">
-<h1>Importing data and getting a summary</h1>
-<div id="r-tidyverse" class="section level2 left">
-<h2><code>R</code>: <code>tidyverse</code></h2>
-<pre class="r"><code>library(tidyverse)
-penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
-penguins %&gt;% colnames()</code></pre>
-<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
-## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
-## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
-</div>
-<div id="python-pandas" class="section level2 right">
-<h2><code>Python</code>: <code>pandas</code></h2>
-<pre class="python"><code>import pandas as pd
-penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
-penguins.columns</code></pre>
-<pre><code>## Index([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;,
-##        &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;, &#39;sex&#39;, &#39;year&#39;],
-##       dtype=&#39;object&#39;)</code></pre>
-<pre class="python"><code>feature_set = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
-X = penguins[feature_set]
-y = penguins.species</code></pre>
-</div>
-<div style="margin-bottom:1000px;">
-
-</div>
-</div>
-<div id="grid-search" class="section level1">
-<h1>Grid search</h1>
+<div id="one-hot-encoding" class="section level1">
+<h1>One-hot encoding</h1>
 <div id="r" class="section level2 left">
-<h2>R</h2>
+<h2><code>R</code></h2>
 </div>
 <div id="python" class="section level2 right">
-<h2>Python</h2>
-<pre class="python"><code>from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import GridSearchCV
-import numpy as np
-
-param_grid = {&#39;max_depth&#39;: np.arange(1, 10)} 
-dtc_model = DecisionTreeClassifier(random_state = 0)
-dtc_cv = GridSearchCV(dtc_model, param_grid, cv = 5) 
-dtc_cv.fit(X, y)</code></pre>
-<pre><code>## GridSearchCV(cv=5, estimator=DecisionTreeClassifier(random_state=0),
-##              param_grid={&#39;max_depth&#39;: array([1, 2, 3, 4, 5, 6, 7, 8, 9])})</code></pre>
-<pre class="python"><code>dtc_cv.best_params_</code></pre>
-<pre><code>## {&#39;max_depth&#39;: 3}</code></pre>
+<h2><code>Python</code></h2>
 </div>
 </div>
 

@@ -1,0 +1,18 @@
+---
+title: "Miscellaneous"
+author: "Kevin Wang"
+date: "15/02/2021"
+output: html_document
+---
+
+
+# One-hot encoding
+::: {.left}
+## `R`
+
+:::
+
+::: {.right}
+## `Python`
+
+:::

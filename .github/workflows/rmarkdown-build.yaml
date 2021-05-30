@@ -38,7 +38,8 @@ jobs:
       - name: Setting up virtualenv
         run: |
           reticulate::py_config()
-          packages = c("numpy", "pandas", "scikit-learn", "matplotlib")
+          packages = c("numpy", "pandas", "scikit-learn", "matplotlib", "keras", "mnist", 
+          "tensorflow")
           reticulate::virtualenv_create("r-reticulate", packages = packages)
           reticulate::py_config()
           reticulate::virtualenv_list()

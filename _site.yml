@@ -7,7 +7,7 @@ navbar:
       menu:
         - text: Lists, vectors, dictionaries
           href: https://kevinwang09.github.io/compare-r-python/base.html
-        - text: DataFrames
+        - text: Data frame
           href: https://kevinwang09.github.io/compare-r-python/dataframe.html
         - text: Functions
           href: https://kevinwang09.github.io/compare-r-python/functions.html
@@ -32,3 +32,4 @@ output:
   html_document:
     theme: paper
     highlight: textmate
+    css: "style.css"

@@ -1,0 +1,218 @@
+---
+title: "Compare R and Python: keras"
+output: 
+  html_document:
+    css: style.css
+    toc: true
+    toc_depth: 1
+---
+
+# Introduction 
+
+
+<!-- ```{r, echo = FALSE} -->
+<!-- library(reticulate) -->
+<!-- reticulate::use_virtualenv(virtualenv = "r-reticulate", required = TRUE) -->
+<!-- ``` -->
+
+<!-- # Loading data -->
+
+<!-- :::{.left} -->
+<!-- ## R -->
+<!-- ```{r} -->
+<!-- library(keras) -->
+<!-- library(tidyverse) -->
+<!-- fashion_mnist <- dataset_fashion_mnist() -->
+
+<!-- c(train_images, train_labels) %<-% fashion_mnist$train -->
+<!-- c(test_images, test_labels) %<-% fashion_mnist$test -->
+
+<!-- class_names = c('T-shirt/top', -->
+<!--                 'Trouser', -->
+<!--                 'Pullover', -->
+<!--                 'Dress', -->
+<!--                 'Coat',  -->
+<!--                 'Sandal', -->
+<!--                 'Shirt', -->
+<!--                 'Sneaker', -->
+<!--                 'Bag', -->
+<!--                 'Ankle boot') -->
+
+<!-- dim(train_images) -->
+<!-- dim(train_labels) -->
+<!-- train_labels[1:20] -->
+<!-- dim(test_images) -->
+<!-- dim(test_labels) -->
+
+<!-- train_images <- train_images / 255 -->
+<!-- test_images <- test_images / 255 -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- model <- keras_model_sequential() -->
+
+<!-- model %>% -->
+<!--   layer_flatten(input_shape = c(28, 28)) %>% -->
+<!--   layer_dense(units = 32, activation = 'relu') %>% -->
+<!--   layer_dense(units = 10, activation = 'softmax') -->
+
+<!-- model %>% compile( -->
+<!--   optimizer = 'adam',  -->
+<!--   loss = 'sparse_categorical_crossentropy', -->
+<!--   metrics = c('accuracy') -->
+<!-- ) -->
+
+<!-- model %>% fit(train_images, train_labels, epochs = 5, verbose = 2, batch_size = 32) -->
+
+<!-- score <- model %>% evaluate(test_images, test_labels, verbose = 0) -->
+
+<!-- cat('Test loss:', score$loss, "\n") -->
+
+<!-- cat('Test accuracy:', score$acc, "\n") -->
+<!-- ``` -->
+
+<!-- ::: -->
+
+<!-- ```{python} -->
+<!-- from __future__ import print_function -->
+<!-- import numpy as np -->
+<!-- from mnist.loader import MNIST -->
+<!-- from keras.datasets import mnist -->
+<!-- import keras -->
+<!-- from keras.models import Sequential -->
+<!-- from keras.layers import Dense, Dropout, Flatten -->
+<!-- from keras.layers import Conv2D, MaxPooling2D -->
+<!-- from keras import backend as K -->
+
+<!-- batch_size = 128 -->
+<!-- num_classes = 10 -->
+<!-- epochs = 30 -->
+
+<!-- # input image dimensions -->
+<!-- img_rows, img_cols = 28, 28 -->
+
+<!-- # the data, shuffled and split between train and test sets -->
+<!-- mndata = MNIST(path='data/', ) -->
+<!-- (x_train, y_train), (x_test, y_test) = mnist.load_data() -->
+
+<!-- x_train = np.array(x_train) -->
+<!-- y_train = np.array(y_train) -->
+<!-- x_test = np.array(x_test) -->
+<!-- y_test = np.array(y_test) -->
+
+<!-- if K.image_data_format() == 'channels_first': -->
+<!--     x_train = x_train.reshape(x_train.shape[0], 1, img_rows, img_cols) -->
+<!--     x_test = x_test.reshape(x_test.shape[0], 1, img_rows, img_cols) -->
+<!--     input_shape = (1, img_rows, img_cols) -->
+<!-- else: -->
+<!--     x_train = x_train.reshape(x_train.shape[0], img_rows, img_cols, 1) -->
+<!--     x_test = x_test.reshape(x_test.shape[0], img_rows, img_cols, 1) -->
+<!--     input_shape = (img_rows, img_cols, 1) -->
+
+<!-- x_train = x_train.astype('float32') -->
+<!-- x_test = x_test.astype('float32') -->
+<!-- x_train /= 255 -->
+<!-- x_test /= 255 -->
+<!-- print('x_train shape:', x_train.shape) -->
+<!-- print(x_train.shape[0], 'train samples') -->
+<!-- print(x_test.shape[0], 'test samples') -->
+
+<!-- # convert class vectors to binary class matrices -->
+<!-- y_train = keras.utils.to_categorical(y_train, num_classes) -->
+<!-- y_test = keras.utils.to_categorical(y_test, num_classes) -->
+
+<!-- model = Sequential() -->
+<!-- model.add(Conv2D(32, kernel_size=(3, 3), -->
+<!--                  activation='relu', -->
+<!--                  input_shape=input_shape)) -->
+<!-- model.add(Conv2D(64, (3, 3), activation='relu')) -->
+<!-- model.add(MaxPooling2D(pool_size=(2, 2))) -->
+<!-- model.add(Dropout(0.25)) -->
+<!-- model.add(Flatten()) -->
+<!-- model.add(Dense(128, activation='relu')) -->
+<!-- model.add(Dropout(0.5)) -->
+<!-- model.add(Dense(num_classes, activation='softmax')) -->
+
+<!-- model.compile(loss=keras.losses.categorical_crossentropy, -->
+<!--               optimizer=keras.optimizers.Nadam(), -->
+<!--               metrics=['accuracy']) -->
+
+<!-- model.fit(x_train, y_train, -->
+<!--           batch_size=batch_size, -->
+<!--           epochs=epochs, -->
+<!--           verbose=1, -->
+<!--           validation_data=(x_test, y_test)) -->
+<!-- score = model.evaluate(x_test, y_test, verbose=0) -->
+<!-- print('Test loss:', score[0]) -->
+<!-- print('Test accuracy:', score[1]) -->
+<!-- ``` -->
+
+
+<!-- ```{python} -->
+<!-- import tensorflow as tf -->
+<!-- from tensorflow import keras -->
+<!-- from tensorflow.keras.datasets import cifar10 -->
+<!-- from tensorflow.keras.models import Sequential -->
+<!-- from tensorflow.keras.layers import Dense, Flatten, Conv2D, Dropout -->
+<!-- from tensorflow.keras.losses import sparse_categorical_crossentropy -->
+<!-- from tensorflow.keras.optimizers import Adam -->
+<!-- import numpy as np -->
+
+<!-- # Model configuration -->
+<!-- batch_size = 50 -->
+<!-- img_width, img_height, img_num_channels = 32, 32, 3 -->
+<!-- loss_function = sparse_categorical_crossentropy -->
+<!-- no_classes = 10 -->
+<!-- no_epochs = 100 -->
+<!-- optimizer = Adam() -->
+<!-- validation_split = 0.2 -->
+<!-- verbosity = 1 -->
+
+<!-- # Load CIFAR-10 data -->
+<!-- (input_train, target_train), (input_test, target_test) = cifar10.load_data() -->
+
+<!-- np.random.seed(22) -->
+<!-- train_index = np.random.choice(input_train.shape[0], 1000, replace = False) -->
+<!-- input_train = input_train[train_index] -->
+<!-- target_train = target_train[train_index] -->
+
+<!-- # Determine shape of the data -->
+<!-- input_shape = (img_width, img_height, img_num_channels) -->
+
+<!-- # Parse numbers as floats -->
+<!-- input_train = input_train.astype('float32') -->
+<!-- input_test = input_test.astype('float32') -->
+
+<!-- # Scale data -->
+<!-- input_train = input_train / 255 -->
+<!-- input_test = input_test / 255 -->
+
+<!-- # Create the model -->
+<!-- model = Sequential() -->
+<!-- model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=input_shape)) -->
+<!-- model.add(Flatten()) -->
+<!-- model.add(Dense(32, activation='relu')) -->
+<!-- model.Dropout(rate = 0.3) -->
+<!-- model.add(Dense(64, activation='relu')) -->
+<!-- model.add(Dense(no_classes, activation='softmax')) -->
+
+<!-- # Compile the model -->
+<!-- model.compile(loss=loss_function, -->
+<!--               optimizer=optimizer, -->
+<!--               metrics=['accuracy']) -->
+
+<!-- # Fit data to model -->
+<!-- history = model.fit(input_train, target_train, -->
+<!--             batch_size=batch_size, -->
+<!--             epochs=no_epochs, -->
+<!--             verbose=verbosity, -->
+<!--             validation_split=validation_split) -->
+
+<!-- # Generate generalization metrics -->
+<!-- score = model.evaluate(input_test, target_test, verbose=0) -->
+<!-- print(f'Test loss: {score[0]} / Test accuracy: {score[1]}') -->
+<!-- ``` -->
+
+
+# Reference
++ https://www.machinecurve.com/index.php/2020/03/30/how-to-use-conv2d-with-keras/

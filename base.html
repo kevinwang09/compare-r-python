@@ -13,13 +13,22 @@
 
 <title>Compare R and Python: basic objects</title>
 
-<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -36,11 +45,6 @@
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -53,32 +57,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -90,10 +68,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -110,40 +84,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -171,7 +118,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -183,7 +130,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -194,10 +141,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -209,7 +169,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -296,7 +255,7 @@ $(document).ready(function () {
       <a href="https://kevinwang09.github.io/compare-r-python/base.html">Lists, vectors, dictionaries</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">DataFrames</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">Data frame</a>
     </li>
     <li>
       <a href="https://kevinwang09.github.io/compare-r-python/functions.html">Functions</a>
@@ -345,7 +304,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -369,6 +328,7 @@ $(document).ready(function () {
 </div>
 
 <p>In this section, we explore some basic objects in both languages. Some of the objects are comparable with each other while some are unique to a language.</p>
+<hr />
 <div id="vectors" class="section level1">
 <h1>Vectors</h1>
 <div id="r" class="section level2 left">
@@ -399,9 +359,13 @@ type(y)</code></pre>
 <pre class="python"><code>print(y)</code></pre>
 <pre><code>## [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]</code></pre>
 </div>
+<div style="margin-bottom:700px;">
+
+</div>
 <div id="a-note-of-difference" class="section level2">
 <h2>A note of difference</h2>
 <p>Each element in a <code>R</code> vector must be of the same class. For example <code>x = c(1, "a")</code> gives a character vector (because character is considered to be more general than numeric. However, in Python these elements can co-exist, for example in <code>x = [1, "a"]</code>, <code>type(x[0])</code> is an <code>int</code> but <code>type(x[1])</code> is a <code>str</code>. Of course, <code>R</code> also has a <code>list</code> class, which can accommodate different classes for different elements, see <a href="#rlist">below</a>.</p>
+<hr />
 </div>
 </div>
 <div id="subsetting-vectors" class="section level1">
@@ -483,6 +447,7 @@ list(pd.Series(x)[b])</code></pre>
 <div style="margin-bottom:900px;">
 
 </div>
+<hr />
 </div>
 <div id="negative-indices" class="section level1">
 <h1>Negative indices</h1>
@@ -508,6 +473,7 @@ print(x)</code></pre>
 <div style="margin-bottom:900px;">
 
 </div>
+<hr />
 </div>
 <div id="rlist" class="section level1">
 <h1>List and tuples</h1>
@@ -564,11 +530,12 @@ print(x)</code></pre>
 <pre class="python"><code>y[0] = 10</code></pre>
 <pre><code>## Error in py_call_impl(callable, dots$args, dots$keywords): TypeError: &#39;tuple&#39; object does not support item assignment
 ## 
-## Detailed traceback: 
+## Detailed traceback:
 ##   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <pre class="python"><code>print(y)</code></pre>
 <pre><code>## (1, &#39;cats&#39;)</code></pre>
 </div>
+<hr />
 </div>
 <div id="consecutive-numbers" class="section level1">
 <h1>Consecutive numbers</h1>
@@ -583,6 +550,7 @@ print(x)</code></pre>
 <pre class="python"><code>list(range(1, 9))</code></pre>
 <pre><code>## [1, 2, 3, 4, 5, 6, 7, 8]</code></pre>
 </div>
+<hr />
 </div>
 <div id="variable-assignment" class="section level1">
 <h1>Variable assignment</h1>
@@ -607,6 +575,7 @@ print(y)</code></pre>
 print(y)</code></pre>
 <pre><code>## 2</code></pre>
 </div>
+<hr />
 </div>
 <div id="conversion-functions" class="section level1">
 <h1>Conversion functions</h1>
@@ -648,6 +617,7 @@ print(x_int)</code></pre>
 <pre class="python"><code>type(x_int)</code></pre>
 <pre><code>## &lt;class &#39;int&#39;&gt;</code></pre>
 </div>
+<hr />
 </div>
 <div id="named-vector-and-dictionary" class="section level1">
 <h1>Named vector and dictionary</h1>
@@ -701,20 +671,21 @@ d[&quot;a&quot;]</code></pre>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] reticulate_1.18
+## [1] reticulate_1.20-9000
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.6      lattice_0.20-41 digest_0.6.27   grid_4.0.3     
-##  [5] jsonlite_1.7.2  magrittr_2.0.1  evaluate_0.14   rlang_0.4.10   
-##  [9] stringi_1.5.3   Matrix_1.3-0    rmarkdown_2.6.4 tools_4.0.3    
-## [13] stringr_1.4.0   xfun_0.20       yaml_2.2.1      compiler_4.0.3 
-## [17] htmltools_0.5.1 knitr_1.30</code></pre>
+##  [1] Rcpp_1.0.6        lattice_0.20-41   png_0.1-7         digest_0.6.27    
+##  [5] grid_4.0.3        R6_2.5.0          jsonlite_1.7.2    magrittr_2.0.1   
+##  [9] evaluate_0.14     rlang_0.4.11      stringi_1.6.2     jquerylib_0.1.3  
+## [13] Matrix_1.3-2      bslib_0.2.4       rmarkdown_2.8     tools_4.0.3      
+## [17] stringr_1.4.0     xfun_0.23         yaml_2.2.1        compiler_4.0.3   
+## [21] htmltools_0.5.1.1 knitr_1.33        sass_0.3.1</code></pre>
 <pre><code>## python:         /usr/local/bin/python3
-## libpython:      /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin/libpython3.7.dylib
-## pythonhome:     /usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7:/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7
-## version:        3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
-## numpy:          /usr/local/lib/python3.7/site-packages/numpy
-## numpy_version:  1.17.0
+## libpython:      /usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib
+## pythonhome:     /usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9:/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9
+## version:        3.9.4 (default, Apr  5 2021, 01:47:16)  [Clang 11.0.0 (clang-1100.0.33.17)]
+## numpy:          /usr/local/lib/python3.9/site-packages/numpy
+## numpy_version:  1.19.5
 ## 
 ## NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
 </div>
@@ -746,7 +717,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

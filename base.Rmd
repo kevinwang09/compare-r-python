@@ -2,7 +2,6 @@
 title: "Compare R and Python: basic objects"
 output: 
   html_document:
-    css: style.css
     toc: true
     toc_depth: 1
 ---
@@ -13,6 +12,8 @@ In this section, we explore some basic objects in both languages. Some of the ob
 library(reticulate)
 reticulate::use_virtualenv(virtualenv = "r-reticulate", required = TRUE)
 ```
+
+---
 
 # Vectors
 
@@ -51,9 +52,14 @@ print(y)
 
 </div>
 
+<div style="margin-bottom:700px;">
+</div>
+
 ## A note of difference
 
 Each element in a `R` vector must be of the same class. For example `x = c(1, "a")` gives a character vector (because character is considered to be more general than numeric. However, in Python these elements can co-exist, for example in `x = [1, "a"]`, `type(x[0])` is an `int` but `type(x[1])` is a `str`. Of course, `R` also has a `list` class, which can accommodate different classes for different elements, see [below](#rlist).
+
+---
 
 # Subsetting vectors
 
@@ -142,8 +148,7 @@ print(list(filter(lambda y: y > 3, x)))
 <div style="margin-bottom:900px;">
 </div>
 
-
-
+---
 
 # Negative indices
 
@@ -177,6 +182,8 @@ x[-2:] ## Extracting the second last element to the end of the vector
 
 <div style="margin-bottom:900px;">
 </div>
+
+---
 
 # List and tuples {#rlist}
 
@@ -228,6 +235,8 @@ print(y)
 
 </div>
 
+---
+
 # Consecutive numbers
 
 Again, due to the indexing, Python will require an offset. 
@@ -250,6 +259,8 @@ list(range(1, 9))
 ```
 
 </div>
+
+---
 
 # Variable assignment
 
@@ -278,6 +289,8 @@ y = 2
 print(y)
 ```
 </div>
+
+---
 
 # Conversion functions
 
@@ -323,7 +336,7 @@ type(x_int)
 ```
 </div>
 
-
+---
 
 # Named vector and dictionary
 

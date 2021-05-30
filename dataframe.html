@@ -13,13 +13,22 @@
 
 <title>Compare R and Python: data frame manipulations</title>
 
-<script src="site_libs/header-attrs-2.6.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -36,11 +45,6 @@
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -53,32 +57,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -90,10 +68,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -110,40 +84,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -171,7 +118,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -183,7 +130,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -194,10 +141,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -209,7 +169,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -296,7 +255,7 @@ $(document).ready(function () {
       <a href="https://kevinwang09.github.io/compare-r-python/base.html">Lists, vectors, dictionaries</a>
     </li>
     <li>
-      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">DataFrames</a>
+      <a href="https://kevinwang09.github.io/compare-r-python/dataframe.html">Data frame</a>
     </li>
     <li>
       <a href="https://kevinwang09.github.io/compare-r-python/functions.html">Functions</a>
@@ -345,7 +304,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -365,6 +324,7 @@ $(document).ready(function () {
 </ul>
 </div>
 
+<hr />
 <div id="creating-a-data-frame-manually" class="section level1">
 <h1>Creating a data frame manually</h1>
 <div id="r" class="section level2 left">
@@ -400,6 +360,7 @@ print(data)</code></pre>
 <div style="margin-bottom:400px;">
 
 </div>
+<hr />
 </div>
 <div id="reading-data-frames" class="section level1">
 <h1>Reading data frames</h1>
@@ -413,6 +374,7 @@ data = readr::read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 <pre class="python"><code>import pandas as pd
 data = pd.read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
+<hr />
 </div>
 <div id="saving-data-frames" class="section level1">
 <h1>Saving data frames</h1>
@@ -422,8 +384,7 @@ data = pd.read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
 <div id="python-2" class="section level2 right">
 <h2>Python</h2>
-<pre class="python"><code>data.to_csv(path_or_buf = &quot;data/penguins_complete2.csv&quot;)
-## </code></pre>
+<pre class="python"><code>data.to_csv(path_or_buf = &quot;data/penguins_complete2.csv&quot;)</code></pre>
 </div>
 <div id="index-based-selection" class="section level2">
 <h2>Index-based selection</h2>
@@ -467,6 +428,7 @@ data.iloc[0,:]</code></pre>
 <div style="margin-bottom:600px;">
 
 </div>
+<hr />
 </div>
 <div id="label-based-selection" class="section level2">
 <h2>Label-based selection</h2>
@@ -536,18 +498,18 @@ data[(data$species == &quot;Adelie&quot;) &amp; (data$bill_depth_mm &gt; 21), ]<
 ##
 data[data$species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;), ]</code></pre>
 <pre><code>## # A tibble: 214 x 8
-##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…           36.7          19.3              193        3450
-##  5 Adelie  Torge…           39.3          20.6              190        3650
-##  6 Adelie  Torge…           38.9          17.8              181        3625
-##  7 Adelie  Torge…           39.2          19.6              195        4675
-##  8 Adelie  Torge…           41.1          17.6              182        3200
-##  9 Adelie  Torge…           38.6          21.2              191        3800
-## 10 Adelie  Torge…           34.6          21.1              198        4400
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           36.7          19.3               193        3450
+##  5 Adelie  Torgersen           39.3          20.6               190        3650
+##  6 Adelie  Torgersen           38.9          17.8               181        3625
+##  7 Adelie  Torgersen           39.2          19.6               195        4675
+##  8 Adelie  Torgersen           41.1          17.6               182        3200
+##  9 Adelie  Torgersen           38.6          21.2               191        3800
+## 10 Adelie  Torgersen           34.6          21.1               198        4400
 ## # … with 204 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 <pre class="r"><code>library(dplyr)
 data %&gt;% filter((species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21))</code></pre>
@@ -563,18 +525,18 @@ data %&gt;% filter((species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)
 ## # … with 1 more variable: year &lt;dbl&gt;</code></pre>
 <pre class="r"><code>data %&gt;% filter(species %in% c(&quot;Adelie&quot;, &quot;Chinstrap&quot;))</code></pre>
 <pre><code>## # A tibble: 214 x 8
-##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…           36.7          19.3              193        3450
-##  5 Adelie  Torge…           39.3          20.6              190        3650
-##  6 Adelie  Torge…           38.9          17.8              181        3625
-##  7 Adelie  Torge…           39.2          19.6              195        4675
-##  8 Adelie  Torge…           41.1          17.6              182        3200
-##  9 Adelie  Torge…           38.6          21.2              191        3800
-## 10 Adelie  Torge…           34.6          21.1              198        4400
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           36.7          19.3               193        3450
+##  5 Adelie  Torgersen           39.3          20.6               190        3650
+##  6 Adelie  Torgersen           38.9          17.8               181        3625
+##  7 Adelie  Torgersen           39.2          19.6               195        4675
+##  8 Adelie  Torgersen           41.1          17.6               182        3200
+##  9 Adelie  Torgersen           38.6          21.2               191        3800
+## 10 Adelie  Torgersen           34.6          21.1               198        4400
 ## # … with 204 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="python-5" class="section level3 right">
@@ -644,6 +606,7 @@ data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#3
 <div style="margin-bottom:2700px;">
 
 </div>
+<hr />
 </div>
 </div>
 <div id="adding-new-columns" class="section level1">
@@ -655,18 +618,18 @@ data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#3
 ## dplyr solution
 data %&gt;% mutate(body_mass_kg = body_mass_g/1000)</code></pre>
 <pre><code>## # A tibble: 214 x 9
-##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…           36.7          19.3              193        3450
-##  5 Adelie  Torge…           39.3          20.6              190        3650
-##  6 Adelie  Torge…           38.9          17.8              181        3625
-##  7 Adelie  Torge…           39.2          19.6              195        4675
-##  8 Adelie  Torge…           41.1          17.6              182        3200
-##  9 Adelie  Torge…           38.6          21.2              191        3800
-## 10 Adelie  Torge…           34.6          21.1              198        4400
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           36.7          19.3               193        3450
+##  5 Adelie  Torgersen           39.3          20.6               190        3650
+##  6 Adelie  Torgersen           38.9          17.8               181        3625
+##  7 Adelie  Torgersen           39.2          19.6               195        4675
+##  8 Adelie  Torgersen           41.1          17.6               182        3200
+##  9 Adelie  Torgersen           38.6          21.2               191        3800
+## 10 Adelie  Torgersen           34.6          21.1               198        4400
 ## # … with 204 more rows, and 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;,
 ## #   body_mass_kg &lt;dbl&gt;</code></pre>
 </div>
@@ -693,6 +656,7 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 <div style="margin-bottom:1000px;">
 
 </div>
+<hr />
 </div>
 <div id="previewing-and-describing-data" class="section level1">
 <h1>Previewing and describing data</h1>
@@ -734,15 +698,15 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 <pre class="r"><code>glimpse(data)</code></pre>
 <pre><code>## Rows: 214
 ## Columns: 9
-## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;…
-## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;,…
-## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.…
-## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.…
-## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 1…
-## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 380…
-## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;fema…
-## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 200…
-## $ body_mass_kg      &lt;dbl&gt; 3.750, 3.800, 3.250, 3.450, 3.650, 3.625, 4.675, 3.…</code></pre>
+## $ species           &lt;chr&gt; &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;Adelie&quot;, &quot;A…
+## $ island            &lt;chr&gt; &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, &quot;Torgersen&quot;, …
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6…
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2…
+## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 18…
+## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800…
+## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;femal…
+## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
+## $ body_mass_kg      &lt;dbl&gt; 3.750, 3.800, 3.250, 3.450, 3.650, 3.625, 4.675, 3.2…</code></pre>
 <pre class="r"><code>dim(data)</code></pre>
 <pre><code>## [1] 214   9</code></pre>
 <pre class="r"><code>unique(data$species)</code></pre>
@@ -808,15 +772,17 @@ table(data$species)</code></pre>
 <pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 ## RangeIndex: 214 entries, 0 to 213
 ## Data columns (total 9 columns):
-## species              214 non-null object
-## island               214 non-null object
-## bill_length_mm       214 non-null float64
-## bill_depth_mm        214 non-null float64
-## flipper_length_mm    214 non-null int64
-## body_mass_g          214 non-null int64
-## sex                  214 non-null object
-## year                 214 non-null int64
-## body_mass_kg         214 non-null float64
+##  #   Column             Non-Null Count  Dtype  
+## ---  ------             --------------  -----  
+##  0   species            214 non-null    object 
+##  1   island             214 non-null    object 
+##  2   bill_length_mm     214 non-null    float64
+##  3   bill_depth_mm      214 non-null    float64
+##  4   flipper_length_mm  214 non-null    int64  
+##  5   body_mass_g        214 non-null    int64  
+##  6   sex                214 non-null    object 
+##  7   year               214 non-null    int64  
+##  8   body_mass_kg       214 non-null    float64
 ## dtypes: float64(3), int64(3), object(3)
 ## memory usage: 15.2+ KB</code></pre>
 <pre class="python"><code>data.shape</code></pre>
@@ -828,9 +794,10 @@ table(data$species)</code></pre>
 ## Chinstrap     68
 ## Name: species, dtype: int64</code></pre>
 </div>
-<div style="margin-bottom:2000px;">
+<div style="margin-bottom:2300px;">
 
 </div>
+<hr />
 </div>
 <div id="grouped-operations" class="section level1">
 <h1>Grouped operations</h1>
@@ -859,10 +826,10 @@ data %&gt;%
   group_by(species) %&gt;% 
   summarise_if(.predicate = is.numeric, .funs = mean)</code></pre>
 <pre><code>## # A tibble: 2 x 7
-##   species bill_length_mm bill_depth_mm flipper_length_… body_mass_g  year
-##   &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
-## 1 Adelie            38.8          18.3             190.       3706. 2008.
-## 2 Chinst…           48.8          18.4             196.       3733. 2008.
+##   species   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g  year
+##   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 Adelie              38.8          18.3              190.       3706. 2008.
+## 2 Chinstrap           48.8          18.4              196.       3733. 2008.
 ## # … with 1 more variable: body_mass_kg &lt;dbl&gt;</code></pre>
 <pre class="r"><code>data %&gt;% 
   group_by(species) %&gt;% 
@@ -948,6 +915,7 @@ data %&gt;%
 <div style="margin-bottom:2000px;">
 
 </div>
+<hr />
 </div>
 <div id="handling-of-missing-values" class="section level1">
 <h1>Handling of missing values</h1>
@@ -966,18 +934,18 @@ missing_data %&gt;%
 <pre class="r"><code>missing_data %&gt;% 
   dplyr::mutate(bill_length_mm = coalesce(bill_length_mm, 0))</code></pre>
 <pre><code>## # A tibble: 344 x 8
-##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…            0            NA                 NA          NA
-##  5 Adelie  Torge…           36.7          19.3              193        3450
-##  6 Adelie  Torge…           39.3          20.6              190        3650
-##  7 Adelie  Torge…           38.9          17.8              181        3625
-##  8 Adelie  Torge…           39.2          19.6              195        4675
-##  9 Adelie  Torge…           34.1          18.1              193        3475
-## 10 Adelie  Torge…           42            20.2              190        4250
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen            0            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
 ## # … with 334 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="python-9" class="section level2 right">
@@ -1037,7 +1005,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
