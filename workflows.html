@@ -13,7 +13,6 @@
 
 <title>Compare R and Python: workflows</title>
 
-<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -328,20 +327,20 @@ $(document).ready(function () {
 <pre class="r"><code>library(palmerpenguins)
 library(tidyverse)
 readr::write_csv(penguins %&gt;% na.omit, path = &quot;data/penguins_complete.csv&quot;)</code></pre>
-<pre><code>## python:         /usr/local/bin/python3
-## libpython:      /usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib
-## pythonhome:     /usr/local/Cellar/python@3.9/3.9.5/Frameworks/Python.framework/Versions/3.9:/usr/local/Cellar/python@3.9/3.9.5/Frameworks/Python.framework/Versions/3.9
-## version:        3.9.5 (default, May  4 2021, 03:29:30)  [Clang 11.0.0 (clang-1100.0.33.17)]
-## numpy:          /usr/local/lib/python3.9/site-packages/numpy
+<pre><code>## python:         /home/runner/.virtualenvs/r-reticulate/bin/python
+## libpython:      /home/runner/.local/share/r-miniconda/envs/r-reticulate/lib/libpython3.6m.so
+## pythonhome:     /home/runner/.virtualenvs/r-reticulate:/home/runner/.virtualenvs/r-reticulate
+## version:        3.6.13 | packaged by conda-forge | (default, Feb 19 2021, 05:36:01)  [GCC 9.3.0]
+## numpy:          /home/runner/.virtualenvs/r-reticulate/lib/python3.6/site-packages/numpy
 ## numpy_version:  1.19.5
 ## 
-## NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
+## NOTE: Python version was forced by use_python function</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre><code>## [1] FALSE</code></pre>
 <div id="importing-data-and-getting-a-summary" class="section level1">
 <h1>Importing data and getting a summary</h1>
-<div id="r-tidyverse" class="section level2 left">
-<h2><code>R</code>: <code>tidyverse</code></h2>
+<div class="left">
+<h2 id="r-tidyverse"><code>R</code>: <code>tidyverse</code></h2>
 <p>It is hard for me to remember how to use <code>R</code> without <code>tidyverse</code>. And by <code>tidyverse</code>, I am referring to both the package and the whole framework that it has established and keeps proliferating through many community-built <code>R</code> packages.</p>
 <p>Here, we will use the <code>readr</code> and <code>dplyr</code> packages to import the data and quickly get a summary of the data.</p>
 <pre class="r"><code>library(tidyverse)
@@ -358,8 +357,8 @@ penguins %&gt;% glimpse()</code></pre>
 ## $ sex               &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;femal…
 ## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
 </div>
-<div id="python-pandas" class="section level2 right">
-<h2><code>Python</code>: <code>pandas</code></h2>
+<div class="right">
+<h2 id="python-pandas"><code>Python</code>: <code>pandas</code></h2>
 <pre class="python"><code>import pandas as pd
 penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
 penguins.info()</code></pre>
@@ -397,8 +396,8 @@ penguins.info()</code></pre>
 </div>
 <div id="splitting-data-into-train-test-set" class="section level1">
 <h1>Splitting data into train-test set</h1>
-<div id="r-rsample" class="section level2 left">
-<h2><code>R</code>: <code>rsample</code></h2>
+<div class="left">
+<h2 id="r-rsample"><code>R</code>: <code>rsample</code></h2>
 <pre class="r"><code>library(tidymodels)
 set.seed(2020)
 penguins = penguins %&gt;% 
@@ -420,8 +419,8 @@ penguins_split</code></pre>
 <pre class="r"><code>penguins_train = penguins_split %&gt;% training()
 penguins_test = penguins_split %&gt;% testing()</code></pre>
 </div>
-<div id="python-train_test_split-from-sklearn.model_selection" class="section level2 right">
-<h2><code>Python</code>: <code>train_test_split</code> from <code>sklearn.model_selection</code></h2>
+<div class="right">
+<h2 id="python-train_test_split-from-sklearn.model_selection"><code>Python</code>: <code>train_test_split</code> from <code>sklearn.model_selection</code></h2>
 <pre class="python"><code>from sklearn.model_selection import train_test_split
 from pandas import get_dummies
 
@@ -437,8 +436,8 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = 0.1, rand
 </div>
 <div id="setting-up-a-recipe" class="section level1">
 <h1>Setting up a recipe</h1>
-<div id="r-recipes" class="section level2 left">
-<h2><code>R</code>: <code>recipes</code></h2>
+<div class="left">
+<h2 id="r-recipes"><code>R</code>: <code>recipes</code></h2>
 <pre class="r"><code>penguins_recipe = recipes::recipe(species ~ ., data = penguins_train) %&gt;% 
   step_knnimpute(all_predictors()) %&gt;% 
   prep()</code></pre>
@@ -459,8 +458,8 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = 0.1, rand
 ## 
 ## K-nearest neighbor imputation for bill_length_mm, ... [trained]</code></pre>
 </div>
-<div id="python-none" class="section level2 right">
-<h2><code>Python</code>: None</h2>
+<div class="right">
+<h2 id="python-none"><code>Python</code>: None</h2>
 </div>
 <div style="margin-bottom:800px;">
 
@@ -468,15 +467,15 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = 0.1, rand
 </div>
 <div id="defining-a-random-forest-model" class="section level1">
 <h1>Defining a (random forest) model</h1>
-<div id="r-parsnip" class="section level2 left">
-<h2><code>R</code>: <code>parsnip</code></h2>
+<div class="left">
+<h2 id="r-parsnip"><code>R</code>: <code>parsnip</code></h2>
 <pre class="r"><code>rf_model = rand_forest() %&gt;%
   set_args(trees = 100) %&gt;% 
   set_engine(&quot;randomForest&quot;) %&gt;% 
   set_mode(&quot;classification&quot;)</code></pre>
 </div>
-<div id="python-sklearn.ensemble" class="section level2 right">
-<h2><code>Python</code>: <code>sklearn.ensemble</code></h2>
+<div class="right">
+<h2 id="python-sklearn.ensemble"><code>Python</code>: <code>sklearn.ensemble</code></h2>
 <pre class="python"><code>from sklearn.ensemble import RandomForestClassifier
 
 steps = [(&#39;rf&#39;, RandomForestClassifier(n_estimators = 100))]</code></pre>
@@ -487,8 +486,8 @@ steps = [(&#39;rf&#39;, RandomForestClassifier(n_estimators = 100))]</code></pre
 </div>
 <div id="setting-up-a-workflowpipeline" class="section level1">
 <h1>Setting up a workflow/pipeline</h1>
-<div id="r-workflowr" class="section level2 left">
-<h2><code>R</code>: <code>workflowr</code></h2>
+<div class="left">
+<h2 id="r-workflowr"><code>R</code>: <code>workflowr</code></h2>
 <pre class="r"><code>rf_workflow = workflow() %&gt;% 
   add_recipe(penguins_recipe) %&gt;% 
   add_model(rf_model)
@@ -515,8 +514,8 @@ rf_pred_tbl</code></pre>
 ## 10 Adelie      Adelie
 ## # … with 183 more rows</code></pre>
 </div>
-<div id="python-pipeline-from-sklearn.pipeline" class="section level2 right">
-<h2><code>Python</code>: <code>Pipeline</code> from <code>sklearn.pipeline</code></h2>
+<div class="right">
+<h2 id="python-pipeline-from-sklearn.pipeline"><code>Python</code>: <code>Pipeline</code> from <code>sklearn.pipeline</code></h2>
 <pre class="python"><code>from sklearn.pipeline import Pipeline
 pipeline = Pipeline(steps = steps)
 
@@ -548,8 +547,8 @@ rf_pred_tbl</code></pre>
 </div>
 <div id="evaluation" class="section level1">
 <h1>Evaluation</h1>
-<div id="r-yardstick" class="section level2 left">
-<h2><code>R</code>: <code>yardstick</code></h2>
+<div class="left">
+<h2 id="r-yardstick"><code>R</code>: <code>yardstick</code></h2>
 <pre class="r"><code>multi_metric = metric_set(accuracy, precision, recall, f_meas)
 multi_metric(data = rf_pred_tbl, truth = true, estimate = &quot;.pred_class&quot;)</code></pre>
 <pre><code>## # A tibble: 4 x 3
@@ -560,8 +559,8 @@ multi_metric(data = rf_pred_tbl, truth = true, estimate = &quot;.pred_class&quot
 ## 3 recall    binary         1    
 ## 4 f_meas    binary         0.960</code></pre>
 </div>
-<div id="python-sklearn.metrics" class="section level2 right">
-<h2><code>Python</code>: <code>sklearn.metrics</code></h2>
+<div class="right">
+<h2 id="python-sklearn.metrics"><code>Python</code>: <code>sklearn.metrics</code></h2>
 <pre class="python"><code>from sklearn.metrics import classification_report
 
 cr = classification_report(
@@ -571,12 +570,12 @@ y_pred = rf_pred_tbl.pred)
 print(cr)</code></pre>
 <pre><code>##               precision    recall  f1-score   support
 ## 
-##       Adelie       0.95      0.98      0.97       130
-##    Chinstrap       0.95      0.90      0.93        63
+##       Adelie       0.96      1.00      0.98       130
+##    Chinstrap       1.00      0.90      0.95        63
 ## 
-##     accuracy                           0.95       193
-##    macro avg       0.95      0.94      0.95       193
-## weighted avg       0.95      0.95      0.95       193</code></pre>
+##     accuracy                           0.97       193
+##    macro avg       0.98      0.95      0.96       193
+## weighted avg       0.97      0.97      0.97       193</code></pre>
 </div>
 </div>
 

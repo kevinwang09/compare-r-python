@@ -13,7 +13,6 @@
 
 <title>Compare R and Python: basic classifiers</title>
 
-<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -334,8 +333,8 @@ penguins %&gt;%
   readr::write_csv(path = &quot;data/penguins_complete.csv&quot;)</code></pre>
 <div id="importing-data-and-getting-a-summary" class="section level1">
 <h1>Importing data and getting a summary</h1>
-<div id="r-tidyverse" class="section level2 left">
-<h2><code>R</code>: <code>tidyverse</code></h2>
+<div class="left">
+<h2 id="r-tidyverse"><code>R</code>: <code>tidyverse</code></h2>
 <pre class="r"><code>library(tidyverse)
 penguins = readr::read_csv(file = &quot;data/penguins_complete.csv&quot;)
 penguins %&gt;% colnames()</code></pre>
@@ -343,8 +342,8 @@ penguins %&gt;% colnames()</code></pre>
 ## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
 ## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
 </div>
-<div id="python-pandas" class="section level2 right">
-<h2><code>Python</code>: <code>pandas</code></h2>
+<div class="right">
+<h2 id="python-pandas"><code>Python</code>: <code>pandas</code></h2>
 <pre class="python"><code>import pandas as pd
 penguins = pd.read_csv(&quot;data/penguins_complete.csv&quot;)
 penguins.columns</code></pre>
@@ -358,8 +357,8 @@ penguins.columns</code></pre>
 </div>
 <div id="decision-tree-classification" class="section level1">
 <h1>Decision tree classification</h1>
-<div id="r" class="section level2 left">
-<h2><code>R</code></h2>
+<div class="left">
+<h2 id="r"><code>R</code></h2>
 <pre class="r"><code>##
 ##
 ##
@@ -384,8 +383,8 @@ table(sub_penguins$species,
 <pre class="r"><code>rpart.plot(dtc_model)</code></pre>
 <p><img src="classifiers_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="python" class="section level2 right">
-<h2><code>Python</code></h2>
+<div class="right">
+<h2 id="python"><code>Python</code></h2>
 <pre class="python"><code>from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 import matplotlib as plt
@@ -429,25 +428,28 @@ heat_tree(sub_penguins, target_lab = &#39;species&#39;)</code></pre>
 <h1>Splitting data into train-test sets</h1>
 <p>While the previous code chunks use the entire data to fit a single tree model in each of the languages, this is obviously not the preferred practice for machine learning.</p>
 <p>We will use <code>tidymodels</code> for <code>R</code> from this point forward.</p>
-<div id="r-1" class="section level2 left">
-<h2><code>R</code></h2>
+<div class="left">
+<h2 id="r-1"><code>R</code></h2>
 <pre class="r"><code>library(tidymodels)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;tune&#39;:
+##   method                   from   
+##   required_pkgs.model_spec parsnip</code></pre>
 <pre><code>## ── Attaching packages ────────────────────────────────────── tidymodels 0.1.3 ──</code></pre>
-<pre><code>## ✓ broom        0.7.6          ✓ rsample      0.0.9.9000
-## ✓ dials        0.0.9          ✓ tune         0.1.5     
-## ✓ infer        0.5.4          ✓ workflows    0.2.2     
-## ✓ modeldata    0.1.0          ✓ workflowsets 0.0.2     
-## ✓ parsnip      0.1.5          ✓ yardstick    0.0.8     
-## ✓ recipes      0.1.16</code></pre>
+<pre><code>## ✔ broom        0.7.6      ✔ rsample      0.1.0 
+## ✔ dials        0.0.9      ✔ tune         0.1.5 
+## ✔ infer        0.5.4      ✔ workflows    0.2.2 
+## ✔ modeldata    0.1.0      ✔ workflowsets 0.0.2 
+## ✔ parsnip      0.1.6      ✔ yardstick    0.0.8 
+## ✔ recipes      0.1.16</code></pre>
 <pre><code>## ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
-## x scales::discard() masks purrr::discard()
-## x dplyr::filter()   masks stats::filter()
-## x recipes::fixed()  masks stringr::fixed()
-## x dplyr::lag()      masks stats::lag()
-## x dials::prune()    masks rpart::prune()
-## x yardstick::spec() masks readr::spec()
-## x recipes::step()   masks stats::step()
-## ● Use tidymodels_prefer() to resolve common conflicts.</code></pre>
+## ✖ scales::discard() masks purrr::discard()
+## ✖ dplyr::filter()   masks stats::filter()
+## ✖ recipes::fixed()  masks stringr::fixed()
+## ✖ dplyr::lag()      masks stats::lag()
+## ✖ dials::prune()    masks rpart::prune()
+## ✖ yardstick::spec() masks readr::spec()
+## ✖ recipes::step()   masks stats::step()
+## • Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 <pre class="r"><code>penguins = penguins %&gt;% dplyr::mutate(species = as.factor(species)) 
 splitting = rsample::initial_split(data = penguins, prop = 0.75)
 
@@ -468,28 +470,28 @@ cm = conf_mat(data = dtc_predictions_tbl2, truth = &quot;species&quot;, estimate
 cm</code></pre>
 <pre><code>##            Truth
 ## Prediction  Adelie Chinstrap
-##   Adelie        38         0
-##   Chinstrap      0        16</code></pre>
+##   Adelie        41         3
+##   Chinstrap      1         9</code></pre>
 <pre class="r"><code>summary(cm)</code></pre>
 <pre><code>## # A tibble: 13 x 3
 ##    .metric              .estimator .estimate
 ##    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-##  1 accuracy             binary         1    
-##  2 kap                  binary         1    
-##  3 sens                 binary         1    
-##  4 spec                 binary         1    
-##  5 ppv                  binary         1    
-##  6 npv                  binary         1    
-##  7 mcc                  binary         1    
-##  8 j_index              binary         1    
-##  9 bal_accuracy         binary         1    
-## 10 detection_prevalence binary         0.704
-## 11 precision            binary         1    
-## 12 recall               binary         1    
-## 13 f_meas               binary         1</code></pre>
+##  1 accuracy             binary         0.926
+##  2 kap                  binary         0.772
+##  3 sens                 binary         0.976
+##  4 spec                 binary         0.75 
+##  5 ppv                  binary         0.932
+##  6 npv                  binary         0.9  
+##  7 mcc                  binary         0.777
+##  8 j_index              binary         0.726
+##  9 bal_accuracy         binary         0.863
+## 10 detection_prevalence binary         0.815
+## 11 precision            binary         0.932
+## 12 recall               binary         0.976
+## 13 f_meas               binary         0.953</code></pre>
 </div>
-<div id="python-1" class="section level2 right">
-<h2><code>Python</code></h2>
+<div class="right">
+<h2 id="python-1"><code>Python</code></h2>
 <pre class="python"><code>from sklearn.model_selection import train_test_split
 
 train_X, test_X, train_y, test_y = train_test_split(X, y, random_state = 0, train_size = 0.75)
@@ -516,8 +518,8 @@ print(cr)</code></pre>
 </div>
 <div id="roc-curve" class="section level1">
 <h1>ROC curve</h1>
-<div id="r-2" class="section level2 left">
-<h2><code>R</code></h2>
+<div class="left">
+<h2 id="r-2"><code>R</code></h2>
 <pre class="r"><code>roc_curve(dtc_predictions_tbl2, truth = &quot;species&quot;, estimate = &quot;.pred_Adelie&quot;) %&gt;% 
   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
   geom_path() +
@@ -525,8 +527,8 @@ print(cr)</code></pre>
   theme_bw()</code></pre>
 <p><img src="classifiers_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
-<div id="python-2" class="section level2 right">
-<h2><code>Python</code></h2>
+<div class="right">
+<h2 id="python-2"><code>Python</code></h2>
 <pre class="python"><code>from sklearn.metrics import roc_curve
 y_pred_prob = dtc_train_model.predict_proba(test_X)[:,1]
 fpr, tpr, thresholds = roc_curve(test_y, y_pred_prob, pos_label = &quot;Chinstrap&quot;)
@@ -534,9 +536,9 @@ fpr, tpr, thresholds = roc_curve(test_y, y_pred_prob, pos_label = &quot;Chinstra
 # Plot ROC curve
 pltpyplot.close()
 pltpyplot.plot([0, 1], [0, 1], &#39;k--&#39;)</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x12e3ecf70&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8af13c1cf8&gt;]</code></pre>
 <pre class="python"><code>pltpyplot.plot(fpr, tpr)</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x12f1fc340&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8af13c11d0&gt;]</code></pre>
 <pre class="python"><code>pltpyplot.xlabel(&#39;False Positive Rate&#39;)</code></pre>
 <pre><code>## Text(0.5, 0, &#39;False Positive Rate&#39;)</code></pre>
 <pre class="python"><code>pltpyplot.ylabel(&#39;True Positive Rate&#39;)</code></pre>
@@ -572,9 +574,8 @@ print(&quot;F1 statistics, mean (sd): &quot; + str(np.round(np.mean(scores), 4))
 <h1>Imputation</h1>
 <div id="removing-rows-with-missing-values" class="section level2">
 <h2>Removing rows with missing values</h2>
-</div>
-<div id="r-3" class="section level2 left">
-<h2><code>R</code></h2>
+<div class="left">
+<h2 id="r-3"><code>R</code></h2>
 <pre class="r"><code>missing_penguins = readr::read_csv(&quot;data/penguins.csv&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -592,8 +593,8 @@ print(&quot;F1 statistics, mean (sd): &quot; + str(np.round(np.mean(scores), 4))
 X = missing_penguins[,c(&#39;species&#39;, feature_set)]
 X_dropped = na.omit(X)</code></pre>
 </div>
-<div id="python-4" class="section level2 right">
-<h2><code>Python</code></h2>
+<div class="right">
+<h2 id="python-4"><code>Python</code></h2>
 <pre class="python"><code>missing_penguins = pd.read_csv(&quot;data/penguins.csv&quot;)
 missing_penguins.isnull().any()</code></pre>
 <pre><code>## species              False
@@ -622,10 +623,11 @@ X = missing_penguins[feature_set]
 
 X_dropped = X.dropna(axis = &quot;index&quot;)</code></pre>
 </div>
+</div>
 <div id="median-imputation" class="section level2">
 <h2>Median imputation</h2>
-<div id="r-4" class="section level3 left">
-<h3><code>R</code></h3>
+<div class="left">
+<h3 id="r-4"><code>R</code></h3>
 <pre class="r"><code>library(imputeMissings)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;imputeMissings&#39;</code></pre>
@@ -634,8 +636,8 @@ X_dropped = X.dropna(axis = &quot;index&quot;)</code></pre>
 ##     compute</code></pre>
 <pre class="r"><code>imputed_X = impute(data = X, method = &quot;median/mode&quot;)</code></pre>
 </div>
-<div id="python-5" class="section level3 right">
-<h3><code>Python</code></h3>
+<div class="right">
+<h3 id="python-5"><code>Python</code></h3>
 <pre class="python"><code>from sklearn.impute import SimpleImputer
 
 median_imputer = SimpleImputer(strategy = &quot;median&quot;)

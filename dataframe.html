@@ -13,7 +13,6 @@
 
 <title>Compare R and Python: data frame manipulations</title>
 
-<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -327,8 +326,8 @@ $(document).ready(function () {
 <hr />
 <div id="creating-a-data-frame-manually" class="section level1">
 <h1>Creating a data frame manually</h1>
-<div id="r" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r">R</h2>
 <pre class="r"><code>data = data.frame(
   x = 1:5, 
   y = 2:6,
@@ -342,8 +341,8 @@ print(data)</code></pre>
 ## d 4 5
 ## e 5 6</code></pre>
 </div>
-<div id="python" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python">Python</h2>
 <pre class="python"><code>import pandas as pd
 data = pd.DataFrame(
   {&quot;x&quot;: list(range(1, 6)),
@@ -364,13 +363,13 @@ print(data)</code></pre>
 </div>
 <div id="reading-data-frames" class="section level1">
 <h1>Reading data frames</h1>
-<div id="r-1" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-1">R</h2>
 <pre class="r"><code>library(readr)
 data = readr::read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
-<div id="python-1" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-1">Python</h2>
 <pre class="python"><code>import pandas as pd
 data = pd.read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
@@ -378,19 +377,19 @@ data = pd.read_csv(&quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
 <div id="saving-data-frames" class="section level1">
 <h1>Saving data frames</h1>
-<div id="r-2" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-2">R</h2>
 <pre class="r"><code>readr::write_csv(x = data, file = &quot;data/penguins_complete.csv&quot;)</code></pre>
 </div>
-<div id="python-2" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-2">Python</h2>
 <pre class="python"><code>data.to_csv(path_or_buf = &quot;data/penguins_complete2.csv&quot;)</code></pre>
 </div>
 <div id="index-based-selection" class="section level2">
 <h2>Index-based selection</h2>
 <p>In <code>R</code>, both index-based and label-based subsetting are performed through <code>[,]</code>. In <code>Python</code>, this is separated into <code>iloc</code> and <code>loc</code> respectively.</p>
-<div id="r-3" class="section level3 left">
-<h3>R</h3>
+<div class="left">
+<h3 id="r-3">R</h3>
 <pre class="r"><code>## First row
 data[1,]</code></pre>
 <pre><code>## # A tibble: 1 x 8
@@ -406,8 +405,8 @@ data[1,]</code></pre>
 ## 2 Adelie            40.3               195
 ## 3 Adelie            39.3               190</code></pre>
 </div>
-<div id="python-3" class="section level3 right">
-<h3>Python</h3>
+<div class="right">
+<h3 id="python-3">Python</h3>
 <pre class="python"><code>## First row
 data.iloc[0,:]</code></pre>
 <pre><code>## species                 Adelie
@@ -433,8 +432,8 @@ data.iloc[0,:]</code></pre>
 <div id="label-based-selection" class="section level2">
 <h2>Label-based selection</h2>
 <p>In <code>R</code>, both index-based and label-based subsetting are performed through <code>[,]</code>. In <code>Python</code>, this is separated into <code>iloc</code> and <code>loc</code> respectively.</p>
-<div id="r-4" class="section level3 left">
-<h3>R</h3>
+<div class="left">
+<h3 id="r-4">R</h3>
 <pre class="r"><code>## First five rows from the &quot;species&quot; column
 data[1:5, &quot;species&quot;]</code></pre>
 <pre><code>## # A tibble: 5 x 1
@@ -446,8 +445,8 @@ data[1:5, &quot;species&quot;]</code></pre>
 ## 4 Adelie 
 ## 5 Adelie</code></pre>
 </div>
-<div id="python-4" class="section level3 right">
-<h3>Python</h3>
+<div class="right">
+<h3 id="python-4">Python</h3>
 <pre class="python"><code>## First five rows from the &quot;species&quot; column, return as Series
 data.loc[0:4,&quot;species&quot;]</code></pre>
 <pre><code>## 0    Adelie
@@ -480,8 +479,8 @@ data.loc[0:4,&quot;species&quot;]</code></pre>
 </div>
 <div id="conditional-selection" class="section level2">
 <h2>Conditional selection</h2>
-<div id="r-5" class="section level3 left">
-<h3>R</h3>
+<div class="left">
+<h3 id="r-5">R</h3>
 <pre class="r"><code>## Base R solution
 data[(data$species == &quot;Adelie&quot;) &amp; (data$bill_depth_mm &gt; 21), ]</code></pre>
 <pre><code>## # A tibble: 6 x 8
@@ -539,8 +538,8 @@ data %&gt;% filter((species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)
 ## 10 Adelie  Torgersen           34.6          21.1               198        4400
 ## # … with 204 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
-<div id="python-5" class="section level3 right">
-<h3>Python</h3>
+<div class="right">
+<h3 id="python-5">Python</h3>
 <pre class="python"><code>## Using loc
 data.loc[(data.species == &quot;Adelie&quot;) &amp; (data.bill_depth_mm &gt; 21)]
 ##
@@ -611,8 +610,8 @@ data.query(&#39;(species == &quot;Adelie&quot;) &amp; (bill_depth_mm &gt; 21)&#3
 </div>
 <div id="adding-new-columns" class="section level1">
 <h1>Adding new columns</h1>
-<div id="r-6" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-6">R</h2>
 <pre class="r"><code>data[&quot;body_mass_kg&quot;] = data$body_mass_g/1000
 
 ## dplyr solution
@@ -633,8 +632,8 @@ data %&gt;% mutate(body_mass_kg = body_mass_g/1000)</code></pre>
 ## # … with 204 more rows, and 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;,
 ## #   body_mass_kg &lt;dbl&gt;</code></pre>
 </div>
-<div id="python-6" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-6">Python</h2>
 <pre class="python"><code>data[&quot;body_mass_kg&quot;] = data.body_mass_g/1000
 
 data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
@@ -660,8 +659,8 @@ data.assign(body_mass_kg = lambda x: x.body_mass_g/1000)</code></pre>
 </div>
 <div id="previewing-and-describing-data" class="section level1">
 <h1>Previewing and describing data</h1>
-<div id="r-7" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-7">R</h2>
 <pre class="r"><code>head(data)</code></pre>
 <pre><code>## # A tibble: 6 x 9
 ##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
@@ -717,8 +716,8 @@ table(data$species)</code></pre>
 ##    Adelie Chinstrap 
 ##       146        68</code></pre>
 </div>
-<div id="python-7" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-7">Python</h2>
 <pre class="python"><code>data.head()
 ##
 ##
@@ -803,8 +802,8 @@ table(data$species)</code></pre>
 <h1>Grouped operations</h1>
 <p>The <code>dplyr</code> package (a part of the <code>tidyverse</code>) contains important functions that makes the manipulation of data.frame very easy. A very important part of the dplyr package is the use of the pipe operator, <code>%&gt;%</code>. Together with the use of spaces and line breaks, this often makes the <code>R</code> code more readable, so that one can read the code from top to bottom and left to right, i.e. consistent with how we would structure an English sentence. This design framework to make readable codes is a very important reason of why <code>R</code> has gained a renewed popularity in data science.</p>
 <p>In comparison, <code>Python</code> (<code>pandas</code>) also adopts similar principle, but the structuring of the codes is not as consistent.</p>
-<div id="r-8" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-8">R</h2>
 <pre class="r"><code>library(dplyr)
 data %&gt;% 
   group_by(species) %&gt;% 
@@ -860,8 +859,8 @@ data %&gt;%
 ## 1 Adelie     32.1    46  38.8    146
 ## 2 Chinstrap  40.9    58  48.8     68</code></pre>
 </div>
-<div id="python-8" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-8">Python</h2>
 <pre class="python"><code>data.groupby(&quot;species&quot;).species.count()
 ##
 ##
@@ -919,8 +918,8 @@ data %&gt;%
 </div>
 <div id="handling-of-missing-values" class="section level1">
 <h1>Handling of missing values</h1>
-<div id="r-9" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-9">R</h2>
 <pre class="r"><code>library(dplyr)
 missing_data = readr::read_csv(&quot;data/penguins.csv&quot;)
 missing_data %&gt;% 
@@ -948,8 +947,8 @@ missing_data %&gt;%
 ## 10 Adelie  Torgersen           42            20.2               190        4250
 ## # … with 334 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
-<div id="python-9" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-9">Python</h2>
 <pre class="python"><code>missing_data = pd.read_csv(&quot;data/penguins.csv&quot;)
 ##
 ##

@@ -13,7 +13,6 @@
 
 <title>Compare R and Python: functions and methods</title>
 
-<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -323,8 +322,8 @@ $(document).ready(function () {
 
 <div id="self-defined-functions" class="section level1">
 <h1>Self-defined Functions</h1>
-<div id="r" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r">R</h2>
 <p>In <code>R</code>, a function can be defined using <code>function</code> and braces are necessary to enclose the function body.</p>
 <pre class="r"><code>square = function(x){
   return(x ** 2)
@@ -333,8 +332,8 @@ $(document).ready(function () {
 square(10)</code></pre>
 <pre><code>## [1] 100</code></pre>
 </div>
-<div id="python" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python">Python</h2>
 <p>In <code>python</code>, a function can be defined using <code>def</code>, and the body is recognised through the indentations. Four spaces is commonly used for the indentation.</p>
 <pre class="python"><code>def square(x):
     new_value = x ** 2
@@ -347,16 +346,16 @@ square(10)</code></pre>
 <div id="list-comprehensions" class="section level1">
 <h1>List comprehensions</h1>
 <p>Generation of special lists/vectors is a common task in any programming language.</p>
-<div id="r-1" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-1">R</h2>
 <pre class="r"><code>x = 1:20
 (2*x)[x %% 2 == 0]</code></pre>
 <pre><code>##  [1]  4  8 12 16 20 24 28 32 36 40</code></pre>
 <pre class="r"><code>ifelse(x %% 2 == 0, 2*x, 0)</code></pre>
 <pre><code>##  [1]  0  4  0  8  0 12  0 16  0 20  0 24  0 28  0 32  0 36  0 40</code></pre>
 </div>
-<div id="python-1" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-1">Python</h2>
 <p>In <code>python</code>, list comprehensions is a powerful way to generate a list in the coding style of a for loop.</p>
 <pre class="python"><code>[2*x for x in range(1, 21) if x % 2 == 0]</code></pre>
 <pre><code>## [4, 8, 12, 16, 20, 24, 28, 32, 36, 40]</code></pre>
@@ -369,14 +368,14 @@ square(10)</code></pre>
 </div>
 <div id="mapping" class="section level1">
 <h1>Mapping</h1>
-<div id="r-2" class="section level2 left">
-<h2>R</h2>
+<div class="left">
+<h2 id="r-2">R</h2>
 <pre class="r"><code>x = 1:10
 purrr::map_dbl(x, ~.x^2)</code></pre>
 <pre><code>##  [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
 </div>
-<div id="python-2" class="section level2 right">
-<h2>Python</h2>
+<div class="right">
+<h2 id="python-2">Python</h2>
 <p>In <code>python</code>, list comprehensions is a powerful way to generate a list in the coding style of a for loop.</p>
 <pre class="python"><code>x = list(range(1, 11))
 list(map(lambda num: num**2, x))</code></pre>
